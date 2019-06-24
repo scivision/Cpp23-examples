@@ -1,3 +1,4 @@
+*.pcm
 build/
 # Prerequisites
 *.d
