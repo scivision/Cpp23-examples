@@ -5,7 +5,6 @@ endif()
 project(CXX20examples CXX)
 enable_testing()
 
-include(CheckCXXSymbolExists)
 set(CXX_STANDARD_REQUIRED ON)
 
 # --- C++20 module ---
