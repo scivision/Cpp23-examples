@@ -4,16 +4,19 @@ Examples of C++17 and C++20 syntax, for testing of compilers and build system
 
 ## Modules
 
-In my experience, C++20 modules aren't working yet with CMake 3.15 and GCC 9, Clang 8 or Intel 19.0.
+C++20 modules require the latest C++ compilers:
 
-### Manual way
+* GCC 10 (has to have been compiled with Modules support--probably have to compile GCC yourself)
+* Clang 8
+
+### Clang
+
+This works with Clang 8.
 
 [Clang](https://stackoverflow.com/a/49322001):
 
 With Clang 9, the `-fmodules-ts` is not used.
 Clang 8 does need `-fmodules-ts`.
-
-This works with Clang 8 on Linux and Windows at least
 
 ```sh
 # creates math.pcm

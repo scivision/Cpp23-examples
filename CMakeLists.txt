@@ -5,21 +5,20 @@ endif()
 project(CXX20examples CXX)
 enable_testing()
 
-set(CXX_STANDARD_REQUIRED ON)
 
 # --- C++20 module ---
-# not yet supported by CMake 3.15
+# not yet supported by CMake 3.17
 if(false)
   add_executable(modules math.cpp math.cppm)
-  set_target_properties(modules PROPERTIES CXX_STANDARD 20)
+  target_compile_features(modules PRIVATE cxx_std_20)
   add_test(NAME C++20Modules COMMAND modules)
 endif()
 # --- C++17 folding ---
 add_executable(folding folding.cpp)
-set_target_properties(folding PROPERTIES CXX_STANDARD 17)
+target_compile_features(folding PRIVATE cxx_std_17)
 add_test(NAME Folding-17 COMMAND folding)
 # --- C++17 filesystem ---
 
 add_executable(filesep filesep.cpp)
-set_target_properties(filesep PROPERTIES CXX_STANDARD 17)
+target_compile_features(filesep PRIVATE cxx_std_17)
 add_test(NAME Filesep-17 COMMAND filesep)
