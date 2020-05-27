@@ -12,5 +12,4 @@ folding_exe = executable('folding', 'folding.cpp')
 test('Folding-17', folding_exe)
 
 # --- C++17 filesystem ---
-filesep_exe = executable('filesep', 'filesep.cpp')
-test('Filesep-17', filesep_exe)
+subdir('filesystem')

@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.12)  # for CXX_STANDARD 20
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug or Release")
 endif()
-project(CXX20examples CXX)
+project(CXX20examples
+LANGUAGES C CXX)
 enable_testing()
 
 
@@ -18,7 +19,4 @@ add_executable(folding folding.cpp)
 target_compile_features(folding PRIVATE cxx_std_17)
 add_test(NAME Folding-17 COMMAND folding)
 # --- C++17 filesystem ---
-
-add_executable(filesep filesep.cpp)
-target_compile_features(filesep PRIVATE cxx_std_17)
-add_test(NAME Filesep-17 COMMAND filesep)
+add_subdirectory(filesystem)
