@@ -13,3 +13,7 @@ test('Folding-17', folding_exe)
 
 # --- C++17 filesystem ---
 subdir('filesystem')
+
+# --- C++17 threads ---
+count_exe = executable('thread_count', 'thread_count.cpp')
+test('ThreadCount-11', count_exe)
