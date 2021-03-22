@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.12...3.20)  # for CXX_STANDARD 20
+cmake_minimum_required(VERSION 3.12...3.21)  # for CXX_STANDARD 20
 
 project(CXX20examples
-LANGUAGES C CXX)
+LANGUAGES C CXX)  # C is used in filesystem examples
 
 include(CTest)
 

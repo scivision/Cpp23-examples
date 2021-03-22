@@ -4,7 +4,7 @@ Examples of C++17 and C++20 syntax, for testing of compilers and build system
 
 ## Modules
 
-C++20 modules require the latest C++ compilers:
+C++20 modules require the latest C++ compilers, at least:
 
 * GCC 10 (has to have been compiled with Modules support--probably have to compile GCC yourself)
 * Clang 8
@@ -28,3 +28,9 @@ clang++ -std=c++2a -fmodules-ts -c  math.pcm
 # creates a.exe or a.out
 clang++ -std=c++2a -fmodules-ts -fprebuilt-module-path=. math.o math.cpp
 ```
+
+## C++17 filesystem
+
+C++17 filesystem requires recent compiler, at least:
+
+* Visual Studio 16.8.5
