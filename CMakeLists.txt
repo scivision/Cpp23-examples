@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.12)  # for CXX_STANDARD 20
-
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug or Release")
-endif()
+cmake_minimum_required(VERSION 3.12...3.20)  # for CXX_STANDARD 20
 
 project(CXX20examples
 LANGUAGES C CXX)
