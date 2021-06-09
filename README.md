@@ -4,29 +4,26 @@ Examples of C++17 and C++20 syntax, for testing of compilers and build system
 
 ## Modules
 
-C++20 modules require the latest C++ compilers, at least:
+C++20 modules require recent C++ compilers, at least:
 
-* GCC 10 (has to have been compiled with Modules support--probably have to compile GCC yourself)
-* Clang 8
+* GCC 11
+* Clang 9
+
+CMake &ge; 3.21 supports C++20 modules.
 
 ### Clang
 
-This works with Clang 8.
-
 [Clang](https://stackoverflow.com/a/49322001):
-
-With Clang 9, the `-fmodules-ts` is not used.
-Clang 8 does need `-fmodules-ts`.
 
 ```sh
 # creates math.pcm
-clang++ -std=c++2a -fmodules-ts --precompile math.cppm
+clang++ -std=c++2a --precompile math.cppm
 
 # creates math.o
-clang++ -std=c++2a -fmodules-ts -c  math.pcm
+clang++ -std=c++2a -c math.pcm
 
 # creates a.exe or a.out
-clang++ -std=c++2a -fmodules-ts -fprebuilt-module-path=. math.o math.cpp
+clang++ -std=c++2a -fprebuilt-module-path=. math.o math.cpp
 ```
 
 ## C++17 filesystem
