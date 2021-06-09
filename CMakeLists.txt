@@ -6,14 +6,8 @@ LANGUAGES C CXX)  # C is used in filesystem examples
 enable_testing()
 
 option(cxx20 "compile targets needing cxx20")
-
-# --- C++20 module ---
-# not yet supported by CMake
-# https://gitlab.kitware.com/cmake/cmake/-/merge_requests/5562
 if(cxx20)
-  add_executable(modules math.cpp math.cppm)
-  target_compile_features(modules PRIVATE cxx_std_20)
-  add_test(NAME C++20Modules COMMAND modules)
+  add_subdirectory(modules)
 endif()
 
 # --- C++17 folding ---

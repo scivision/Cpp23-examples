@@ -23,7 +23,7 @@ clang++ -std=c++2a --precompile math.cppm
 clang++ -std=c++2a -c math.pcm
 
 # creates a.exe or a.out
-clang++ -std=c++2a -fprebuilt-module-path=. math.o math.cpp
+clang++ -std=c++2a -fmodules-ts -fprebuilt-module-path=. math.o math.cpp
 ```
 
 ## C++17 filesystem
