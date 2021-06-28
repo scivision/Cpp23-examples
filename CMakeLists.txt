@@ -26,4 +26,5 @@ add_subdirectory(filesystem)
 
 # --- C++11 threads ---
 add_executable(thread_count src/thread_count.cpp)
+target_compile_features(thread_count PRIVATE cxx_std_11)
 add_test(NAME ThreadCount-11 COMMAND $<TARGET_FILE:thread_count>)
