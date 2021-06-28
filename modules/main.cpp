@@ -8,8 +8,10 @@ int main(){
    int absum = add(a, b);
    int abdif = subtract(a, b);
 
-   std::cout << "a: " << a << "  b: " << b << std::endl;
-   std::cout << "a+b: " << absum << "  a-b: " << abdif <<  std::endl;
+   if (a + b != absum) { return EXIT_FAILURE; }
+   if (a - b != abdif) { return EXIT_FAILURE; }
+
+   std::cout << "OK: Modules demo" << std::endl;
 
    return EXIT_SUCCESS;
 }

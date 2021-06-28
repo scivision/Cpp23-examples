@@ -5,23 +5,25 @@ LANGUAGES C CXX)  # C is used in filesystem examples
 
 enable_testing()
 
-option(cxx20 "compile targets needing cxx20")
-if(cxx20)
-  add_subdirectory(modules)
+# C++20 modules, if compiler is capable
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.21)
+  try_compile(mod_ok
+    ${CMAKE_CURRENT_BINARY_DIR}/try_mod
+    ${CMAKE_CURRENT_SOURCE_DIR}/modules
+    Cxx20Modules)
+  if(mod_ok)
+    add_subdirectory(modules)
+  endif()
 endif()
 
 # --- C++17 folding ---
-add_executable(folding folding.cpp)
+add_executable(folding src/folding.cpp)
 target_compile_features(folding PRIVATE cxx_std_17)
-add_test(NAME Folding-17 COMMAND folding)
+add_test(NAME Folding-17 COMMAND $<TARGET_FILE:folding>)
+
 # --- C++17 filesystem ---
 add_subdirectory(filesystem)
 
 # --- C++11 threads ---
-add_executable(thread_count thread_count.cpp)
+add_executable(thread_count src/thread_count.cpp)
 add_test(NAME ThreadCount-11 COMMAND $<TARGET_FILE:thread_count>)
-
-# ---
-include(FeatureSummary)
-add_feature_info(C++20 cxx20 "C++20 targets")
-feature_summary(WHAT ALL)
