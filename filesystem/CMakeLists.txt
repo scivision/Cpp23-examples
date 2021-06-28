@@ -1,10 +1,4 @@
-add_executable(filesep filesep.cpp)
-target_compile_features(filesep PRIVATE cxx_std_17)
-add_test(NAME Filesep-17 COMMAND filesep)
-
-include(CheckCSourceRuns)
-include(CheckCXXSourceCompiles)
-include(CheckCXXSourceRuns)
+include(CheckSourceRuns)
 include(CheckIncludeFileCXX)
 
 if(NOT APPLE)  # FIXME: need to make check in Fortran not C.
@@ -18,7 +12,7 @@ char resolved_path[_MAX_PATH];
 _fullpath(resolved_path, \"..\", _MAX_PATH);
 if(strcmp(\"..\", resolved_path) == 0 || strcmp(\".\", resolved_path) == 0) return 1;
 return 0; }")
-check_c_source_runs("${_code}" windowsio_OK)
+check_source_runs(C "${_code}" windowsio_OK)
   set(posixio_OK false)
 else()
   set(_code "
@@ -30,7 +24,7 @@ char resolved_path[PATH_MAX];
 realpath(\"..\", resolved_path);
 if(strcmp(\"..\", resolved_path) == 0 || strcmp(\".\", resolved_path) == 0) return 1;
 return 0; }")
-  check_c_source_runs("${_code}" posixio_OK)
+  check_source_runs(C "${_code}" posixio_OK)
   set(windowsio_OK false)
 endif()
 
@@ -54,6 +48,10 @@ check_include_file_cxx("filesystem" cxx17filesystem_ok)
 if(NOT cxx17filesystem_ok)
   return()
 endif()
+
+add_executable(filesep filesep.cpp)
+target_compile_features(filesep PRIVATE cxx_std_17)
+add_test(NAME Filesep-17 COMMAND filesep)
 
 add_library(canonical_cxx OBJECT canonical.cxx)
 target_compile_features(canonical_cxx PRIVATE cxx_std_17)
