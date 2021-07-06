@@ -1,5 +1,9 @@
 include(CheckSourceRuns)
+include(CheckSourceCompiles)
 include(CheckIncludeFileCXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 if(NOT APPLE)  # FIXME: need to make check in Fortran not C.
 # has to be run() test for detecting defective system realpath()
@@ -38,32 +42,34 @@ endif(NOT APPLE)
 
 
 # verify C++ compiler can do C++17 filesystem
-if(MSVC)
-  set(CMAKE_REQUIRED_FLAGS /std:c++17)
-else()
-  set(CMAKE_REQUIRED_FLAGS -std=c++17)
-endif()
-check_include_file_cxx("filesystem" cxx17filesystem_ok)
+check_source_compiles(CXX
+"#include <filesystem>
+int main(){
+std::filesystem::path p;
+return EXIT_SUCCESS; }"
+HAVE_CXX17_FILESYSTEM)
 
-if(NOT cxx17filesystem_ok)
+if(NOT HAVE_CXX17_FILESYSTEM)
   return()
 endif()
 
 add_executable(filesep filesep.cpp)
-target_compile_features(filesep PRIVATE cxx_std_17)
 add_test(NAME Filesep-17 COMMAND filesep)
 
 add_library(canonical_cxx OBJECT canonical.cxx)
-target_compile_features(canonical_cxx PRIVATE cxx_std_17)
 
-# NOTE: icl canonical.cxx canonical_demo.cxx works, so this must be a CMake bug.
+# NOTE:
+# icl /std:c++17 canonical.cxx canonical_demo.cxx
+# or
+# icx /std:c++17 canonical.cxx canonical_demo.cxx
+# works.
 #  LNK2019: unresolved external symbol wmemcmp referenced in function "public: static int __cdecl std::_WChar_traits<wchar_t>::compare
-if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL Intel)
+# this is a known bug since Intel 19.0 at least
+if(WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES Intel)
   message(STATUS "CMake has a bug with Intel 2020 linking c++17")
 else()
   add_executable(canonical_demo canonical_demo.cxx)
   target_link_libraries(canonical_demo PRIVATE canonical_cxx)
-  target_compile_features(canonical_demo PRIVATE cxx_std_17)
 
   add_test(NAME CanonicalC++ COMMAND canonical_demo)
 endif()

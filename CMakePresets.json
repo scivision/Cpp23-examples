@@ -5,16 +5,18 @@
 {
   "name": "default",
   "binaryDir": "${sourceDir}/build",
-  "cacheVariables": {"CMAKE_BUILD_TYPE": "Release"}
+  "cacheVariables": {
+    "CMAKE_BUILD_TYPE": "Release"
+  }
 },
 {
   "name": "intel", "inherits": "default",
   "displayName": "Intel Classic compiler: Linux/MacOS",
+  "binaryDir": "${sourceDir}/build-intel",
   "environment": {
     "CC": "icc",
     "CXX": "icpc",
-    "FC": "ifort",
-    "MPI_ROOT": "$env{I_MPI_ROOT}"
+    "FC": "ifort"
   }
 },
 {
@@ -39,6 +41,10 @@
   {
     "name": "default",
     "configurePreset": "default"
+  },
+  {
+    "name": "intel",
+    "configurePreset": "intel"
   }
 ],
 "testPresets": [
@@ -52,6 +58,10 @@
   "execution": {
     "noTestsAction": "error",
     "stopOnFailure": false}
+},
+{
+  "name": "intel", "inherits": "default",
+  "configurePreset": "intel"
 }
 ]
 }

@@ -5,6 +5,11 @@ project(CXX20examples
 
 enable_testing()
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL IntelLLVM AND CMAKE_VERSION VERSION_LESS 3.21.0)
+  message(STATUS "Note: CMake has a bug with IntelLLVM icx where -std=c++* is not added.
+  This makes this project not work well with IntelLLVM yet.")
+endif()
+
 # C++20 modules, if compiler is capable
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.21)
   try_compile(mod_ok
