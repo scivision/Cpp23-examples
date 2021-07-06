@@ -84,7 +84,8 @@
   },
   "execution": {
     "noTestsAction": "error",
-    "stopOnFailure": false}
+    "stopOnFailure": false
+  }
 },
 {
   "name": "intel", "inherits": "default",
