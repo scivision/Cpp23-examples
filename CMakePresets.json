@@ -13,6 +13,11 @@
   "name": "intel", "inherits": "default",
   "displayName": "Intel Classic compiler: Linux/MacOS",
   "binaryDir": "${sourceDir}/build-intel",
+  "condition": {
+    "type": "notEquals",
+    "lhs": "${hostSystemName}",
+    "rhs": "Windows"
+  },
   "environment": {
     "CC": "icc",
     "CXX": "icpc",
@@ -22,6 +27,11 @@
 {
   "name": "intelwin", "inherits": "intel",
   "displayName": "Intel Classic compiler: Windows",
+  "condition": {
+    "type": "equals",
+    "lhs": "${hostSystemName}",
+    "rhs": "Windows"
+  },
   "environment": {
     "CC": "icl",
     "CXX": "icl"
@@ -29,11 +39,28 @@
 },
 {
   "name": "intelnext", "inherits": "intel",
-  "displayName": "Intel oneAPI LLVM",
+  "displayName": "Intel oneAPI LLVM: Linux/MacOS",
+  "condition": {
+    "type": "notEquals",
+    "lhs": "${hostSystemName}",
+    "rhs": "Windows"
+  },
   "environment": {
     "CC": "icx",
-    "CXX": "icx",
+    "CXX": "icpx",
     "FC": "ifx"
+  }
+},
+{
+  "name": "intelnextwin", "inherits": "intelnext",
+  "displayName": "Intel oneAPI LLVM: Windows",
+  "condition": {
+    "type": "equals",
+    "lhs": "${hostSystemName}",
+    "rhs": "Windows"
+  },
+  "environment": {
+    "CXX": "icx"
   }
 }
 ],
