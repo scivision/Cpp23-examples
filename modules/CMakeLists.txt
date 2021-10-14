@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.21...3.22)
 project(Cxx20Modules LANGUAGES CXX)
 
 # https://gitlab.kitware.com/cmake/cmake/-/merge_requests/5562
