@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cassert>
+
 import math;
 
 int main(){
@@ -8,8 +10,8 @@ int main(){
    int absum = add(a, b);
    int abdif = subtract(a, b);
 
-   if (a + b != absum) { return EXIT_FAILURE; }
-   if (a - b != abdif) { return EXIT_FAILURE; }
+   assert(a + b == absum);
+   assert(a - b == abdif);
 
    std::cout << "OK: Modules demo" << std::endl;
 

@@ -7,4 +7,6 @@ add_executable(modules main.cpp math.ixx)
 target_compile_features(modules PRIVATE cxx_std_20)
 
 add_test(NAME C++20Modules COMMAND modules)
-set_tests_properties(C++20Modules PROPERTIES TIMEOUT 5)
+set_tests_properties(C++20Modules PROPERTIES
+TIMEOUT 5
+)

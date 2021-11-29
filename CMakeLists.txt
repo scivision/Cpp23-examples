@@ -12,12 +12,13 @@ add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 try_compile(mod_ok
 ${CMAKE_CURRENT_BINARY_DIR}/try_mod
 ${CMAKE_CURRENT_SOURCE_DIR}/modules
-Cxx20Modules
+HAVE_CXX20_MODULES
 )
-if(mod_ok)
+if(HAVE_CXX20_MODULES)
   add_subdirectory(modules)
+else()
+  message(WARNING "C++ 20 modules not available with ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 endif()
-
 # --- C++17 folding ---
 add_executable(folding src/folding.cpp)
 target_compile_features(folding PRIVATE cxx_std_17)
