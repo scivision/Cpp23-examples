@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21...3.22)
 project(Cxx20Modules LANGUAGES CXX)
-
+enable_testing()
 # https://gitlab.kitware.com/cmake/cmake/-/merge_requests/5562
 
 add_executable(modules main.cpp math.ixx)

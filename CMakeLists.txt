@@ -9,15 +9,17 @@ enable_testing()
 add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 # C++20 modules, if compiler is capable
-try_compile(mod_ok
+try_compile(HAVE_CXX20_MODULES
 ${CMAKE_CURRENT_BINARY_DIR}/try_mod
 ${CMAKE_CURRENT_SOURCE_DIR}/modules
-HAVE_CXX20_MODULES
+dummy
+OUTPUT_VARIABLE build_result
 )
 if(HAVE_CXX20_MODULES)
   add_subdirectory(modules)
 else()
-  message(WARNING "C++ 20 modules not available with ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+  message(STATUS "C++ 20 modules not available with ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+  message(VERBOSE "${build_result}")
 endif()
 # --- C++17 folding ---
 add_executable(folding src/folding.cpp)
