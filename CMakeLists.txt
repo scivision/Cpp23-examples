@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.21...3.22)
 
 project(CXX20examples
-  LANGUAGES C CXX)  # C is used in filesystem examples
+LANGUAGES C CXX
+)
 
 enable_testing()
 
+add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 # C++20 modules, if compiler is capable
 try_compile(mod_ok
-  ${CMAKE_CURRENT_BINARY_DIR}/try_mod
-  ${CMAKE_CURRENT_SOURCE_DIR}/modules
-  Cxx20Modules)
+${CMAKE_CURRENT_BINARY_DIR}/try_mod
+${CMAKE_CURRENT_SOURCE_DIR}/modules
+Cxx20Modules
+)
 if(mod_ok)
   add_subdirectory(modules)
 endif()

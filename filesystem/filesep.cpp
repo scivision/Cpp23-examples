@@ -1,9 +1,14 @@
-#include <iostream>
+#include <cassert>
 #include <filesystem>
 
 int main(){
 
-std::cout << "filesep: " << std::filesystem::path::preferred_separator << std::endl;
+char sep = std::filesystem::path::preferred_separator;
+#ifdef _WIN32
+  assert (sep == '\\');
+#else
+  assert (sep == '/');
+#endif
 
 return EXIT_SUCCESS;
 }

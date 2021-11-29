@@ -4,9 +4,6 @@
 // Clang >= 9  or  g++ >= 8
 // clang++ -std=c++17 canonical.cxx
 
-// Intel compiler does not yet support as of version 19.0
-// https://software.intel.com/en-us/articles/c17-features-supported-by-intel-c-compiler
-
 #include <filesystem>
 #include <string>
 #include <cstring>

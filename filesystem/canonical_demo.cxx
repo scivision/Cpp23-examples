@@ -1,17 +1,19 @@
 #include <cstring>
 #include <iostream>
+
 #include "canonical.hpp"
 
-int main(void){
+int main(){
 
 char pathstr[LEN];
 
-std::strcpy(pathstr, "~/foo");
+strcpy(pathstr, "~/foo");
 expanduser(pathstr);
 std::cout << pathstr << std::endl;
 
-std::strcpy(pathstr, "../..");
+strcpy(pathstr, "../..");
 canonical(pathstr);
 std::cout << pathstr << std::endl;
-return 0;
+
+return EXIT_SUCCESS;
 }
