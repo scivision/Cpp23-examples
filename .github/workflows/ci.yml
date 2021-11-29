@@ -1,0 +1,51 @@
+name: ci
+
+env:
+    CMAKE_BUILD_PARALLEL_LEVEL: 3
+    CTEST_PARALLEL_LEVEL: 3
+    CMAKE_BUILD_TYPE: Release
+
+on:
+  push:
+    paths:
+      - "**.f90"
+      - "**.F90"
+      - "**.cmake"
+      - "**/CMakeLists.txt"
+      - ".github/workflows/ci.yml"
+
+jobs:
+
+  linux:
+    runs-on: ubuntu-latest
+    env:
+      CC: clang
+      CXX: clang++
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -B build
+    - run: cmake --build build
+    - run: ctest --test-dir build --preset default
+
+
+  macos:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -Bbuild
+    - run: cmake --build build
+    - run: ctest --test-dir build --preset default
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -Bbuild
+    - run: cmake --build build
+    - run: ctest --test-dir build -C Debug

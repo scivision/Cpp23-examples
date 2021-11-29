@@ -1,12 +1,15 @@
 include(CheckSourceRuns)
 
 add_executable(filesep filesep.cpp)
+target_compile_features(filesep PRIVATE cxx_std_17)
 add_test(NAME Filesep-17 COMMAND filesep)
 
 
 add_library(canonical_cxx OBJECT canonical.cxx)
+target_compile_features(canonical_cxx PRIVATE cxx_std_17)
 
 add_executable(canonical_demo canonical_demo.cxx)
+target_compile_features(canonical_demo PRIVATE cxx_std_17)
 target_link_libraries(canonical_demo PRIVATE canonical_cxx)
 
 add_test(NAME CanonicalC++ COMMAND canonical_demo)
