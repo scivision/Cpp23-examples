@@ -19,3 +19,7 @@ cmake -B build -G "Visual Studio 16 2019"
 ```
 
 This might be a CMake / compiler / build system (make/ninja) limitation.
+
+A fully working
+[ball pit simulation](https://github.com/cdacamar/ball_pit)
+shows more advanced use of C++20 modules.
