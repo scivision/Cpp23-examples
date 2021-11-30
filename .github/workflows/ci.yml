@@ -40,7 +40,7 @@ jobs:
     - run: cmake --build build
     - run: ctest --test-dir build --preset default
 
-  windows:
+  windows-msvc:
     runs-on: windows-latest
 
     steps:
@@ -49,3 +49,25 @@ jobs:
     - run: cmake -Bbuild
     - run: cmake --build build
     - run: ctest --test-dir build -C Debug
+
+  windows-gcc:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          git
+          mingw-w64-x86_64-cmake
+          mingw-w64-x86_64-ninja
+          mingw-w64-x86_64-gcc
+
+    - uses: actions/checkout@v2
+
+    - run: cmake -Bbuild -G Ninja
+    - run: cmake --build build
+    - run: ctest --test-dir build
