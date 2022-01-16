@@ -32,13 +32,21 @@ jobs:
 
   macos:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        compiler: [ {cpp: g++-11, c: gcc-11}, {cpp: clang++, c: clang} ]
 
     steps:
     - uses: actions/checkout@v2
 
     - run: cmake -Bbuild
+      env:
+        CXX: ${{ matrix.compiler.cpp }}
+        CC: ${{ matrix.compiler.c }}
+
     - run: cmake --build build
     - run: ctest --test-dir build --preset default
+
 
   windows-msvc:
     runs-on: windows-latest
@@ -49,6 +57,7 @@ jobs:
     - run: cmake -Bbuild
     - run: cmake --build build
     - run: ctest --test-dir build -C Debug
+
 
   windows-gcc:
     runs-on: windows-latest
