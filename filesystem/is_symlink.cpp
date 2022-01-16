@@ -37,7 +37,7 @@ int main(int argc, char **argv)
   }
 
   if(!fs::exists(lnk)) {
-    fs::create_symlink(argv[0], lnk);
+    fs::create_symlink(tgt, lnk);
     std::cout << "created symlink: " << lnk << std::endl;
   }
 
