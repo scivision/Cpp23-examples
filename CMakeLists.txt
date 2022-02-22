@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.21...3.22)
+cmake_minimum_required(VERSION 3.21...3.23)
 
 project(CXX20examples
 LANGUAGES C CXX
 )
 
 enable_testing()
+
+include(CheckSourceCompiles)
+include(CheckCXXSymbolExists)
 
 add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
@@ -27,9 +30,27 @@ target_compile_features(folding PRIVATE cxx_std_17)
 add_test(NAME Folding-17 COMMAND $<TARGET_FILE:folding>)
 
 # --- C++17 filesystem ---
-add_subdirectory(filesystem)
+check_cxx_symbol_exists(__cpp_lib_filesystem filesystem HAVE_CXX17_FILESYSTEM)
 
+if(HAVE_CXX17_FILESYSTEM)
+  add_subdirectory(filesystem)
+endif()
 # --- C++11 threads ---
-add_executable(thread_count src/thread_count.cpp)
-target_compile_features(thread_count PRIVATE cxx_std_11)
-add_test(NAME ThreadCount-11 COMMAND $<TARGET_FILE:thread_count>)
+
+check_source_compiles(CXX
+[=[
+#include <cstdlib>
+#include <thread>
+int main() {
+    unsigned int n = std::thread::hardware_concurrency();
+    return EXIT_SUCCESS;
+}
+]=]
+HAS_CXX_THREAD
+)
+
+if(HAS_CXX_THREAD)
+  add_executable(thread_count src/thread_count.cpp)
+  target_compile_features(thread_count PRIVATE cxx_std_14)
+  add_test(NAME ThreadCount-11 COMMAND $<TARGET_FILE:thread_count>)
+endif()
