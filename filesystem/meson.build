@@ -1,2 +1,2 @@
 filesep_exe = executable('filesep', 'filesep.cpp')
-test('Filesep-17', filesep_exe)
+test('Filesep', filesep_exe, suite: '17')

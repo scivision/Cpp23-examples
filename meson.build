@@ -1,19 +1,25 @@
 project('CXX20examples', 'cpp',
-  default_options : ['default_library=static', 'cpp_std=c++17'])
+meson_version: '>= 0.57.0',
+default_options : ['cpp_std=c++20'])
 
-# not yet supported by Meson 0.51
-if false
-  modules_exe = executable('modules', 'math.cpp', 'math.ixx')
-  test('C++20Modules', modules_exe)
+cpp = meson.get_compiler('cpp')
+
+if cpp.get_id() == 'msvc'
+  modules_exe = executable('modules', 'modules/main.cpp', 'modules/math.ixx')
+  test('C++ Modules', modules_exe, suite: '20')
 endif
+
+# --- C++20 numbers
+numbers_exe = executable('numbers', 'src/numbers.cpp')
+test('numbers', numbers_exe, suite: '20')
 
 # --- C++17 folding ---
 folding_exe = executable('folding', 'src/folding.cpp')
-test('Folding-17', folding_exe)
+test('Folding', folding_exe, suite: '17')
 
 # --- C++17 filesystem ---
 subdir('filesystem')
 
-# --- C++17 threads ---
+# --- threads
 count_exe = executable('thread_count', 'src/thread_count.cpp')
-test('ThreadCount-11', count_exe)
+test('ThreadCount', count_exe, suite: '14')
