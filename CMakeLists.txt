@@ -15,8 +15,6 @@ add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-
-
 # --- C++20 modules
 try_compile(HAVE_CXX20_MODULES
 ${CMAKE_CURRENT_BINARY_DIR}/try_mod
@@ -50,6 +48,12 @@ check_cxx_symbol_exists(__cpp_lib_filesystem filesystem HAVE_CXX17_FILESYSTEM)
 
 if(HAVE_CXX17_FILESYSTEM)
   add_subdirectory(filesystem)
+endif()
+
+# --- C++ coroutine ---
+check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
+if(HAVE_CXX20_COROUTINE)
+  add_executable(coro src/coroutine.cpp)
 endif()
 
 # --- C++ threads ---

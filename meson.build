@@ -20,6 +20,10 @@ test('Folding', folding_exe, suite: '17')
 # --- C++17 filesystem ---
 subdir('filesystem')
 
+# --- C++20 coroutine
+coro_exe = executable('coro', 'src/coroutine.cpp')
+test('Coroutine', coro_exe, suite: '20')
+
 # --- threads
 count_exe = executable('thread_count', 'src/thread_count.cpp')
 test('ThreadCount', count_exe, suite: '14')

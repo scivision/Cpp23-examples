@@ -3,12 +3,15 @@
 
 template<typename ...Args> auto sum(Args ...args)
 {
-    return (args + ...);
+  return (args + ...);
 }
 
 int main()
 {
-    std::cout << sum(1, 2, 3, 4) << std::endl;
-
+  if (sum(1, 2, 3, 4) == 10){
+    std::cout << "OK: folding" << std::endl;
     return EXIT_SUCCESS;
+  }
+
+  return EXIT_FAILURE;
 }
