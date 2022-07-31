@@ -7,8 +7,7 @@ enable_testing()
 
 set_property(DIRECTORY PROPERTY LABELS 20)
 
-add_executable(modules main.cpp math.ixx)
-target_compile_features(modules PRIVATE cxx_std_20)
+add_executable(modules math.cpp math.ixx)
 
 add_test(NAME Modules COMMAND modules)
 set_property(TEST Modules PROPERTY TIMEOUT 5)

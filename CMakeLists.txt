@@ -15,23 +15,7 @@ add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-# --- C++20 modules
-if(NOT DEFINED HAVE_CXX20_MODULES)
-  message(CHECK_START "Checking for C++20 modules...")
-  try_compile(HAVE_CXX20_MODULES
-  ${CMAKE_CURRENT_BINARY_DIR}/try_mod
-  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/modules/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.ixx
-  CXX_STANDARD 20
-  CXX_STANDARD_REQUIRED true
-  OUTPUT_VARIABLE build_result
-  )
-  if(HAVE_CXX20_MODULES)
-    message(CHECK_PASS "found.")
-  else()
-    message(CHECK_FAIL "not supported.")
-    message(VERBOSE "${build_result}")
-  endif()
-endif()
+include(cmake/compilers.cmake)
 
 if(HAVE_CXX20_MODULES)
   add_subdirectory(modules)

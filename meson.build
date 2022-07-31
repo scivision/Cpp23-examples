@@ -5,7 +5,7 @@ default_options : ['cpp_std=c++20'])
 cpp = meson.get_compiler('cpp')
 
 if cpp.get_id() == 'msvc'
-  modules_exe = executable('modules', 'modules/main.cpp', 'modules/math.ixx')
+  modules_exe = executable('modules', 'modules/math.cpp', 'modules/math.ixx')
   test('C++ Modules', modules_exe, suite: '20')
 endif
 
