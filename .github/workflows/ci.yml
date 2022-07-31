@@ -1,10 +1,5 @@
 name: ci
 
-env:
-    CMAKE_BUILD_PARALLEL_LEVEL: 3
-    CTEST_PARALLEL_LEVEL: 3
-    CMAKE_BUILD_TYPE: Release
-
 on:
   push:
     paths:
@@ -23,10 +18,10 @@ jobs:
       CXX: clang++
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - run: cmake -B build
-    - run: cmake --build build
+    - run: cmake --build build --parallel
     - run: ctest --test-dir build --preset default
 
 
@@ -37,14 +32,14 @@ jobs:
         compiler: [ {cpp: g++-11, c: gcc-11}, {cpp: clang++, c: clang} ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - run: cmake -Bbuild
       env:
         CXX: ${{ matrix.compiler.cpp }}
         CC: ${{ matrix.compiler.c }}
 
-    - run: cmake --build build
+    - run: cmake --build build --parallel
     - run: ctest --test-dir build --preset default
 
 
@@ -52,31 +47,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - run: cmake -Bbuild
-    - run: cmake --build build
-    - run: ctest --test-dir build -C Debug
-
-
-  windows-gcc:
-    runs-on: windows-latest
-
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-    - uses: msys2/setup-msys2@v2
-      with:
-        update: true
-        install: >-
-          git
-          mingw-w64-x86_64-cmake
-          mingw-w64-x86_64-ninja
-          mingw-w64-x86_64-gcc
-
-    - uses: actions/checkout@v2
-
-    - run: cmake -Bbuild -G Ninja
-    - run: cmake --build build
-    - run: ctest --test-dir build
+    - run: cmake --build build --parallel
+    - run: ctest --test-dir build -C Debug -V
