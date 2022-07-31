@@ -7,7 +7,12 @@ enable_testing()
 
 set_property(DIRECTORY PROPERTY LABELS 20)
 
-add_executable(modules math.cpp math.ixx)
+if(MSVC)
+  add_executable(hello_mod hello.cpp)
+  add_test(NAME HelloModule COMMAND hello_mod)
+endif()
 
-add_test(NAME Modules COMMAND modules)
-set_property(TEST Modules PROPERTY TIMEOUT 5)
+add_executable(math_mod math.cpp math.ixx)
+add_test(NAME MathModule COMMAND math_mod)
+
+set_property(TEST HelloModule MathModule PROPERTY TIMEOUT 5)

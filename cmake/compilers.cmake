@@ -1,23 +1,28 @@
-if(NOT DEFINED HAVE_CXX20_MODULES)
-  message(CHECK_START "Checking for C++20 modules...")
+include(CheckSourceCompiles)
+include(CheckCXXSymbolExists)
 
-  try_compile(HAVE_CXX20_MODULES
-  ${CMAKE_CURRENT_BINARY_DIR}/try_mod
-  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.cpp ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.ixx
-  CXX_STANDARD 20
-  CXX_STANDARD_REQUIRED true
-  OUTPUT_VARIABLE build_result
-  )
-
-  if(HAVE_CXX20_MODULES)
-    message(CHECK_PASS "found.")
-  else()
-    message(CHECK_FAIL "not supported.")
-    message(VERBOSE "${build_result}")
-  endif()
-endif()
+check_source_compiles(CXX
+[=[
+#include <cstdlib>
+#include <thread>
+int main() {
+    unsigned int n = std::thread::hardware_concurrency();
+    return EXIT_SUCCESS;
+}
+]=]
+HAS_CXX_THREAD
+)
 
 
+check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
+
+check_cxx_symbol_exists(__cpp_lib_filesystem filesystem HAVE_CXX17_FILESYSTEM)
+
+check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
+
+check_cxx_symbol_exists(__cpp_modules "" HAVE_CXX20_MODULES)
+
+add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 # --- auto-ignore build directory
 if(NOT EXISTS ${PROJECT_BINARY_DIR}/.gitignore)
