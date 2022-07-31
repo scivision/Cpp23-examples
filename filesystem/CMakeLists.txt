@@ -1,4 +1,4 @@
-set_directory_properties(PROPERTIES LABELS 17)
+set_property(DIRECTORY PROPERTY LABELS 17)
 
 add_executable(filesep filesep.cpp)
 add_test(NAME Filesep COMMAND filesep)
@@ -12,5 +12,5 @@ COMMAND symlink ${CMAKE_CURRENT_SOURCE_DIR}/is_symlink.cpp ${CMAKE_CURRENT_BINAR
 )
 
 if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL GNU)
-  set_tests_properties(Symlink PROPERTIES DISABLED 1)
+  set_property(TEST Symlink PROPERTY DISABLED 1)
 endif()
