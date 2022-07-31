@@ -7,7 +7,7 @@ enable_testing()
 
 set_property(DIRECTORY PROPERTY LABELS 20)
 
-if(MSVC)
+if(HAVE_MSVC_STDLIB_MODULES)
   add_executable(hello_mod hello.cpp)
   add_test(NAME HelloModule COMMAND hello_mod)
 endif()
@@ -15,4 +15,5 @@ endif()
 add_executable(math_mod math.cpp math.ixx)
 add_test(NAME MathModule COMMAND math_mod)
 
-set_property(TEST HelloModule MathModule PROPERTY TIMEOUT 5)
+get_property(test_names DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY TESTS)
+set_property(TEST ${test_names} PROPERTY TIMEOUT 5)
