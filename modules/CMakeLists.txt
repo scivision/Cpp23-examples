@@ -14,6 +14,3 @@ endif()
 
 add_executable(math_mod math.cpp math.ixx)
 add_test(NAME MathModule COMMAND math_mod)
-
-get_property(test_names DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY TESTS)
-set_property(TEST ${test_names} PROPERTY TIMEOUT 5)

@@ -9,11 +9,16 @@ add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 # --- modules
 
-add_compile_options("$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/experimental:module;/std:c++latest;/EHsc;/MD>")
 
-if(MSVC)
-  # can't use get_property(DIRECTORY COMPILE_OPTIONS) due to generator expressions not yet evaluated
+if(CMAKE_CXX_COMPLIER_ID STREQUAL "MSVC")
+  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:/experimental:module;/std:c++latest;/EHsc;/MD>")
   set(CMAKE_REQUIRED_FLAGS /experimental:module /std:c++latest /EHsc /MD)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 11)
+  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules-ts>")
+  set(CMAKE_REQUIRED_FLAGS -fmodules-ts)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules>")
+  set(CMAKE_REQUIRED_FLAGS -fmodules)
 endif()
 
 check_source_compiles(CXX
@@ -34,7 +39,22 @@ check_cxx_symbol_exists(__cpp_lib_filesystem filesystem HAVE_CXX17_FILESYSTEM)
 
 check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
 
-check_cxx_symbol_exists(__cpp_modules "" HAVE_CXX20_MODULES)
+check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
+
+if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
+  message(CHECK_START "Checking if C++ modules are working")
+  try_compile(HAVE_CXX20_MODULES
+  ${CMAKE_CURRENT_BINARY_DIR}/modules_check
+  ${CMAKE_CURRENT_SOURCE_DIR}/modules
+  modTest
+  CMAKE_FLAGS ${CMAKE_REQUIRED_FLAGS}
+  )
+  if(HAVE_CXX20_MODULES)
+    message(CHECK_PASS "Yes")
+  else()
+    message(CHECK_FAIL "No")
+  endif()
+endif()
 
 
 check_source_compiles(CXX
