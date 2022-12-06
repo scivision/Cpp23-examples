@@ -2,11 +2,16 @@ name: xmake
 
 on:
   push:
+    branches: main
     paths:
+      - "**.txt"
+      - "**.md"
+      - "LICENSE"
+      - "**.build"
+      - "**.json"
       - "**.f90"
       - "**.F90"
       - "**.cmake"
-      - "**/CMakeLists.txt"
       - ".github/workflows/cmake.yml"
 jobs:
   gcc:
@@ -82,4 +87,4 @@ jobs:
       - name: build
         run: xmake b -D
       - name: test
-        run: xmake run tests
+        run: TAKEOWN /F build; xmake run tests
