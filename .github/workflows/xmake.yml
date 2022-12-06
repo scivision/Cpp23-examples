@@ -1,0 +1,85 @@
+name: xmake
+
+on:
+  push:
+    paths:
+      - "**.f90"
+      - "**.F90"
+      - "**.cmake"
+      - "**/CMakeLists.txt"
+      - ".github/workflows/cmake.yml"
+jobs:
+  gcc:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup XMake cache
+        uses: actions/cache@v3
+        with:
+          path: '.xmake-cache'
+          key: gcc-ci
+      - name: Install xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: branch@dev
+          actions-cache-folder: '.xmake-cache'
+          actions-cache-key: 'gcc-ci'
+      - name: configure
+        run: xmake f -D --yes
+      - name: build
+        run: xmake b -D
+      - name: test
+        run: xmake run tests
+  clang:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Fetch clang
+        run: sudo apt install clang
+      - name: Setup XMake cache
+        uses: actions/cache@v3
+        with:
+          path: '.xmake-cache'
+          key: clang-ci
+      - name: Install xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: branch@dev
+          actions-cache-folder: '.xmake-cache'
+          actions-cache-key: 'clang-ci'
+      - name: configure
+        run: xmake f -D --toolchain=clang --yes
+      - name: build
+        run: xmake b -D
+      - name: test
+        run: xmake run tests
+  msvc2022:
+    runs-on: windows-2022
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup XMake cache
+        uses: actions/cache@v3
+        with:
+          path: '.xmake-cache'
+          key: msvc2022-ci
+      - name: Install xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: branch@dev
+          actions-cache-folder: '.xmake-cache'
+          actions-cache-key: 'msvc2022-ci'
+      - name: configure
+        run: xmake f -D --yes
+      - name: build
+        run: xmake b -D
+      - name: test
+        run: xmake run tests

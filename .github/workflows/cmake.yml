@@ -1,4 +1,4 @@
-name: ci
+name: cmake
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - "**.F90"
       - "**.cmake"
       - "**/CMakeLists.txt"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/xmake.yml"
 
 jobs:
 
