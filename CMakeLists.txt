@@ -51,7 +51,7 @@ endif()
 
 # --- filesystem
 
-if(FEATURE_CXX17_FILESYSTEM)
+if(HAVE_FILESYSTEM)
   add_subdirectory(filesystem)
 endif()
 

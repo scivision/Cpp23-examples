@@ -14,10 +14,6 @@
 #include <iostream>
 #include <filesystem>
 
-#ifndef __cpp_lib_filesystem
-#error "Compiler doesn't support C++17 filesystem"
-#endif
-
 namespace fs = std::filesystem;
 
 int main(int argc, char **argv)
