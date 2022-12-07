@@ -14,14 +14,14 @@ endif()
 
 if(HAVE_CXX20_NUMBERS)
   add_executable(numbers src/numbers.cpp)
-  add_test(NAME Numbers COMMAND numbers)
-  set_property(TEST Numbers PROPERTY LABELS 20)
+  add_test(NAME numbers COMMAND numbers)
+  set_property(TEST numbers PROPERTY LABELS 20)
 endif()
 
 # --- C++ folding ---
 add_executable(folding src/folding.cpp)
-add_test(NAME Folding COMMAND folding)
-set_property(TEST Folding PROPERTY LABELS 17)
+add_test(NAME folding COMMAND folding)
+set_property(TEST folding PROPERTY LABELS 17)
 
 # --- C++ 23 ---
 
@@ -34,14 +34,14 @@ endif()
 
 if(HAVE_PRINT)
   add_executable(print src/print.cpp)
-  add_test(NAME Print COMMAND print)
-  set_property(TEST Print PROPERTY LABELS 23)
+  add_test(NAME print COMMAND print)
+  set_property(TEST print PROPERTY LABELS 23)
 endif()
 
 if(HAVE_STDFLOAT)
   add_executable(stdfloat src/stdfloat.cpp)
   add_test(NAME stdfloat COMMAND stdfloat)
-  set_property(TEST Print PROPERTY LABELS 23)
+  set_property(TEST stdfloat PROPERTY LABELS 23)
 endif()
 
 # --- filesystem
@@ -60,6 +60,6 @@ endif()
 
 if(HAVE_CXX_THREAD)
   add_executable(thread_count src/thread_count.cpp)
-  add_test(NAME Thread COMMAND thread_count)
-  set_property(TEST Thread PROPERTY LABELS 14)
+  add_test(NAME thread COMMAND thread_count)
+  set_property(TEST thread PROPERTY LABELS 14)
 endif()
