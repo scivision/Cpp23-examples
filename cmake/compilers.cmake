@@ -1,11 +1,22 @@
 include(CheckSourceCompiles)
 include(CheckCXXSymbolExists)
+include(CheckIncludeFileCXX)
 
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED true)
+set(CMAKE_CXX_STANDARD 23)
 
 add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
+
+# --- compiler features
+
+check_include_file_cxx(stdfloat HAVE_STDFLOAT)
+
+check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
+
+check_cxx_symbol_exists(__cpp_lib_filesystem filesystem FEATURE_CXX17_FILESYSTEM)
+
+check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
+
 
 # --- modules
 
@@ -32,13 +43,6 @@ int main(){
 HAVE_MSVC_STDLIB_MODULES
 )
 
-
-check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
-
-check_cxx_symbol_exists(__cpp_lib_filesystem filesystem HAVE_CXX17_FILESYSTEM)
-
-check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
-
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 
 if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
@@ -56,6 +60,7 @@ if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
   endif()
 endif()
 
+# --- threads
 
 check_source_compiles(CXX
 [=[

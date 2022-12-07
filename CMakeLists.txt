@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25...3.26)
 
-project(CXX20examples
+project(CXX23examples
 LANGUAGES CXX
 )
 
@@ -23,7 +23,11 @@ add_executable(folding src/folding.cpp)
 add_test(NAME Folding COMMAND folding)
 set_property(TEST Folding PROPERTY LABELS 17)
 
-if(HAVE_CXX17_FILESYSTEM)
+if(HAVE_STDFLOAT)
+  add_executable(stdfloat src/stdfloat.cpp)
+endif()
+
+if(FEATURE_CXX17_FILESYSTEM)
   add_subdirectory(filesystem)
 endif()
 
