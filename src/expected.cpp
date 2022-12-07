@@ -5,7 +5,7 @@
 #include <vector>
 #include <algorithm>
 
-#if __has_include(<format>)
+#ifdef __cpp_lib_format
 #include <format>
 #endif
 
@@ -59,10 +59,10 @@ int main()
    }
    else
    {
-    #if __has_include(<format>)
+#ifdef __cpp_lib_format
       std::cout << std::format("Error code: {}", (int)result.error()) << std::endl;
-    #else
+#else
       std::cout << "Error code: " << (int)result.error() << std::endl;
-    #endif
+#endif
    }
 }
