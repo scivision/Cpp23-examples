@@ -9,6 +9,7 @@ add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 # --- compiler features
 
+check_include_file_cxx(expected HAVE_EXPECTED)
 check_include_file_cxx(print HAVE_PRINT)
 check_include_file_cxx(stdfloat HAVE_STDFLOAT)
 
