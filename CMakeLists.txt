@@ -23,6 +23,11 @@ add_executable(folding src/folding.cpp)
 add_test(NAME folding COMMAND folding)
 set_property(TEST folding PROPERTY LABELS 17)
 
+# --- C++20 likely attribute ===
+add_executable(likely src/likely.cpp)
+add_test(NAME likely COMMAND likely)
+set_property(TEST likely PROPERTY LABELS 20)
+
 # --- C++ 23 ---
 
 if(HAVE_EXPECTED)

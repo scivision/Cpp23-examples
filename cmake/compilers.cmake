@@ -31,6 +31,26 @@ check_cxx_symbol_exists(__cpp_lib_filesystem filesystem FEATURE_CXX17_FILESYSTEM
 check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
 check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
 
+# --- likely
+check_source_compiles(CXX
+[=[
+
+#if !__has_cpp_attribute(likely)
+#error "no likely attribute"
+#endif
+
+int main(){
+if (0) [[likely]]
+return 0;
+else [[unlikely]]
+return 1;
+}
+]=]
+HAVE_LIKELY
+)
+
+# --- modules
+
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 
 if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
