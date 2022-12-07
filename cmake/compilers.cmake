@@ -7,7 +7,20 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
-# --- compiler features
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:/experimental:module;/std:c++latest;/EHsc;/MD>")
+  set(CMAKE_REQUIRED_FLAGS /experimental:module /std:c++latest /EHsc /MD)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 11)
+  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules-ts>")
+  set(CMAKE_REQUIRED_FLAGS -fmodules-ts)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules>")
+  set(CMAKE_REQUIRED_FLAGS -fmodules)
+endif()
+
+message(VERBOSE "CMAKE_CXX_COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}
+CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}")
+
 
 check_include_file_cxx(expected HAVE_EXPECTED)
 check_include_file_cxx(print HAVE_PRINT)
@@ -19,20 +32,24 @@ check_cxx_symbol_exists(__cpp_lib_filesystem filesystem FEATURE_CXX17_FILESYSTEM
 
 check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
 
+check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 
-# --- modules
+if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
+  message(CHECK_START "Checking if C++ modules are working")
 
-
-if(CMAKE_CXX_COMPLIER_ID STREQUAL "MSVC")
-  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:/experimental:module;/std:c++latest;/EHsc;/MD>")
-  set(CMAKE_REQUIRED_FLAGS /experimental:module /std:c++latest /EHsc /MD)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 11)
-  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules-ts>")
-  set(CMAKE_REQUIRED_FLAGS -fmodules-ts)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules>")
-  set(CMAKE_REQUIRED_FLAGS -fmodules)
+  try_compile(HAVE_CXX20_MODULES
+  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.cpp ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.ixx
+  OUTPUT_VARIABLE log
+  )
+  if(HAVE_CXX20_MODULES)
+    message(CHECK_PASS "Yes")
+  else()
+    message(CHECK_FAIL "No")
+    message(VERBOSE "${log}")
+  endif()
 endif()
+
+if(HAVE_CXX20_MODULES)
 
 check_source_compiles(CXX
 [=[
@@ -45,21 +62,6 @@ int main(){
 HAVE_MSVC_STDLIB_MODULES
 )
 
-check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
-
-if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
-  message(CHECK_START "Checking if C++ modules are working")
-
-  try_compile(HAVE_CXX20_MODULES
-  PROJECT cppMod_check
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/modules
-  CMAKE_FLAGS ${CMAKE_REQUIRED_FLAGS}
-  )
-  if(HAVE_CXX20_MODULES)
-    message(CHECK_PASS "Yes")
-  else()
-    message(CHECK_FAIL "No")
-  endif()
 endif()
 
 # --- threads
