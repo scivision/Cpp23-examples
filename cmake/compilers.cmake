@@ -20,15 +20,15 @@ endif()
 
 message(VERBOSE "CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}")
 
-
-check_include_file_cxx(expected HAVE_EXPECTED)
-check_include_file_cxx(print HAVE_PRINT)
 check_include_file_cxx(stdfloat HAVE_STDFLOAT)
 
-check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
+# https://en.cppreference.com/w/cpp/feature_test
+
+check_cxx_symbol_exists(__cpp_lib_expected expected HAVE_EXPECTED)
+check_cxx_symbol_exists(__cpp_lib_print print HAVE_PRINT)
 
 check_cxx_symbol_exists(__cpp_lib_filesystem filesystem FEATURE_CXX17_FILESYSTEM)
-
+check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
 check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
 
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
@@ -71,7 +71,7 @@ check_source_compiles(CXX
 #include <thread>
 int main() {
     unsigned int n = std::thread::hardware_concurrency();
-    return EXIT_SUCCESS;
+    return 0;
 }
 ]=]
 HAVE_CXX_THREAD
