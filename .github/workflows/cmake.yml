@@ -1,13 +1,17 @@
-name: ci
+name: cmake
 
 on:
   push:
+    branches: main
     paths:
+      - "**.md"
+      - "LICENSE"
+      - "**.build"
+      - "**.json"
       - "**.f90"
       - "**.F90"
-      - "**.cmake"
-      - "**/CMakeLists.txt"
-      - ".github/workflows/ci.yml"
+      - "**.lua"
+      - ".github/workflows/xmake.yml"
 
 jobs:
 
