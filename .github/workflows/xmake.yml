@@ -4,15 +4,11 @@ on:
   push:
     branches: main
     paths:
-      - "**.txt"
-      - "**.md"
-      - "LICENSE"
-      - "**.build"
-      - "**.json"
-      - "**.f90"
-      - "**.F90"
-      - "**.cmake"
-      - ".github/workflows/cmake.yml"
+      - "**.cpp"
+      - "**.ixx"
+      - "**/xmake.lua"
+      - "**/tests.lua"
+      - ".github/workflows/xmake.yml"
 jobs:
   gcc:
     runs-on: ubuntu-22.04

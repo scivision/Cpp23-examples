@@ -2,16 +2,12 @@ name: cmake
 
 on:
   push:
-    branches: main
     paths:
-      - "**.md"
-      - "LICENSE"
-      - "**.build"
-      - "**.json"
-      - "**.f90"
-      - "**.F90"
-      - "**.lua"
-      - ".github/workflows/xmake.yml"
+      - "**.cpp"
+      - "**.ixx"
+      - "**.cmake"
+      - "**/CMakeLists.txt"
+      - ".github/workflows/cmake.yml"
 
 jobs:
 
