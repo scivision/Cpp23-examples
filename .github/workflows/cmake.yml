@@ -15,18 +15,19 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-latest]
-        compiler: [ {cpp: g++-11, c: gcc-11}, {cpp: clang++, c: clang} ]
+        conf: [ {os: ubuntu-22.04, cpp: g++-12, c: gcc-12},
+                {os: macos-latest, cpp: clang++, c: clang} ]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.conf.os }}
+
+    env:
+      CXX: ${{ matrix.conf.cpp }}
+      CC: ${{ matrix.conf.c }}
 
     steps:
     - uses: actions/checkout@v3
 
     - run: cmake --workflow --preset default
-      env:
-        CXX: ${{ matrix.compiler.cpp }}
-        CC: ${{ matrix.compiler.c }}
 
 
   windows-msvc:
