@@ -43,10 +43,10 @@ check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 
 if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
   message(CHECK_START "Checking if C++ modules are working")
+
   try_compile(HAVE_CXX20_MODULES
-  ${CMAKE_CURRENT_BINARY_DIR}/modules_check
-  ${CMAKE_CURRENT_SOURCE_DIR}/modules
-  modTest
+  PROJECT cppMod_check
+  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/modules
   CMAKE_FLAGS ${CMAKE_REQUIRED_FLAGS}
   )
   if(HAVE_CXX20_MODULES)
