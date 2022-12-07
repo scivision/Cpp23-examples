@@ -11,36 +11,22 @@ on:
 
 jobs:
 
-  linux:
-    runs-on: ubuntu-latest
-    env:
-      CC: clang
-      CXX: clang++
+  core:
 
-    steps:
-    - uses: actions/checkout@v3
-
-    - run: cmake -B build
-    - run: cmake --build build --parallel
-    - run: ctest --test-dir build --preset default
-
-
-  macos:
-    runs-on: macos-latest
     strategy:
       matrix:
+        os: [ubuntu-22.04, macos-latest]
         compiler: [ {cpp: g++-11, c: gcc-11}, {cpp: clang++, c: clang} ]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
 
-    - run: cmake -Bbuild
+    - run: cmake --workflow --preset default
       env:
         CXX: ${{ matrix.compiler.cpp }}
         CC: ${{ matrix.compiler.c }}
-
-    - run: cmake --build build --parallel
-    - run: ctest --test-dir build --preset default
 
 
   windows-msvc:

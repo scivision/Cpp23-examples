@@ -1,51 +1,54 @@
 {
-  "version": 3,
+  "version": 6,
 
 "configurePresets": [
 {
-  "name": "multi",
+  "name": "default",
   "binaryDir": "${sourceDir}/build",
-  "displayName": "Ninja Multi-Config",
-  "generator": "Ninja Multi-Config"
-},
-{
-  "name": "phony"
+  "cacheVariables": {
+    "CMAKE_COMPILE_WARNING_AS_ERROR": true
+  }
 }
 ],
 "buildPresets": [
   {
-    "name": "release",
-    "configurePreset": "multi",
-    "configuration": "Release"
-  },
-  {
-    "name": "debug",
-    "configurePreset": "multi",
-    "configuration": "Debug"
+    "name": "default",
+    "configurePreset": "default"
   }
 ],
 "testPresets": [
 {
   "name": "default",
-  "configurePreset": "phony",
+  "configurePreset": "default",
   "output": {
     "outputOnFailure": true,
-    "verbosity": "default"
+    "verbosity": "verbose"
   },
   "execution": {
     "noTestsAction": "error",
-    "stopOnFailure": false
+    "scheduleRandom": true,
+    "stopOnFailure": false,
+    "timeout": 60
   }
-},
-{
-  "name": "release", "inherits": "default",
-  "configurePreset": "multi",
-  "configuration": "Release"
-},
-{
-  "name": "debug", "inherits": "default",
-  "configurePreset": "multi",
-  "configuration": "Debug"
 }
+],
+"workflowPresets": [
+  {
+    "name": "default",
+    "steps": [
+      {
+        "type": "configure",
+        "name": "default"
+      },
+      {
+        "type": "build",
+        "name": "default"
+      },
+      {
+        "type": "test",
+        "name": "default"
+      }
+    ]
+  }
 ]
 }
