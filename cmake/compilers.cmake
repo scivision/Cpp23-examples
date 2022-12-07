@@ -28,8 +28,8 @@ check_cxx_symbol_exists(__cpp_lib_expected expected HAVE_EXPECTED)
 check_cxx_symbol_exists(__cpp_lib_print print HAVE_PRINT)
 
 check_cxx_symbol_exists(__cpp_lib_filesystem filesystem FEATURE_CXX17_FILESYSTEM)
-check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
-check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_CXX20_NUMBERS)
+check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_COROUTINE)
+check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_NUMBERS)
 
 # --- likely
 check_source_compiles(CXX
@@ -53,14 +53,14 @@ HAVE_LIKELY
 
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 
-if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
+if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_MODULES)
   message(CHECK_START "Checking if C++ modules are working")
 
-  try_compile(HAVE_CXX20_MODULES
+  try_compile(HAVE_MODULES
   SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.cpp ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.ixx
   OUTPUT_VARIABLE log
   )
-  if(HAVE_CXX20_MODULES)
+  if(HAVE_MODULES)
     message(CHECK_PASS "Yes")
   else()
     message(CHECK_FAIL "No")
@@ -68,7 +68,7 @@ if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_CXX20_MODULES)
   endif()
 endif()
 
-if(HAVE_CXX20_MODULES)
+if(HAVE_MODULES)
 
 check_source_compiles(CXX
 [=[
@@ -94,7 +94,7 @@ int main() {
     return 0;
 }
 ]=]
-HAVE_CXX_THREAD
+HAVE_THREAD
 )
 
 # --- auto-ignore build directory

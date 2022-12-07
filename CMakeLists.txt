@@ -8,11 +8,11 @@ enable_testing()
 
 include(cmake/compilers.cmake)
 
-if(HAVE_CXX20_MODULES)
+if(HAVE_MODULES)
   add_subdirectory(modules)
 endif()
 
-if(HAVE_CXX20_NUMBERS)
+if(HAVE_NUMBERS)
   add_executable(numbers src/numbers.cpp)
   add_test(NAME numbers COMMAND numbers)
   set_property(TEST numbers PROPERTY LABELS 20)
@@ -57,13 +57,13 @@ endif()
 
 # --- coroutine
 
-if(HAVE_CXX20_COROUTINE)
+if(HAVE_COROUTINE)
   add_executable(coro src/coroutine.cpp)
 endif()
 
 # --- thread
 
-if(HAVE_CXX_THREAD)
+if(HAVE_THREAD)
   add_executable(thread_count src/thread_count.cpp)
   add_test(NAME thread COMMAND thread_count)
   set_property(TEST thread PROPERTY LABELS 14)
