@@ -9,6 +9,7 @@ add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 # --- compiler features
 
+check_include_file_cxx(print HAVE_PRINT)
 check_include_file_cxx(stdfloat HAVE_STDFLOAT)
 
 check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_CXX20_COROUTINE)
