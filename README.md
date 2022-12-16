@@ -6,6 +6,8 @@ Examples of C++23 and C++20 syntax, for testing of compilers and build systems.
 This repo focuses on CMake.
 xmake and Meson also have some examples.
 
+[C23 / C11 examples](https://github.com/scivision/C23-examples)
+
 ## C++20 modules
 
 C++20 modules require recent C++ compilers such as:
