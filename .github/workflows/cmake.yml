@@ -36,6 +36,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - run: cmake -Bbuild
-    - run: cmake --build build --parallel
-    - run: ctest --test-dir build -C Debug -V
+    - run: cmake --workflow --preset debug

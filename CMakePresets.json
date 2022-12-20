@@ -8,12 +8,28 @@
   "cacheVariables": {
     "CMAKE_COMPILE_WARNING_AS_ERROR": true
   }
+},
+{
+  "name": "debug", "inherits": "default",
+  "cacheVariables": {
+    "CMAKE_COMPILE_WARNING_AS_ERROR": false
+  }
 }
 ],
 "buildPresets": [
   {
     "name": "default",
     "configurePreset": "default"
+  },
+  {
+    "name": "release",
+    "configurePreset": "default",
+    "configuration": "Release"
+  },
+  {
+    "name": "debug",
+    "configurePreset": "debug",
+    "configuration": "Debug"
   }
 ],
 "testPresets": [
@@ -30,6 +46,15 @@
     "stopOnFailure": false,
     "timeout": 60
   }
+},
+{
+  "name": "release", "inherits": "default",
+  "configuration": "Release"
+},
+{
+  "name": "debug", "inherits": "default",
+  "configurePreset": "debug",
+  "configuration": "Debug"
 }
 ],
 "workflowPresets": [
@@ -47,6 +72,40 @@
       {
         "type": "test",
         "name": "default"
+      }
+    ]
+  },
+  {
+    "name": "debug",
+    "steps": [
+      {
+        "type": "configure",
+        "name": "debug"
+      },
+      {
+        "type": "build",
+        "name": "debug"
+      },
+      {
+        "type": "test",
+        "name": "debug"
+      }
+    ]
+  },
+  {
+    "name": "release",
+    "steps": [
+      {
+        "type": "configure",
+        "name": "default"
+      },
+      {
+        "type": "build",
+        "name": "release"
+      },
+      {
+        "type": "test",
+        "name": "release"
       }
     ]
   }
