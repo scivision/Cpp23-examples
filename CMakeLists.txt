@@ -51,7 +51,8 @@ endif()
 
 if(HAVE_UNREACHABLE)
 add_executable(unreachable src/unreachable.cpp)
-add_test(NAME unreachable COMMAND unreachable)
+add_test(NAME unreachable
+COMMAND ${CMAKE_COMMAND} -Dexe:FILEPATH=$<TARGET_FILE:unreachable> -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/will_fail.cmake)
 set_property(TEST unreachable PROPERTY LABELS 23)
 set_property(TEST unreachable PROPERTY WILL_FAIL TRUE)
 endif()
