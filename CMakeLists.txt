@@ -9,7 +9,7 @@ enable_testing()
 include(cmake/compilers.cmake)
 
 if(HAVE_MODULES)
-  add_subdirectory(modules)
+  add_subdirectory(src/modules)
 endif()
 
 if(HAVE_NUMBERS)
@@ -49,10 +49,17 @@ if(HAVE_STDFLOAT)
   set_property(TEST stdfloat PROPERTY LABELS 23)
 endif()
 
+if(HAVE_UNREACHABLE)
+add_executable(unreachable src/unreachable.cpp)
+add_test(NAME unreachable COMMAND unreachable)
+set_property(TEST unreachable PROPERTY LABELS 23)
+set_property(TEST unreachable PROPERTY WILL_FAIL TRUE)
+endif()
+
 # --- filesystem
 
 if(HAVE_FILESYSTEM)
-  add_subdirectory(filesystem)
+  add_subdirectory(src/filesystem)
 endif()
 
 # --- coroutine

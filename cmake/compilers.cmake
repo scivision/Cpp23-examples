@@ -13,6 +13,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 11)
   add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules-ts>")
   set(CMAKE_REQUIRED_FLAGS -fmodules-ts)
+  # -x c++-system-header not work
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules>")
   set(CMAKE_REQUIRED_FLAGS -fmodules)
@@ -29,7 +30,7 @@ check_cxx_symbol_exists(__cpp_lib_print print HAVE_PRINT)
 
 check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_COROUTINE)
 check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_NUMBERS)
-
+check_cxx_symbol_exists(__cpp_lib_unreachable	utility HAVE_UNREACHABLE)
 # --- filesystem
 check_cxx_symbol_exists(__cpp_lib_filesystem filesystem FEATURE_FILESYSTEM)
 if(FEATURE_FILESYSTEM)
@@ -78,7 +79,7 @@ if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_MODULES)
   message(CHECK_START "Checking if C++ modules are working")
 
   try_compile(HAVE_MODULES
-  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.cpp ${CMAKE_CURRENT_SOURCE_DIR}/modules/math.ixx
+  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/modules/math.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/modules/math.ixx
   OUTPUT_VARIABLE log
   )
   if(HAVE_MODULES)
@@ -89,8 +90,17 @@ if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_MODULES)
   endif()
 endif()
 
-if(HAVE_MODULES)
+if(FEATURE_CXX20_MODULES)
 
+check_source_compiles(CXX
+[=[
+import <iostream>;
+int main(){ std::cout << "hello" << std::endl; return 0; }
+]=]
+HAVE_STDLIB_MODULE
+)
+
+if(MSVC)
 check_source_compiles(CXX
 [=[
 import std.core;
@@ -99,8 +109,9 @@ int main(){
   return 0;
 }
 ]=]
-HAVE_MSVC_STDLIB_MODULES
+HAVE_MSVC_STDLIB_MODULE
 )
+endif()
 
 endif()
 

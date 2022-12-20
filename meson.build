@@ -4,11 +4,6 @@ default_options : ['cpp_std=c++20'])
 
 cpp = meson.get_compiler('cpp')
 
-if cpp.get_id() == 'msvc'
-  modules_exe = executable('modules', 'modules/math.cpp', 'modules/math.ixx')
-  test('C++ Modules', modules_exe, suite: '20')
-endif
-
 # --- C++20 numbers
 numbers_exe = executable('numbers', 'src/numbers.cpp')
 test('numbers', numbers_exe, suite: '20')
@@ -18,7 +13,7 @@ folding_exe = executable('folding', 'src/folding.cpp')
 test('Folding', folding_exe, suite: '17')
 
 # --- C++17 filesystem ---
-subdir('filesystem')
+subdir('src/filesystem')
 
 # --- C++20 coroutine
 coro_exe = executable('coro', 'src/coroutine.cpp')

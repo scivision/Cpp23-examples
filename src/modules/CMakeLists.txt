@@ -2,9 +2,9 @@
 
 set_property(DIRECTORY PROPERTY LABELS 20)
 
-if(HAVE_MSVC_STDLIB_MODULES)
-  add_executable(hello_mod hello.cpp)
-  add_test(NAME HelloModule COMMAND hello_mod)
+if(HAVE_MSVC_STDLIB_MODULE)
+  add_executable(msvc_core msvc_core.cpp)
+  add_test(NAME msvc_core COMMAND msvc_core)
 endif()
 
 add_executable(math_mod math.cpp math.ixx)
