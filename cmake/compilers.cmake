@@ -32,26 +32,7 @@ check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_COROUTINE)
 check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_NUMBERS)
 check_cxx_symbol_exists(__cpp_lib_unreachable	utility HAVE_UNREACHABLE)
 # --- filesystem
-check_cxx_symbol_exists(__cpp_lib_filesystem filesystem FEATURE_FILESYSTEM)
-if(FEATURE_FILESYSTEM)
-check_source_compiles(CXX
-[=[
-#if __has_include(<filesystem>)
-#include <filesystem>
-namespace fs = std::filesystem;
-#else
-#error "No C++ filesystem header support"
-#endif
-
-int main () {
-fs::path tgt(".");
-auto h = tgt.has_filename();
-return 0;
-}
-]=]
-HAVE_FILESYSTEM
-)
-endif()
+include(${CMAKE_CURRENT_LIST_DIR}/cpp_filesystem.cmake)
 
 # --- likely
 check_source_compiles(CXX
@@ -72,48 +53,7 @@ HAVE_LIKELY
 )
 
 # --- modules
-
-check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
-
-if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_MODULES)
-  message(CHECK_START "Checking if C++ modules are working")
-
-  try_compile(HAVE_MODULES
-  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/modules/math.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/modules/math.ixx
-  OUTPUT_VARIABLE log
-  )
-  if(HAVE_MODULES)
-    message(CHECK_PASS "Yes")
-  else()
-    message(CHECK_FAIL "No")
-    message(VERBOSE "${log}")
-  endif()
-endif()
-
-if(FEATURE_CXX20_MODULES)
-
-check_source_compiles(CXX
-[=[
-import <iostream>;
-int main(){ std::cout << "hello" << std::endl; return 0; }
-]=]
-HAVE_STDLIB_MODULE
-)
-
-if(MSVC)
-check_source_compiles(CXX
-[=[
-import std.core;
-int main(){
-  std::cout << "hello" << std::endl;
-  return 0;
-}
-]=]
-HAVE_MSVC_STDLIB_MODULE
-)
-endif()
-
-endif()
+include(${CMAKE_CURRENT_LIST_DIR}/cpp_modules.cmake)
 
 # --- threads
 
