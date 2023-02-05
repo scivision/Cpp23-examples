@@ -2,6 +2,7 @@
 #include <coroutine>
 #include <exception>
 #include <iostream>
+#include <cstdlib>
 
 template<typename T>
 struct Generator {
@@ -103,7 +104,6 @@ fibonacci_sequence(unsigned n)
 int main()
 {
   try {
-
     auto gen = fibonacci_sequence(10); //max 94 before uint64_t overflows
 
     for (int j=0;gen;j++)
@@ -118,4 +118,6 @@ int main()
   {
     std::cerr << "Unknown exception.\n";
   }
+
+  return EXIT_SUCCESS;
 }

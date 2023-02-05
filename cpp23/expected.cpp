@@ -4,6 +4,7 @@
 #include <expected>
 #include <vector>
 #include <algorithm>
+#include <cstdlib>
 
 #ifdef __cpp_lib_format
 #include <format>
@@ -65,4 +66,6 @@ int main()
       std::cout << "Error code: " << (int)result.error() << std::endl;
 #endif
    }
+
+   return EXIT_SUCCESS;
 }

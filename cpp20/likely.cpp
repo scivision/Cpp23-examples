@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <iostream>
 #include <random>
+#include <cstdlib>
 
 namespace with_attributes {
 constexpr double pow(double x, long long n) noexcept {
@@ -82,4 +83,6 @@ int main() {
     benchmark(with_attributes::cos, "(with attributes)");
     benchmark(no_attributes::cos, "(without attributes)");
     benchmark([](double t) { return std::cos(t); }, "(std::cos)");
+
+    return EXIT_SUCCESS;
 }

@@ -2,18 +2,18 @@
 
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 
-if(FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_MODULES)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.26 AND
+   FEATURE_CXX20_MODULES AND NOT DEFINED HAVE_MODULES)
   message(CHECK_START "Checking if C++ modules are working")
 
   try_compile(HAVE_MODULES
-  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/modules/math.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/modules/math.ixx
-  OUTPUT_VARIABLE log
+  PROJECT CXXMOD
+  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cpp20/module
   )
   if(HAVE_MODULES)
     message(CHECK_PASS "Yes")
   else()
     message(CHECK_FAIL "No")
-    message(VERBOSE "${log}")
   endif()
 endif()
 
