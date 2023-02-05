@@ -31,8 +31,6 @@ check_cxx_symbol_exists(__cpp_lib_print print HAVE_PRINT)
 check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_COROUTINE)
 check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_NUMBERS)
 check_cxx_symbol_exists(__cpp_lib_unreachable	utility HAVE_UNREACHABLE)
-# --- filesystem
-include(${CMAKE_CURRENT_LIST_DIR}/cpp_filesystem.cmake)
 
 # --- likely
 check_source_compiles(CXX

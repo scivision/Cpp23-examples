@@ -12,9 +12,6 @@ test('numbers', numbers_exe, suite: '20')
 folding_exe = executable('folding', 'src/folding.cpp')
 test('Folding', folding_exe, suite: '17')
 
-# --- C++17 filesystem ---
-subdir('src/filesystem')
-
 # --- C++20 coroutine
 coro_exe = executable('coro', 'src/coroutine.cpp')
 test('Coroutine', coro_exe, suite: '20')

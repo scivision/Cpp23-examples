@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstdint>
 #include <utility>
+#include <iostream>
 
 #ifdef _MSC_VER
 #include <crtdbg.h>
@@ -36,6 +37,8 @@ int main()
     std::vector<Color> tex;
     generate_texture(tex, 128); // OK
     assert(tex.size() == 128 * 128);
+    std::cout << "OK: 128" << std::endl;
+
     generate_texture(tex, 32);  // Results in undefined behavior
     return EXIT_FAILURE;
 }

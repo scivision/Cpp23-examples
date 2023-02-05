@@ -57,12 +57,6 @@ set_property(TEST unreachable PROPERTY LABELS 23)
 set_property(TEST unreachable PROPERTY WILL_FAIL TRUE)
 endif()
 
-# --- filesystem
-
-if(HAVE_FILESYSTEM)
-  add_subdirectory(src/filesystem)
-endif()
-
 # --- coroutine
 
 if(HAVE_COROUTINE)
