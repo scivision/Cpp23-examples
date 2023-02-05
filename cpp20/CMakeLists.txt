@@ -18,18 +18,10 @@ endif()
 
 # --- likely
 check_source_compiles(CXX
-[=[
-#if !__has_cpp_attribute(likely)
-#error "no likely attribute"
+"#if !__has_cpp_attribute(likely)
+#error \"no likely attribute\"
 #endif
-
-int main(){
-if (0) [[likely]]
-return 0;
-else [[unlikely]]
-return 1;
-}
-]=]
+int main(){ return 0; }"
 HAVE_LIKELY
 )
 

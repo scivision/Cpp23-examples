@@ -4,8 +4,11 @@ project(Cpp23examples LANGUAGES CXX)
 
 enable_testing()
 
+set(CMAKE_CXX_STANDARD 23)
+
 include(cmake/compilers.cmake)
 
+add_subdirectory(cpp11)
 add_subdirectory(cpp14)
 add_subdirectory(cpp17)
 add_subdirectory(cpp20)

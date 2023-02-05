@@ -2,9 +2,6 @@ include(CheckSourceCompiles)
 include(CheckCXXSymbolExists)
 include(CheckIncludeFileCXX)
 
-
-set(CMAKE_CXX_STANDARD 23)
-
 add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

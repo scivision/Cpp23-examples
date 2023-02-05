@@ -4,8 +4,8 @@ check_source_compiles(CXX
 "#include <cstdlib>
 #include <thread>
 int main() {
-    unsigned int n = std::thread::hardware_concurrency();
-    return EXIT_SUCCESS;
+  unsigned int n = std::thread::hardware_concurrency();
+  return EXIT_SUCCESS;
 }"
 HAVE_THREAD
 )
