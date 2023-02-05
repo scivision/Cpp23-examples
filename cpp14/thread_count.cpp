@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <cstdlib>
 
 int main() {
     unsigned int n = std::thread::hardware_concurrency();

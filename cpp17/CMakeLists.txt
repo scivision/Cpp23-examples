@@ -11,3 +11,15 @@ if(HAVE_CTAD)
   add_executable(random_string random_string.cpp)
   add_test(NAME random_string COMMAND random_string)
 endif()
+
+check_source_compiles(CXX
+"#if !__has_cpp_attribute(maybe_unused)
+#error \"no maybe_unused attribute\"
+#endif
+int main(){ return 0; }"
+HAVE_MAYBE_UNUSED
+)
+if(HAVE_MAYBE_UNUSED)
+  add_executable(maybe_unused maybe_unused.cpp)
+  add_test(NAME maybe_unused COMMAND maybe_unused)
+endif()
