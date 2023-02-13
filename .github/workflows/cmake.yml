@@ -11,23 +11,38 @@ on:
 
 jobs:
 
-  core:
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     strategy:
       matrix:
-        conf: [ {os: ubuntu-22.04, cpp: g++-12, c: gcc-12},
-                {os: macos-latest, cpp: clang++, c: clang} ]
-
-    runs-on: ${{ matrix.conf.os }}
-
-    env:
-      CXX: ${{ matrix.conf.cpp }}
-      CC: ${{ matrix.conf.c }}
+        v: [9, 10, 11, 12]
 
     steps:
     - uses: actions/checkout@v3
 
     - run: cmake --workflow --preset default
+      env:
+        CC: gcc-${{ matrix.v }}
+        CXX: g++-${{ matrix.v }}
+
+
+  mac:
+    runs-on: macos-latest
+    timeout-minutes: 5
+
+    strategy:
+      matrix:
+        c: [{cc: gcc-12, cxx: g++-12}, {cc: clang, cxx: clang++}]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - run: cmake --workflow --preset default
+      env:
+        CC: ${{ matrix.c.cc }}
+        CXX: ${{ matrix.c.cxx }}
 
 
   windows-msvc:
