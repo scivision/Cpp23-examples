@@ -6,9 +6,11 @@ enable_testing()
 
 set(CMAKE_CXX_STANDARD 23)
 
-if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+# makes unsupported attributes checks error.
+if(MSVC)
+  list(APPEND CMAKE_REQUIRED_FLAGS /WX)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   list(APPEND CMAKE_REQUIRED_FLAGS -Werror)
-  # makes unsupported attributes checks error.
 endif()
 
 include(cmake/compilers.cmake)

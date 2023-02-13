@@ -1,5 +1,8 @@
 set_property(DIRECTORY PROPERTY LABELS 23)
 
+message(STATUS "Checking for C++23 features with CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}"
+)
+
 check_source_compiles(CXX "int main() { [[assume(3 > 0)]]; return 0; }" cpp23_assume)
 
 check_cxx_symbol_exists(__cpp_lib_print print cpp23_print)
