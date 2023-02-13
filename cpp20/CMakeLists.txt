@@ -4,28 +4,19 @@ if(HAVE_MODULES)
   add_subdirectory(module)
 endif()
 
-check_cxx_symbol_exists(__cpp_lib_coroutine coroutine HAVE_COROUTINE)
-if(HAVE_COROUTINE)
-  add_executable(coroutine coroutine.cpp)
-  add_test(NAME coroutine COMMAND coroutine)
-endif()
-
-check_cxx_symbol_exists(__cpp_lib_math_constants numbers HAVE_NUMBERS)
-if(HAVE_NUMBERS)
-  add_executable(numbers numbers.cpp)
-  add_test(NAME numbers COMMAND numbers)
-endif()
-
-# --- likely
+check_cxx_symbol_exists(__cpp_lib_coroutine coroutine cpp20_coroutine)
+check_cxx_symbol_exists(__cpp_lib_math_constants numbers cpp20_numbers)
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(likely)
 #error \"no likely attribute\"
 #endif
 int main(){ return 0; }"
-HAVE_LIKELY
+cpp20_likely
 )
 
-if(HAVE_LIKELY)
-  add_executable(likely likely.cpp)
-  add_test(NAME likely COMMAND likely)
-endif()
+foreach(t IN ITEMS coroutine likely numbers)
+  if(cpp20_${t})
+    add_executable(${t} ${t}.cpp)
+    add_test(NAME ${t} COMMAND ${t})
+  endif()
+endforeach()
