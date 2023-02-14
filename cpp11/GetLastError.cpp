@@ -18,6 +18,6 @@
 int main(){
     // intentionally generate an error
 
-    if(!GetProcessId(NULL))
+    if(!GetProcessId(nullptr))
         PrintError("GetProcessId");
 }
