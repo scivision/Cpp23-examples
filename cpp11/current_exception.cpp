@@ -1,8 +1,9 @@
 // https://en.cppreference.com/w/cpp/error/current_exception
+
 #include <array>
-#include <iostream>
-#include <exception>
 #include <cstdlib>
+#include <exception>
+#include <iostream>
 
 void handle_error_ptr(std::exception_ptr err_ptr)
 // passing by value is ok
@@ -20,7 +21,7 @@ void handle_error_ptr(std::exception_ptr err_ptr)
 int main(){
   // intentionally generate an error
 
-  std::array<int,1> x;
+  std::array<int,1> x = {42};
 
   std::exception_ptr err_ptr;
 
@@ -33,6 +34,6 @@ int main(){
   handle_error_ptr(err_ptr);
 
   std::cout << "OK: exception handled" << std::endl;
-  return EXIT_SUCCESS;
 
+  return EXIT_SUCCESS;
 }

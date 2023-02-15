@@ -4,7 +4,20 @@ project(Cpp23examples LANGUAGES CXX)
 
 enable_testing()
 
+option(tidy "Run clang-tidy")
+
 set(CMAKE_CXX_STANDARD 23)
+
+if(tidy)
+  find_program(CLANG_TIDY
+  NAMES clang-tidy
+  REQUIRED
+  PATHS /opt/homebrew/opt/llvm/bin
+  )
+
+  set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY})
+
+endif()
 
 # makes unsupported attributes checks error.
 if(MSVC)
