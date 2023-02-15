@@ -1,10 +1,16 @@
 set_property(DIRECTORY PROPERTY LABELS 11)
 
-add_executable(current_exception current_exception.cpp)
-add_test(NAME current_exception COMMAND current_exception)
-
+set(names current_exception nullptr)
 if(WIN32)
-  add_executable(GetLastError GetLastError.cpp)
-  add_test(NAME GetLastError COMMAND GetLastError)
+  list(APPEND names GetLastError)
+endif()
+
+foreach(t IN LISTS names)
+  add_executable(${t} ${t}.cpp)
+  add_test(NAME ${t} COMMAND ${t})
+endforeach()
+
+
+if(TEST GetLastError)
   set_property(TEST GetLastError PROPERTY WILL_FAIL true)
 endif()
