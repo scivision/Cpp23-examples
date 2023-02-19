@@ -11,7 +11,15 @@ int main(){ return 0; }"
 cpp17_maybe_unused
 )
 
-foreach(t IN ITEMS folding maybe_unused)
+check_source_compiles(CXX
+"#if !__has_cpp_attribute(fallthrough)
+#error \"no fallthrough attribute\"
+#endif
+int main(){ return 0; }"
+cpp17_fallthrough
+)
+
+foreach(t IN ITEMS fallthrough folding maybe_unused)
   if(cpp17_${t})
     add_executable(${t} ${t}.cpp)
     add_test(NAME ${t} COMMAND ${t})
