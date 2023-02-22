@@ -2,6 +2,13 @@ include(CheckSourceCompiles)
 include(CheckCXXSymbolExists)
 include(CheckIncludeFileCXX)
 
+# makes unsupported attributes checks error.
+if(MSVC)
+  list(APPEND CMAKE_REQUIRED_FLAGS /WX)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|^Intel")
+  list(APPEND CMAKE_REQUIRED_FLAGS -Werror)
+endif()
+
 add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -21,8 +28,3 @@ message(VERBOSE "CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}")
 # https://en.cppreference.com/w/cpp/feature_test
 
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_modules.cmake)
-
-# --- auto-ignore build directory
-if(NOT EXISTS ${PROJECT_BINARY_DIR}/.gitignore)
-  file(WRITE ${PROJECT_BINARY_DIR}/.gitignore "*")
-endif()
