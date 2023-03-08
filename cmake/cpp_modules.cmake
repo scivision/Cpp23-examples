@@ -1,7 +1,5 @@
 # https://www.kitware.com/import-cmake-c20-modules/
 
-message(STATUS "CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}")
-
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 if(NOT FEATURE_CXX20_MODULES)
   message(VERBOSE "C++20 modules are not supported")
