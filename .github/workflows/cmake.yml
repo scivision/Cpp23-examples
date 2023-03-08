@@ -22,6 +22,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install Ninja for C++ modules
+      run: sudo apt-get install ninja-build
+
     - run: cmake --workflow --preset default
       env:
         CC: gcc-${{ matrix.v }}
@@ -32,12 +35,18 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 5
 
+    env:
+      HOMEBREW_NO_AUTO_CLEANUP: 1
+
     strategy:
       matrix:
         c: [{cc: gcc-12, cxx: g++-12}, {cc: clang, cxx: clang++}]
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: Install Ninja for C++ modules
+      run: brew install ninja
 
     - run: cmake --workflow --preset default
       env:

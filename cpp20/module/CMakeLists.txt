@@ -1,13 +1,19 @@
 # https://gitlab.kitware.com/cmake/cmake/-/merge_requests/5562
 # https://www.kitware.com/import-cmake-c20-modules/
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.25.2...3.27)
 
 project(CXXModules LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_EXPERIMENTAL_CXX_MODULE_DYNDEP 1)
-set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "2182bf5c-ef0d-489a-91da-49dbc3090d2a")
+
+if(CMAKE_VERSION VERSION_LESS 3.26)
+  set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "3c375311-a3c9-4396-a187-3227ef642046")
+else()
+  # FIXME: update when CMake 3.27 is released
+  set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "2182bf5c-ef0d-489a-91da-49dbc3090d2a")
+endif()
 
 if(HAVE_MSVC_STDLIB_MODULE)
   add_executable(msvc_core msvc_core.cpp)
