@@ -6,6 +6,8 @@ enable_testing()
 
 option(tidy "Run clang-tidy")
 
+message(STATUS "CMake ${CMAKE_VERSION}")
+
 set(CMAKE_CXX_STANDARD 23)
 
 if(tidy)
