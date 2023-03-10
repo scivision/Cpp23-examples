@@ -24,8 +24,10 @@ jobs:
         language: [ 'cpp' ]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Install Ninja for C++ modules
+      run: sudo apt-get install ninja-build
+
+    - uses: actions/checkout@v3
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
