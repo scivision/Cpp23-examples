@@ -11,7 +11,8 @@
   }
 },
 {
-  "name": "debug", "inherits": "default",
+  "name": "msvc", "inherits": "default",
+  "generator": "Visual Studio 17 2022",
   "cacheVariables": {
     "CMAKE_COMPILE_WARNING_AS_ERROR": false
   }
@@ -28,8 +29,8 @@
     "configuration": "Release"
   },
   {
-    "name": "debug",
-    "configurePreset": "debug",
+    "name": "msvc-debug",
+    "configurePreset": "msvc",
     "configuration": "Debug"
   }
 ],
@@ -53,8 +54,8 @@
   "configuration": "Release"
 },
 {
-  "name": "debug", "inherits": "default",
-  "configurePreset": "debug",
+  "name": "msvc-debug", "inherits": "default",
+  "configurePreset": "msvc",
   "configuration": "Debug"
 }
 ],
@@ -77,19 +78,19 @@
     ]
   },
   {
-    "name": "debug",
+    "name": "msvc",
     "steps": [
       {
         "type": "configure",
-        "name": "debug"
+        "name": "msvc"
       },
       {
         "type": "build",
-        "name": "debug"
+        "name": "msvc-debug"
       },
       {
         "type": "test",
-        "name": "debug"
+        "name": "msvc-debug"
       }
     ]
   },
