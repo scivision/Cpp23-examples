@@ -4,6 +4,10 @@ check_cxx_symbol_exists(__cpp_fold_expressions "" cpp17_folding)
 check_cxx_symbol_exists(__cpp_deduction_guides "" cpp17_ctad)
 check_cxx_symbol_exists(__cpp_structured_bindings "" cpp17_structured_bindings)
 
+# NOTE: this is not a complete c++17 filesystem check. See:
+# https://github.com/scivision/fortran-filesystem/blob/main/cmake/CppCheck.cmake
+check_cxx_symbol_exists(__cpp_lib_filesystem "filesystem" cpp17_filesystem)
+
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(maybe_unused)
 #error \"no maybe_unused attribute\"
@@ -30,7 +34,7 @@ check_source_compiles(CXX
 cpp17_init_if_switch
 )
 
-foreach(t IN ITEMS fallthrough folding init_if_switch maybe_unused structured_bindings)
+foreach(t IN ITEMS fallthrough filesystem folding init_if_switch maybe_unused structured_bindings)
   if(cpp17_${t})
     add_executable(${t} ${t}.cpp)
     add_test(NAME ${t} COMMAND ${t})

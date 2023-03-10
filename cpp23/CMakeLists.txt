@@ -1,7 +1,8 @@
 set_property(DIRECTORY PROPERTY LABELS 23)
 
-message(STATUS "Checking for C++23 features with CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}"
-)
+if(NOT DEFINED cpp23_assume)
+message(STATUS "Checking for C++23 features with CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}")
+endif()
 
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(assume)
