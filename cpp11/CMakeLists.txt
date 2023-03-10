@@ -1,6 +1,6 @@
 set_property(DIRECTORY PROPERTY LABELS 11)
 
-set(names current_exception nullptr)
+set(names current_exception getenv nullptr)
 if(WIN32)
   list(APPEND names GetLastError)
 endif()
