@@ -58,6 +58,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - uses: actions/setup-python@v4
+      with:
+        python-version: 3.x
+
+    - name: Install Ninja for C++ modules
+      run: python -m pip install ninja
+
     - uses: actions/checkout@v3
 
     - run: cmake --workflow --preset debug

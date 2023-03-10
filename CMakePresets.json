@@ -5,6 +5,7 @@
 {
   "name": "default",
   "binaryDir": "${sourceDir}/build",
+  "generator": "Ninja",
   "cacheVariables": {
     "CMAKE_COMPILE_WARNING_AS_ERROR": true
   }
