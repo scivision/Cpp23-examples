@@ -20,7 +20,17 @@ int main(){ return 0; }"
 cpp17_fallthrough
 )
 
-foreach(t IN ITEMS fallthrough folding maybe_unused structured_bindings)
+check_source_compiles(CXX
+"int main() {
+  switch (int n = 1)
+  case 1:
+    return 0;
+  return 0;
+}"
+cpp17_init_if_switch
+)
+
+foreach(t IN ITEMS fallthrough folding init_if_switch maybe_unused structured_bindings)
   if(cpp17_${t})
     add_executable(${t} ${t}.cpp)
     add_test(NAME ${t} COMMAND ${t})
