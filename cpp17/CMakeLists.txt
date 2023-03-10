@@ -2,6 +2,7 @@ set_property(DIRECTORY PROPERTY LABELS 17)
 
 check_cxx_symbol_exists(__cpp_fold_expressions "" cpp17_folding)
 check_cxx_symbol_exists(__cpp_deduction_guides "" cpp17_ctad)
+check_cxx_symbol_exists(__cpp_structured_bindings "" cpp17_structured_bindings)
 
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(maybe_unused)
@@ -19,7 +20,7 @@ int main(){ return 0; }"
 cpp17_fallthrough
 )
 
-foreach(t IN ITEMS fallthrough folding maybe_unused)
+foreach(t IN ITEMS fallthrough folding maybe_unused structured_bindings)
   if(cpp17_${t})
     add_executable(${t} ${t}.cpp)
     add_test(NAME ${t} COMMAND ${t})
