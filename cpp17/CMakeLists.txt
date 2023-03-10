@@ -41,6 +41,12 @@ foreach(t IN ITEMS fallthrough filesystem folding init_if_switch maybe_unused st
   endif()
 endforeach()
 
+if(TARGET filesystem)
+  target_link_libraries(filesystem PRIVATE
+  "$<$<CXX_COMPILER_ID:NVHPC>:stdc++fs;stdc++>"
+  )
+endif()
+
 
 if(cpp17_ctad)
   add_executable(random_string random_string.cpp)
