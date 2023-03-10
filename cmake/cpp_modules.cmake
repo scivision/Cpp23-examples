@@ -19,6 +19,7 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.25.2 AND
     message(CHECK_PASS "Yes")
   else()
     message(CHECK_FAIL "No")
+    return()
   endif()
 endif()
 
