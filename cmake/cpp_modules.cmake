@@ -2,7 +2,6 @@
 
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 if(NOT FEATURE_CXX20_MODULES)
-  message(VERBOSE "C++20 modules are not supported")
   return()
 endif()
 
