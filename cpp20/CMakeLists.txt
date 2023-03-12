@@ -13,8 +13,16 @@ check_source_compiles(CXX
 int main(){ return 0; }"
 cpp20_likely
 )
+check_source_compiles(CXX
+"#include <algorithm>
+int main(){
+    std::ranges::find({4, 3}, 3);
+    return 0;
+}"
+cpp20_ranges_find
+)
 
-foreach(t IN ITEMS coroutine likely numbers)
+foreach(t IN ITEMS coroutine likely numbers ranges_find)
   if(cpp20_${t})
     add_executable(${t} ${t}.cpp)
     add_test(NAME ${t} COMMAND ${t})
