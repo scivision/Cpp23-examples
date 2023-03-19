@@ -46,5 +46,6 @@ endforeach()
 if(TARGET filesystem)
   target_link_libraries(filesystem PRIVATE
   "$<$<CXX_COMPILER_ID:NVHPC>:stdc++fs;stdc++>"
+  "$<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.1.0>>:stdc++fs;stdc++>"
   )
 endif()
