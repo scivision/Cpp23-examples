@@ -1,18 +1,19 @@
+#include <iostream>
 #include <stdfloat>
 
 int main()
 {
 
 #ifdef __STDCPP_FLOAT16_T__
-  std::float16_t h = 0.;
+  std::float16_t h = 0.f16;
   std::cout << "float16_t is supported" << std::endl;
 #endif
 #ifdef __STDCPP_BFLOAT16_T__
-  std::bfloat16_t b = 0.;
+  std::bfloat16_t b = 0.bf16;
   std::cout << "bfloat16_t is supported" << std::endl;
 #endif
 #ifdef __STDCPP_FLOAT32_T__
-  std::float32_t f = 0.;
+  std::float32_t f = 0.f32;
   std::cout << "float32_t is supported" << std::endl;
 #endif
 #ifdef __STDCPP_FLOAT64_T__
