@@ -3,6 +3,7 @@
 #include <exception>
 #include <iostream>
 #include <cstdlib>
+#include <cstdint>
 
 template<typename T>
 struct Generator {
