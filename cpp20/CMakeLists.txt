@@ -13,10 +13,14 @@ check_source_compiles(CXX
 int main(){ return 0; }"
 cpp20_likely
 )
+
 check_source_compiles(CXX
 "#include <algorithm>
 int main(){
-    std::ranges::find({4, 3}, 3);
+    const int n = 3;
+    const auto v = {4, 1, 3, 2};
+
+    std::ranges::find(v, n);
     return 0;
 }"
 cpp20_ranges_find
