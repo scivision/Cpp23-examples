@@ -12,10 +12,10 @@ int main(){ return 0; }"
 cpp23_assume
 )
 
-check_cxx_symbol_exists(__cpp_lib_print print cpp23_print)
-check_cxx_symbol_exists(__cpp_lib_expected expected cpp23_expected)
+check_cxx_symbol_exists(__cpp_lib_print "version" cpp23_print)
+check_cxx_symbol_exists(__cpp_lib_expected "version" cpp23_expected)
 check_include_file_cxx(stdfloat cpp23_stdfloat)
-check_cxx_symbol_exists(__cpp_lib_unreachable utility cpp23_unreachable)
+check_cxx_symbol_exists(__cpp_lib_unreachable "version" cpp23_unreachable)
 
 foreach(t IN ITEMS assume expected print stdfloat)
   if(cpp23_${t})

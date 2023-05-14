@@ -5,10 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
-
-#if __has_include(<format>)
 #include <format>
-#endif
 
 enum class Status
 {
@@ -60,11 +57,7 @@ int main()
    }
    else
    {
-#ifdef __cpp_lib_format
       std::cout << std::format("Error code: {}", (int)result.error()) << std::endl;
-#else
-      std::cout << "Error code: " << (int)result.error() << std::endl;
-#endif
    }
 
    return EXIT_SUCCESS;
