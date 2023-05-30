@@ -7,6 +7,7 @@ if(MSVC)
   string(APPEND CMAKE_REQUIRED_FLAGS " /WX")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|^Intel")
   string(APPEND CMAKE_REQUIRED_FLAGS " -Werror")
+  add_compile_options(-Wall -Wextra)
 endif()
 
 add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
