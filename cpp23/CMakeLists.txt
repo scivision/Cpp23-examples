@@ -12,6 +12,7 @@ int main(){ return 0; }"
 cpp23_assume
 )
 
+# https://en.cppreference.com/w/cpp/header/version
 check_cxx_symbol_exists(__cpp_lib_print "version" cpp23_print)
 check_cxx_symbol_exists(__cpp_lib_expected "version" cpp23_expected)
 check_include_file_cxx(stdfloat cpp23_stdfloat)
