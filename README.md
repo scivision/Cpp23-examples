@@ -4,8 +4,10 @@
 
 Examples of using CMake with C++23 and C++20 standard syntax, for testing of compilers and build systems.
 
+Related projects:
+
 * [C23 examples](https://github.com/scivision/C23-examples)
-* [C++17 filesystem](https://github.com/scivision/fortran-filesystem)
+* [C++17 filesystem application](https://github.com/scivision/fortran-filesystem)
 
 ## C++20 modules
 
