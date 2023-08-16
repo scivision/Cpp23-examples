@@ -10,6 +10,9 @@ foreach(t IN LISTS names)
   add_test(NAME ${t} COMMAND ${t})
 endforeach()
 
+if(cppcheck)
+set_property(TARGET current_exception PROPERTY CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK};--suppress=containerOutOfBounds")
+endif()
 
 if(TEST GetLastError)
   set_property(TEST GetLastError PROPERTY WILL_FAIL true)

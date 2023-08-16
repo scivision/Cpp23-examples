@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 void g(int){};
-void h(){};
+void h(void){};
 
 void f(int& x, int y)
 {

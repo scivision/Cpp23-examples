@@ -25,6 +25,16 @@ foreach(t IN ITEMS assume expected print stdfloat)
   endif()
 endforeach()
 
+if(cpp23_assume AND cppcheck)
+  set_property(TARGET assume PROPERTY CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK};--suppress=redundantInitialization")
+endif()
+if(cpp23_stdfloat)
+  if(cppcheck)
+  set_property(TARGET stdfloat PROPERTY CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK};--suppress=unreadVariable")
+  endif()
+  target_compile_options(stdfloat PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wno-unused-variable>)
+endif()
+
 
 if(cpp23_unreachable)
   add_executable(unreachable unreachable.cpp)
