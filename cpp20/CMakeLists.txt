@@ -9,6 +9,8 @@ check_cxx_symbol_exists(__cpp_lib_coroutine "version" cpp20_coroutine)
 check_cxx_symbol_exists(__cpp_lib_math_constants "version" cpp20_numbers)
 check_cxx_symbol_exists(__cpp_lib_source_location "version" cpp20_source_location)
 check_cxx_symbol_exists(__cpp_lib_smart_ptr_for_overwrite "version" cpp20_smart_ptr_for_overwrite)
+check_cxx_symbol_exists(__cpp_lib_int_pow2 "version" cpp20_bit_width)
+
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(likely)
 #error \"no likely attribute\"
@@ -29,7 +31,7 @@ int main(){
 cpp20_ranges_find
 )
 
-foreach(t IN ITEMS likely numbers ranges_find source_location smart_ptr_for_overwrite)
+foreach(t IN ITEMS bit_width likely numbers ranges_find source_location smart_ptr_for_overwrite)
   if(cpp20_${t})
     add_executable(${t} ${t}.cpp)
     add_test(NAME ${t} COMMAND ${t})
