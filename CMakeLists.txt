@@ -10,11 +10,20 @@ project(Cpp23examples LANGUAGES CXX)
 
 enable_testing()
 
+option(cppcheck "run cppcheck")
 option(tidy "Run clang-tidy")
 
 message(STATUS "CMake ${CMAKE_VERSION}")
 
 set(CMAKE_CXX_STANDARD 23)
+
+# CPPcheck
+if(cppcheck)
+  find_program(cppcheck_exe NAMES cppcheck REQUIRED)
+  set(cppcheck_opts --enable=all --inline-suppr --quiet --suppressions-list=${PROJECT_SOURCE_DIR}/cppcheck.supp)
+  set(CMAKE_C_CPPCHECK ${cppcheck_exe} --std=c11 ${cppcheck_opts})
+  set(CMAKE_CXX_CPPCHECK ${cppcheck_exe} --std=c++20 ${cppcheck_opts})
+endif()
 
 if(tidy)
   find_program(CLANG_TIDY
