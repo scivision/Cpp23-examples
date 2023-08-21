@@ -9,7 +9,12 @@ check_cxx_symbol_exists(__cpp_lib_coroutine "version" cpp20_coroutine)
 check_cxx_symbol_exists(__cpp_lib_math_constants "version" cpp20_numbers)
 check_cxx_symbol_exists(__cpp_lib_source_location "version" cpp20_source_location)
 check_cxx_symbol_exists(__cpp_lib_smart_ptr_for_overwrite "version" cpp20_smart_ptr_for_overwrite)
-check_cxx_symbol_exists(__cpp_lib_int_pow2 "version" cpp20_bit_width)
+
+check_cxx_symbol_exists(__cpp_lib_int_pow2 "version" cpp20_int_pow2)
+if(cpp20_int_pow2)
+  file(READ ${CMAKE_CURRENT_SOURCE_DIR}/bit_width.cpp _src)
+  check_source_compiles(CXX "${_src}" cpp20_bit_width)
+endif()
 
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(likely)
