@@ -5,7 +5,11 @@ if(HAVE_MODULES)
 endif()
 
 # https://en.cppreference.com/w/cpp/header/version
-check_cxx_symbol_exists(__cpp_lib_coroutine "version" cpp20_coroutine)
+check_cxx_symbol_exists(__cpp_impl_coroutine "version" cpp_impl_coroutine)
+if(cpp_impl_coroutine)
+  check_cxx_symbol_exists(__cpp_lib_coroutine "version" cpp20_coroutine)
+endif()
+
 check_cxx_symbol_exists(__cpp_lib_math_constants "version" cpp20_numbers)
 check_cxx_symbol_exists(__cpp_lib_source_location "version" cpp20_source_location)
 check_cxx_symbol_exists(__cpp_lib_smart_ptr_for_overwrite "version" cpp20_smart_ptr_for_overwrite)

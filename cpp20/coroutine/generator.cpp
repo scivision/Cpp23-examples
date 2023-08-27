@@ -104,20 +104,29 @@ fibonacci_sequence(unsigned n)
 
 int main()
 {
+  uint64_t last = 0;
   try {
     auto gen = fibonacci_sequence(10); //max 94 before uint64_t overflows
 
-    for (int j=0;gen;j++)
-      std::cout << "fib("<<j <<")=" << gen() << '\n';
-
+    for (int j=0;gen;j++){
+      last = gen();
+      std::cout << "fib("<<j <<"): " << last << '\n';
+    }
   }
   catch (const std::exception& ex)
   {
     std::cerr << "Exception: " << ex.what() << '\n';
+    return EXIT_FAILURE;
   }
   catch (...)
   {
     std::cerr << "Unknown exception.\n";
+    return EXIT_FAILURE;
+  }
+
+  if(last != 34){
+    std::cerr << "expected fib(9) == 34, got " << last << '\n';
+    return EXIT_FAILURE;
   }
 
   return EXIT_SUCCESS;
