@@ -9,6 +9,10 @@ on:
       - "**/CMakeLists.txt"
       - ".github/workflows/cmake.yml"
 
+env:
+  CTEST_NO_TESTS_ACTION: error
+
+
 jobs:
 
   linux:
@@ -20,10 +24,10 @@ jobs:
         v: [9, 10, 11, 12]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - name: Install Ninja for C++ modules
-      run: sudo apt-get install ninja-build
+    # - name: Install Ninja for C++ modules
+    #   run: sudo apt-get install ninja-build
 
     - run: cmake --workflow --preset default
       env:
@@ -43,10 +47,10 @@ jobs:
         c: [{cc: gcc-12, cxx: g++-12}, {cc: clang, cxx: clang++}]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - name: Install Ninja for C++ modules
-      run: brew install ninja
+    # - name: Install Ninja for C++ modules
+    #   run: brew install ninja
 
     - run: cmake --workflow --preset default
       env:
@@ -58,6 +62,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - run: cmake --workflow --preset msvc

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20...3.27)
+cmake_minimum_required(VERSION 3.20...3.28)
 # CMake 3.20 is oldest version supporting C++23
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
