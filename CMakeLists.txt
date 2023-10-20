@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.20...3.28)
-# CMake 3.20 is oldest version supporting C++23
+# CMake 3.20 for C++23
+# CMake 3.25 for C++26
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
   message(FATAL_ERROR "Please use out of source build:
@@ -42,5 +43,6 @@ add_subdirectory(cpp14)
 add_subdirectory(cpp17)
 add_subdirectory(cpp20)
 add_subdirectory(cpp23)
+add_subdirectory(cpp26)
 
 file(GENERATE OUTPUT .gitignore CONTENT "*")
