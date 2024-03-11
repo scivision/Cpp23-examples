@@ -10,7 +10,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|^Intel")
   add_compile_options(-Wall -Wextra)
 endif()
 
-add_compile_definitions($<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
+add_compile_definitions($<$<BOOL:${WIN32}>:_CRT_SECURE_NO_WARNINGS>)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:/experimental:module;/std:c++latest;/EHsc>")
