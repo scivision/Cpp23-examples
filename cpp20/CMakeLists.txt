@@ -5,6 +5,9 @@ if(HAVE_MODULES)
 endif()
 
 # https://en.cppreference.com/w/cpp/header/version
+
+check_cxx_symbol_exists(__cpp_lib_format "version" cpp20_format)
+
 check_cxx_symbol_exists(__cpp_impl_coroutine "version" cpp_impl_coroutine)
 if(cpp_impl_coroutine)
   check_cxx_symbol_exists(__cpp_lib_coroutine "version" cpp20_coroutine)
@@ -16,7 +19,7 @@ check_cxx_symbol_exists(__cpp_lib_smart_ptr_for_overwrite "version" cpp20_smart_
 
 check_cxx_symbol_exists(__cpp_lib_int_pow2 "version" cpp20_int_pow2)
 if(cpp20_int_pow2)
-  file(READ ${CMAKE_CURRENT_SOURCE_DIR}/bit_width.cpp _src)
+  file(READ bit_width.cpp _src)
   check_source_compiles(CXX "${_src}" cpp20_bit_width)
 endif()
 
