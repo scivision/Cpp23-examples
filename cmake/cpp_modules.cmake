@@ -2,9 +2,14 @@
 # https://cmake.org/cmake/help/latest/manual/cmake-cxxmodules.7.html
 
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
-if(NOT FEATURE_CXX20_MODULES)
+
+if(NOT FEATURE_CXX20_MODULES AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+# even Clang 19 didn't yet have __cpp_modules
   return()
 endif()
+
+check_cxx_symbol_exists(__cpp_lib_modules "version" HAVE_STD_MODULES)
+
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.28 AND
    CMAKE_GENERATOR MATCHES "Ninja" AND
@@ -18,26 +23,4 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.28 AND
     message(CHECK_FAIL "No")
     return()
   endif()
-endif()
-
-
-check_source_compiles(CXX
-[=[
-import <iostream>;
-int main(){ std::cout << "hello" << std::endl; return 0; }
-]=]
-HAVE_STDLIB_MODULE
-)
-
-if(MSVC)
-check_source_compiles(CXX
-[=[
-import std.core;
-int main(){
-  std::cout << "hello" << std::endl;
-  return 0;
-}
-]=]
-HAVE_MSVC_STDLIB_MODULE
-)
 endif()

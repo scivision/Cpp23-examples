@@ -3,9 +3,11 @@ cmake_minimum_required(VERSION 3.28)
 
 project(CXXModules LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 20)
+endif()
 
-if(HAVE_MSVC_STDLIB_MODULE)
+if(HAVE_STD_MODULES)
   add_executable(msvc_core msvc_core.cpp)
   add_test(NAME msvc_core COMMAND msvc_core)
 endif()
