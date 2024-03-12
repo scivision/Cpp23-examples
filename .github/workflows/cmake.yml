@@ -23,16 +23,19 @@ jobs:
       matrix:
         v: [9, 10, 11, 12, 13]
 
+    env:
+      CC: gcc-${{ matrix.v }}
+      CXX: g++-${{ matrix.v }}
+
     steps:
     - uses: actions/checkout@v4
 
     - name: Install Ninja for C++ modules
       run: sudo apt-get install ninja-build
 
-    - run: cmake --workflow --preset default
-      env:
-        CC: gcc-${{ matrix.v }}
-        CXX: g++-${{ matrix.v }}
+    - run: cmake --workflow --preset debug
+
+    - run: cmake --workflow --preset release
 
 
   mac:

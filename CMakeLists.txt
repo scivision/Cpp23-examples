@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20...3.28)
+cmake_minimum_required(VERSION 3.25...3.29)
 # CMake 3.20 for C++23
 # CMake 3.25 for C++26
 
@@ -16,7 +16,7 @@ option(tidy "Run clang-tidy")
 
 message(STATUS "CMake ${CMAKE_VERSION}")
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 26)
 
 # CPPcheck
 if(cppcheck)

@@ -10,10 +10,7 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.28 AND
    NOT DEFINED HAVE_MODULES)
   message(CHECK_START "Checking if C++ modules are working")
 
-  try_compile(HAVE_MODULES
-  PROJECT CXXMOD
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cpp20/module
-  )
+  try_compile(HAVE_MODULES PROJECT cxxmod SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cpp20/module)
   if(HAVE_MODULES)
     message(CHECK_PASS "Yes")
   else()
