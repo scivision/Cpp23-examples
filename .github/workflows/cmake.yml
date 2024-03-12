@@ -11,6 +11,7 @@ on:
 
 env:
   CTEST_NO_TESTS_ACTION: error
+  CTEST_PARALLEL_LEVEL: 4
 
 
 jobs:
@@ -24,7 +25,6 @@ jobs:
         v: [9, 10, 11, 12, 13]
 
     env:
-      CC: gcc-${{ matrix.v }}
       CXX: g++-${{ matrix.v }}
 
     steps:
@@ -44,12 +44,11 @@ jobs:
 
     env:
       HOMEBREW_NO_AUTO_CLEANUP: 1
-      CC: ${{ matrix.c.cc }}
-      CXX: ${{ matrix.c.cxx }}
+      CXX: ${{ matrix.cxx }}
 
     strategy:
       matrix:
-        c: [{cc: gcc-13, cxx: g++-13}, {cc: clang, cxx: clang++}]
+        cxx: [g++-13, clang++]
 
     steps:
     - uses: actions/checkout@v4
