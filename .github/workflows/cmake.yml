@@ -26,8 +26,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Install Ninja for C++ modules
-    #   run: sudo apt-get install ninja-build
+    - name: Install Ninja for C++ modules
+      run: sudo apt-get install ninja-build
 
     - run: cmake --workflow --preset default
       env:
@@ -36,11 +36,13 @@ jobs:
 
 
   mac:
-    runs-on: macos-latest
+    runs-on: macos-14
     timeout-minutes: 5
 
     env:
       HOMEBREW_NO_AUTO_CLEANUP: 1
+      CC: ${{ matrix.c.cc }}
+      CXX: ${{ matrix.c.cxx }}
 
     strategy:
       matrix:
@@ -49,13 +51,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Install Ninja for C++ modules
-    #   run: brew install ninja
+    - name: Install Ninja for C++ modules
+      run: brew install ninja
 
-    - run: cmake --workflow --preset default
-      env:
-        CC: ${{ matrix.c.cc }}
-        CXX: ${{ matrix.c.cxx }}
+    - run: sudo xcode-select --switch /Applications/Xcode_15.1.app
+    # https://docs.brew.sh/Xcode
+    # https://github.com/Homebrew/brew/blob/HEAD/Library/Homebrew/os/mac/xcode.rb#L20
+
+    - run: cmake --workflow --preset debug
+
+    - run: cmake --workflow --preset release
+
 
 
   windows-msvc:
