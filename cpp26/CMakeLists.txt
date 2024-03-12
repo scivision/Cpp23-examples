@@ -11,3 +11,7 @@ foreach(t IN ITEMS adl_projected fstream)
     add_test(NAME ${t} COMMAND ${t})
   endif()
 endforeach()
+
+if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(adl_projected PRIVATE -Wno-unused-variable)
+endif()
