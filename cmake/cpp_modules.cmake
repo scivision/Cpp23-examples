@@ -1,4 +1,5 @@
 # https://www.kitware.com/import-cmake-c20-modules/
+# https://cmake.org/cmake/help/latest/manual/cmake-cxxmodules.7.html
 
 check_cxx_symbol_exists(__cpp_modules "" FEATURE_CXX20_MODULES)
 if(NOT FEATURE_CXX20_MODULES)

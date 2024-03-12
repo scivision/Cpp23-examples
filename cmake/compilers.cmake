@@ -15,17 +15,15 @@ add_compile_definitions($<$<BOOL:${WIN32}>:_CRT_SECURE_NO_WARNINGS>)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:/experimental:module;/std:c++latest;/EHsc>")
   string(APPEND CMAKE_REQUIRED_FLAGS " /experimental:module /std:c++latest /EHsc")
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 11)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14.1)
   add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules-ts>")
   string(APPEND CMAKE_REQUIRED_FLAGS " -fmodules-ts")
   # -x c++-system-header not work
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16)
   add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:-fmodules>")
   string(APPEND CMAKE_REQUIRED_FLAGS " -fmodules")
 endif()
 
 message(VERBOSE "CMAKE_REQUIRED_FLAGS: ${CMAKE_REQUIRED_FLAGS}")
-
-# https://en.cppreference.com/w/cpp/feature_test
 
 include(${CMAKE_CURRENT_LIST_DIR}/cpp_modules.cmake)
