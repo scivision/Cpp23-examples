@@ -35,13 +35,28 @@ check_source_compiles(CXX
 cpp17_init_if_switch
 )
 
-foreach(t IN ITEMS deduction_guides fallthrough filesystem folding
+check_include_file_cxx(execution cpp17_execution_policy)
+if(cpp17_execution_policy)
+  check_source_compiles(CXX
+  "#include <execution>
+  int main() { std::execution::par; return 0;}"
+  cpp17_execution_policy_parallel
+  )
+endif()
+
+
+foreach(t IN ITEMS deduction_guides execution_policy
+          fallthrough filesystem folding
           init_if_switch maybe_unused sample structured_bindings)
   if(cpp17_${t})
     add_executable(${t} ${t}.cpp)
     add_test(NAME ${t} COMMAND ${t})
   endif()
 endforeach()
+
+if(cpp17_execution_policy)
+target_compile_definitions(execution_policy PRIVATE $<$<BOOL:${cpp17_execution_policy_parallel}>:PARALLEL>)
+endif()
 
 if(TARGET filesystem)
   target_link_libraries(filesystem PRIVATE
