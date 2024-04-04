@@ -20,11 +20,12 @@ const char *const tag,
 const std::vector<std::uint32_t>& sorted,
 std::chrono::steady_clock::time_point tic,
 std::chrono::steady_clock::time_point toc
-) {
+)
+{
+  const auto tdur = std::chrono::duration_cast<std::chrono::duration<double>>(toc - tic).count();
+
   std::cout << tag << " " << sorted.front() <<
-    ".." << sorted.back() << " Time: " <<
-         std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(
-            toc - tic) << "\n";
+    ".." << sorted.back() << " Time: " << tdur << " ms\n";
 }
 
 int main() {
