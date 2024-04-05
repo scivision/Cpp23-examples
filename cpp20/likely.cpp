@@ -70,12 +70,12 @@ int main() {
     }
 
     auto benchmark = [](auto fun, auto rem) {
-        const auto start = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::steady_clock::now();
         for (auto size{1ULL}; size != 1'000'000ULL; ++size) {
             sink = fun(gen_random());
         }
         const std::chrono::duration<double> diff =
-            std::chrono::high_resolution_clock::now() - start;
+            std::chrono::steady_clock::now() - start;
         std::cout << "Time: " << std::fixed << std::setprecision(6) << diff.count()
                   << " sec " << rem << std::endl;
     };
