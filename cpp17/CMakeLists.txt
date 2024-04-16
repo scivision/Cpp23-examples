@@ -1,5 +1,9 @@
 set_property(DIRECTORY PROPERTY LABELS 17)
 
+# GCC >= 7
+check_cxx_symbol_exists(__has_include "" cpp17_has_include)
+check_cxx_symbol_exists(__has_cpp_attribute "" cpp17_has_cpp_attribute)
+
 check_cxx_symbol_exists(__cpp_fold_expressions "" cpp17_folding)
 check_cxx_symbol_exists(__cpp_deduction_guides "" cpp17_deduction_guides)
 check_cxx_symbol_exists(__cpp_lib_sample "algorithm" cpp17_sample)
@@ -8,6 +12,8 @@ check_cxx_symbol_exists(__cpp_structured_bindings "" cpp17_structured_bindings)
 # NOTE: this is not a complete c++17 filesystem check. See:
 # https://github.com/scivision/fortran-filesystem/blob/main/cmake/CppCheck.cmake
 check_cxx_symbol_exists(__cpp_lib_filesystem "filesystem" cpp17_filesystem)
+
+if(cpp17_has_cpp_attribute)
 
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(maybe_unused)
@@ -24,6 +30,8 @@ check_source_compiles(CXX
 int main(){ return 0; }"
 cpp17_fallthrough
 )
+
+endif()
 
 check_source_compiles(CXX
 "int main() {
