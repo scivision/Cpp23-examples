@@ -1,6 +1,6 @@
 set_property(DIRECTORY PROPERTY LABELS 17)
 
-# GCC >= 7
+# GCC >= 5 added __has_include, __has_cpp_attribute
 check_cxx_symbol_exists(__has_include "" cpp17_has_include)
 check_cxx_symbol_exists(__has_cpp_attribute "" cpp17_has_cpp_attribute)
 
