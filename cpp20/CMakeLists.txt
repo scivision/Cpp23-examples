@@ -1,9 +1,5 @@
 set_property(DIRECTORY PROPERTY LABELS 20)
 
-if(HAVE_MODULES)
-  add_subdirectory(module)
-endif()
-
 # https://en.cppreference.com/w/cpp/header/version
 
 check_cxx_symbol_exists(__cpp_lib_format "version" cpp20_format)

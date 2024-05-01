@@ -8,19 +8,7 @@ Related projects:
 
 * [C23 examples](https://github.com/scivision/C23-examples)
 * [C++17 filesystem application](https://github.com/scivision/fortran-filesystem)
-
-## C++20 modules
-
-C++20 modules require recent C++ compilers such as:
-
-* Visual Studio &ge; [16.8](https://devblogs.microsoft.com/cppblog/standard-c20-modules-support-with-msvc-in-visual-studio-2019-version-16-8/)
-* GCC or Clang (need added options at this time)
-
-CMake &ge; 3.26 is strongly recommended for support of C++20 modules.
-
-A fully working
-[ball pit simulation](https://github.com/cdacamar/ball_pit)
-shows more advanced use of C++20 modules.
+* [C++ modules](https://github.com/scivision/CppModules)
 
 ## References
 
