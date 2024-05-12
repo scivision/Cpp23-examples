@@ -6,10 +6,6 @@
 #include <algorithm>
 #include <cstdlib>
 
-#if __has_include(<format>)
-#include <format>
-#endif
-
 enum class Status
 {
    Ok,
@@ -55,17 +51,9 @@ int main()
 {
    auto result = ReadData();
    if (result)
-   {
-      std::ranges::for_each(result.value(), print_value);
-   }
+     std::ranges::for_each(result.value(), print_value);
    else
-   {
-#ifdef __cpp_lib_format
-      std::cout << std::format("Error code: {}", (int)result.error()) << std::endl;
-#else
-      std::cout << "Error code: " << (int)result.error() << std::endl;
-#endif
-   }
+     std::cout << "Error code: " << (int)result.error() << std::endl;
 
    return EXIT_SUCCESS;
 }

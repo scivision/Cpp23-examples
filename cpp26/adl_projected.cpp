@@ -1,10 +1,11 @@
 // https://en.cppreference.com/w/cpp/iterator/projected
 #include <algorithm>
-#include <cassert>
+
 #include <functional>
 #include <iterator>
 
 #include <cstdlib>
+#include <iostream>
 
 template<class T>
 struct Holder
@@ -22,9 +23,20 @@ static_assert(std::sortable<P*>); // Error before C++26
 
 int main()
 {
-    P a[10] = {}; // ten null pointers
-    assert(std::count(a, a + 10, nullptr) == 10); // OK
-    assert(std::ranges::count(a, a + 10, nullptr) == 10); // Error before C++26
 
-    return EXIT_SUCCESS;
+P a[10] = {}; // ten null pointers
+
+if(auto c = std::count(a, a + 10, nullptr); c != 10){
+  std::cerr << "Expected 10 nullptrs but got " << c << "\n";
+  return EXIT_FAILURE;
+}
+
+if(auto c = std::ranges::count(a, a + 10, nullptr); c != 10){
+  // Error before C++26
+  std::cerr << "Expected 10 nullptrs but got " << c << "\n";
+  return EXIT_FAILURE;
+}
+
+std::cout << "OK: ADL projected\n";
+return EXIT_SUCCESS;
 }

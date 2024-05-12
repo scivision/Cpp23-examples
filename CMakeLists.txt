@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.25...3.29)
-# CMake 3.20 for C++23
-# CMake 3.25 for C++26
+cmake_minimum_required(VERSION 3.25...3.30)
+# CMake 3.25 for try_run() new syntax
+# CMake 3.30+ for C++26
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
   message(FATAL_ERROR "Please use out of source build:
@@ -11,12 +11,16 @@ project(Cpp23examples LANGUAGES CXX)
 
 enable_testing()
 
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
+# This project isn't using C++ modules; avoid bugs in module scanning CMake 3.28, 3.29 with GCC >= 14.
+
 option(cppcheck "run cppcheck")
 option(tidy "Run clang-tidy")
 
 message(STATUS "CMake ${CMAKE_VERSION}")
 
-set(CMAKE_CXX_STANDARD 26)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)  causes configure errors if not known for the compiler
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # CPPcheck
 if(cppcheck)
@@ -43,6 +47,11 @@ add_subdirectory(cpp14)
 add_subdirectory(cpp17)
 add_subdirectory(cpp20)
 add_subdirectory(cpp23)
-add_subdirectory(cpp26)
+
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29.20240419)
+  add_subdirectory(cpp26)
+else()
+  message(STATUS "CMake version ${CMAKE_VERSION} < 3.30: too old for C++26")
+endif()
 
 file(GENERATE OUTPUT .gitignore CONTENT "*")

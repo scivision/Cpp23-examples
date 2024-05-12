@@ -1,19 +1,20 @@
 set_property(DIRECTORY PROPERTY LABELS 17)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # GCC >= 5 added __has_include, __has_cpp_attribute
 check_cxx_symbol_exists(__has_include "" cpp17_has_include)
-check_cxx_symbol_exists(__has_cpp_attribute "" cpp17_has_cpp_attribute)
+check_cxx_symbol_exists(__has_cpp_attribute "" has_cpp_attribute)
 
 check_cxx_symbol_exists(__cpp_fold_expressions "" cpp17_folding)
 check_cxx_symbol_exists(__cpp_deduction_guides "" cpp17_deduction_guides)
 check_cxx_symbol_exists(__cpp_lib_sample "algorithm" cpp17_sample)
-check_cxx_symbol_exists(__cpp_structured_bindings "" cpp17_structured_bindings)
 
 # NOTE: this is not a complete c++17 filesystem check. See:
 # https://github.com/scivision/fortran-filesystem/blob/main/cmake/CppCheck.cmake
 check_cxx_symbol_exists(__cpp_lib_filesystem "filesystem" cpp17_filesystem)
 
-if(cpp17_has_cpp_attribute)
+if(has_cpp_attribute)
 
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(maybe_unused)
@@ -43,32 +44,28 @@ check_source_compiles(CXX
 cpp17_init_if_switch
 )
 
-check_include_file_cxx(execution cpp17_execution_policy)
-if(cpp17_execution_policy)
-  check_source_compiles(CXX
-  "#include <execution>
-  int main() { std::execution::par; return 0;}"
-  cpp17_execution_policy_parallel
-  )
-endif()
+set(f17 deduction_guides fallthrough filesystem folding
+init_if_switch maybe_unused sample
+)
 
-
-foreach(t IN ITEMS deduction_guides execution_policy
-          fallthrough filesystem folding
-          init_if_switch maybe_unused sample structured_bindings)
+foreach(t IN LISTS f17)
   if(cpp17_${t})
     add_executable(${t} ${t}.cpp)
+
     add_test(NAME ${t} COMMAND ${t})
   endif()
 endforeach()
 
-if(cpp17_execution_policy)
-target_compile_definitions(execution_policy PRIVATE $<$<BOOL:${cpp17_execution_policy_parallel}>:PARALLEL>)
+if(TARGET filesystem)
+  if( (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "9.1.0") OR
+    (LINUX AND CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "23") OR
+    (CMAKE_CXX_COMPILER_ID STREQUAL "NVHPC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "23.11") )
+    target_link_libraries(filesystem PRIVATE stdc++fs stdc++)
+  endif()
 endif()
 
-if(TARGET filesystem)
-  target_link_libraries(filesystem PRIVATE
-  "$<$<CXX_COMPILER_ID:NVHPC>:stdc++fs;stdc++>"
-  "$<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.1.0>>:stdc++fs;stdc++>"
-  )
-endif()
+# --- count features enabled
+get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
+list(LENGTH f17 Nf)
+list(LENGTH t Ne)
+message(STATUS "C++17 features: ${Ne} / ${Nf}")

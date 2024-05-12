@@ -1,8 +1,8 @@
 set_property(DIRECTORY PROPERTY LABELS "coroutine")
 
-foreach(t IN ITEMS coroutine_handle handle co_return generator promise return yield
-    )
+foreach(t IN LISTS fcoroutine)
   add_executable(coroutine_${t} ${t}.cpp)
+
   add_test(NAME coroutine_${t} COMMAND coroutine_${t})
 endforeach()
 

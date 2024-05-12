@@ -2,14 +2,14 @@
 
 #include <cstddef>
 #include <iostream>
-#include <algorithm> // std::sort
+#include <algorithm> // std::sort, std::ranges::generate
 #include <chrono>
 #include <random>
 #include <ratio>
 #include <vector>
 #include <cstdlib>
 
-#include <execution>
+#include <execution> // std::execution
 
 
 constexpr size_t N = 1'000'000;
