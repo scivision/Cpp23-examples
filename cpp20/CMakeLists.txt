@@ -29,6 +29,7 @@ if(have_jthread AND have_syncstream AND have_ssize)
 endif()
 
 set(have_stop_callback ${have_jthread})
+set(have_stop_source ${have_jthread})
 
 if(has_cpp_attribute)
 
@@ -71,7 +72,8 @@ hardware_interference_size
 format jthread latch
 likely math_constants ranges_find
 source_location smart_ptr_for_overwrite
-stop_callback structured_bindings
+stop_callback stop_source
+structured_bindings
 )
 
 foreach(t IN LISTS f20)
