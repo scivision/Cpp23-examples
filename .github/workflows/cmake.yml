@@ -11,18 +11,20 @@ on:
 
 env:
   CTEST_NO_TESTS_ACTION: error
-  CTEST_PARALLEL_LEVEL: 4
+  CTEST_PARALLEL_LEVEL: 0
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+  HOMEBREW_NO_AUTO_UPDATE: 1
 
 
 jobs:
 
-  linux:
-    runs-on: ubuntu-latest
+  gcc-new:
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
 
     strategy:
       matrix:
-        v: [9, 10, 11, 12, 13]
+        v: [12, 13, 14]
 
     env:
       CXX: g++-${{ matrix.v }}
@@ -30,7 +32,29 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Ninja for C++ modules
+    - name: Install Ninja
+      run: sudo apt-get install ninja-build
+
+    - run: cmake --workflow --preset debug
+
+    - run: cmake --workflow --preset release
+
+
+  gcc-old:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+
+    strategy:
+      matrix:
+        v: [9, 10, 11]
+
+    env:
+      CXX: g++-${{ matrix.v }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Ninja
       run: sudo apt-get install ninja-build
 
     - run: cmake --workflow --preset debug
@@ -53,12 +77,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Ninja for C++ modules
+    - name: Install Ninja
       run: brew install ninja
-
-    - run: sudo xcode-select --switch /Applications/Xcode_15.1.app
-    # https://docs.brew.sh/Xcode
-    # https://github.com/Homebrew/brew/blob/HEAD/Library/Homebrew/os/mac/xcode.rb#L20
 
     - run: cmake --workflow --preset debug
 
