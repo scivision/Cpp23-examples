@@ -6,6 +6,12 @@
 #include <vector>
 #include <cstdlib>
 
+#ifdef _MSC_VER
+#include <array>
+#endif
+// MSVC workaround https://stackoverflow.com/a/77485053
+
+
 int main()
 {
     std::vector v{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -18,7 +24,12 @@ int main()
     // Write data using 2D view
     for (std::size_t i = 0; i != ms2.extent(0); i++)
         for (std::size_t j = 0; j != ms2.extent(1); j++)
-            ms2[i, j] = i * 1000 + j;
+#ifdef _MSC_VER
+            ms2[std::array{i, j}]
+#else
+            ms2[i, j]
+#endif
+            = i * 1000 + j;
 
     // Read back using 3D view
     for (std::size_t i = 0; i != ms3.extent(0); i++)
@@ -27,7 +38,14 @@ int main()
         for (std::size_t j = 0; j != ms3.extent(1); j++)
         {
             for (std::size_t k = 0; k != ms3.extent(2); k++)
-                std::print("{} ", ms3[i, j, k]);
+
+                std::print("{} ", ms3[
+#ifdef _MSC_VER
+                std::array{i, j, k}
+#else
+                i, j, k
+#endif
+                ]);
             std::println("");
         }
     }
