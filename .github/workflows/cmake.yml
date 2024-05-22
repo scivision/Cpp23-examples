@@ -61,6 +61,27 @@ jobs:
 
     - run: cmake --workflow --preset release
 
+  clang:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    strategy:
+      matrix:
+        v: [18]
+
+    env:
+      CXX: clang++-${{ matrix.v }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Ninja
+      run: sudo apt-get install ninja-build
+
+    - run: cmake --workflow --preset debug
+
+    - run: cmake --workflow --preset release
+
 
   mac:
     runs-on: macos-14
