@@ -75,10 +75,14 @@ jobs:
         cxx: [g++-13, clang++]
 
     steps:
-    - uses: actions/checkout@v4
-
     - name: Install Ninja
       run: brew install ninja
+
+    - run: sudo xcode-select --switch /Applications/Xcode_15.1.app
+    # https://docs.brew.sh/Xcode
+    # https://github.com/Homebrew/brew/blob/HEAD/Library/Homebrew/os/mac/xcode.rb#L20
+
+    - uses: actions/checkout@v4
 
     - run: cmake --workflow --preset debug
 
