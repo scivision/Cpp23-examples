@@ -1,3 +1,5 @@
+// https://en.cppreference.com/w/cpp/thread/latch
+
 #include <latch>
 
 #include <functional>
