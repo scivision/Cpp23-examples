@@ -19,7 +19,7 @@ if(have_jthread AND have_syncstream AND have_ssize)
   check_cxx_symbol_exists(__cpp_lib_barrier "version" have_barrier)
 endif()
 
-foreach(t IN ITEMS format int_pow2 math_constants
+foreach(t IN ITEMS format int_pow2 latch math_constants
   semaphore source_location smart_ptr_for_overwrite)
   check_cxx_symbol_exists(__cpp_lib_${t} "version" have_${t})
 endforeach()
@@ -65,7 +65,7 @@ endif()
 
 set(f20
 semaphore barrier
-bit_width execution_policy format
+bit_width execution_policy format latch
 likely math_constants ranges_find
 source_location smart_ptr_for_overwrite
 structured_bindings
