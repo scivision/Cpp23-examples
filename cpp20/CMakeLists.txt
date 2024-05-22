@@ -11,6 +11,14 @@ endif()
 
 check_cxx_symbol_exists(__cpp_structured_bindings "" have_structured_bindings)
 
+check_include_file_cxx(syncstream have_syncstream)
+check_cxx_symbol_exists(__cpp_lib_jthread "version" have_jthread)
+check_cxx_symbol_exists(__cpp_lib_ssize "version" have_ssize)
+# example requires jthread, syncstream, ssize
+if(have_jthread AND have_syncstream AND have_ssize)
+  check_cxx_symbol_exists(__cpp_lib_barrier "version" have_barrier)
+endif()
+
 foreach(t IN ITEMS format int_pow2 math_constants
   semaphore source_location smart_ptr_for_overwrite)
   check_cxx_symbol_exists(__cpp_lib_${t} "version" have_${t})
@@ -56,7 +64,7 @@ if(have_execution_policy)
 endif()
 
 set(f20
-semaphore
+semaphore barrier
 bit_width execution_policy format
 likely math_constants ranges_find
 source_location smart_ptr_for_overwrite
