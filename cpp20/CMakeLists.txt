@@ -58,11 +58,11 @@ have_ranges_find
 # C++17 execution policy with C++20 enhancements
 check_include_file_cxx(execution have_execution_policy)
 if(have_execution_policy)
-  check_source_compiles(CXX
-  "#include <execution>
-  int main() { std::execution::par; return 0;}"
-  execution_policy_parallel
-  )
+  file(READ execution_policy.cpp _src)
+  check_source_compiles(CXX "${_src}" execution_policy_parallel)
+  if(NOT execution_policy_parallel)
+    set_property(CACHE have_execution_policy PROPERTY VALUE false)
+  endif()
 endif()
 
 set(f20
@@ -83,10 +83,6 @@ foreach(t IN LISTS f20)
     add_test(NAME ${t} COMMAND ${t})
   endif()
 endforeach()
-
-if(TARGET execution_policy)
-  target_compile_definitions(execution_policy PRIVATE $<$<BOOL:${execution_policy_parallel}>:PARALLEL>)
-endif()
 
 set(fcoroutine coroutine_handle handle co_return generator promise return yield)
 if(have_coroutine)

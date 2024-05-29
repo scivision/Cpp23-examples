@@ -49,7 +49,6 @@ print_results("Serial   ", sorted, tic, toc);
 
 // AppleClang 15, Clang 17 doesn't yet have the following
 
-#ifdef PARALLEL
 for (int i = 0; i < iterationCount; ++i)
 {
 std::vector<std::uint32_t> sorted(arr);
@@ -58,11 +57,7 @@ std::sort(std::execution::par, sorted.begin(), sorted.end());
 const auto toc = std::chrono::steady_clock::now();
 print_results("Parallel ", sorted, tic, toc);
 }
-#else
-std::cerr << "std::execution::par not supported\n";
-#endif
 
-#ifdef PARALLEL
 for (int i = 0; i < iterationCount; ++i)
 {
 std::vector<std::uint32_t> sorted(arr);
@@ -71,12 +66,7 @@ std::sort(std::execution::par_unseq, sorted.begin(), sorted.end());
 const auto toc = std::chrono::steady_clock::now();
 print_results("Par_Unseq", sorted, tic, toc);
 }
-#else
-std::cerr << "std::execution::par_unseq not supported\n";
-#endif
 
-// C++20 unseq
-#ifdef PARALLEL
 for (int i = 0; i < iterationCount; ++i)
 {
 std::vector<std::uint32_t> sorted(arr);
@@ -85,9 +75,6 @@ std::sort(std::execution::unseq, sorted.begin(), sorted.end());
 const auto toc = std::chrono::steady_clock::now();
 print_results("Unseq    ", sorted, tic, toc);
 }
-#else
-std::cerr << "std::execution::unseq not supported\n";
-#endif
 
   return EXIT_SUCCESS;
 }
