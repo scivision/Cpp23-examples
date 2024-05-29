@@ -72,7 +72,8 @@ jobs:
 
     strategy:
       matrix:
-        cxx: [g++-13, clang++]
+        cxx: [clang++]
+    # g++-13 GHA runner generally broken for now
 
     steps:
     - name: Install Ninja
