@@ -29,6 +29,34 @@ endforeach()
 
 check_include_file_cxx(stdfloat have_stdfloat)
 
+if(have_stacktrace)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
+      set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
+    else()
+      set(CMAKE_REQUIRED_LIBRARIES stdc++_libbacktrace)
+    endif()
+  endif()
+
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_REQUIRED_FLAGS -fsized-deallocation)
+    set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
+  endif()
+
+  check_source_compiles(CXX
+  "#include <stacktrace>
+  int main()  {
+      auto x = std::stacktrace::current() ;
+      return 0;
+  }"
+  stacktrace_links
+  )
+  if(NOT stacktrace_links)
+    set_property(CACHE have_stacktrace PROPERTY VALUE false)
+  endif()
+endif()
+
+
 
 set(f23 assume expected flat_map flat_set mdspan print
 stacktrace stdfloat unreachable)
@@ -60,11 +88,23 @@ endif()
 # https://gcc.gnu.org/gcc-14/changes.html
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
-    if(TARGET stacktrace)
-      target_link_libraries(stacktrace PRIVATE stdc++exp)
-    endif()
     if(TARGET print AND WIN32)
       target_link_libraries(print PRIVATE stdc++exp)
+    endif()
+  endif()
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  if(TARGET print AND WIN32)
+    target_link_libraries(print PRIVATE stdc++exp)
+  endif()
+endif()
+
+# stacktrace
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
+    if(TARGET stacktrace)
+      target_link_libraries(stacktrace PRIVATE stdc++exp)
     endif()
   else()
     if(TARGET stacktrace)
@@ -78,10 +118,8 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_compile_options(stacktrace PRIVATE -fsized-deallocation)
     target_link_libraries(stacktrace PRIVATE stdc++exp)
   endif()
-  if(TARGET print AND WIN32)
-    target_link_libraries(print PRIVATE stdc++exp)
-  endif()
 endif()
+# end stacktrace
 
 if(TEST unreachable)
   set_property(TEST unreachable PROPERTY WILL_FAIL TRUE)
