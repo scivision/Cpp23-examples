@@ -63,7 +63,7 @@ jobs:
 
 
   mac:
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 5
 
     env:
