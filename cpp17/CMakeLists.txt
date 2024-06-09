@@ -3,7 +3,7 @@ set_property(DIRECTORY PROPERTY LABELS 17)
 set(CMAKE_CXX_STANDARD 17)
 
 # GCC >= 5 added __has_include, __has_cpp_attribute
-check_cxx_symbol_exists(__has_include "" cpp17_has_include)
+check_cxx_symbol_exists(__has_include "" has_include)
 check_cxx_symbol_exists(__has_cpp_attribute "" has_cpp_attribute)
 
 check_cxx_symbol_exists(__cpp_fold_expressions "" cpp17_folding)

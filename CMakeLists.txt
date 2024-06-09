@@ -48,10 +48,8 @@ add_subdirectory(cpp17)
 add_subdirectory(cpp20)
 add_subdirectory(cpp23)
 
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.29.20240419)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.30)
   add_subdirectory(cpp26)
-else()
-  message(STATUS "CMake version ${CMAKE_VERSION} < 3.30: too old for C++26")
 endif()
 
 file(GENERATE OUTPUT .gitignore CONTENT "*")
