@@ -12,7 +12,8 @@ endif()
 check_cxx_symbol_exists(__cpp_structured_bindings "" have_structured_bindings)
 
 foreach(t IN ITEMS format int_pow2
-  hardware_interference_size jthread ssize latch math_constants
+  hardware_interference_size jthread ssize
+  latch lerp math_constants midpoint
   semaphore source_location smart_ptr_for_overwrite)
   check_cxx_symbol_exists(__cpp_lib_${t} "version" have_${t})
 endforeach()
@@ -69,7 +70,7 @@ set(f20
 semaphore barrier
 bit_width execution_policy
 hardware_interference_size
-format jthread latch
+format jthread latch lerp midpoint
 likely math_constants ranges_find
 source_location smart_ptr_for_overwrite
 stop_callback stop_source

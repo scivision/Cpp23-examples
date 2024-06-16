@@ -9,6 +9,7 @@ check_cxx_symbol_exists(__has_cpp_attribute "" has_cpp_attribute)
 check_cxx_symbol_exists(__cpp_fold_expressions "" cpp17_folding)
 check_cxx_symbol_exists(__cpp_deduction_guides "" cpp17_deduction_guides)
 check_cxx_symbol_exists(__cpp_lib_sample "algorithm" cpp17_sample)
+check_cxx_symbol_exists(__cpp_lib_math_special_functions "cmath" cpp17_math_special_functions)
 
 # NOTE: this is not a complete c++17 filesystem check. See:
 # https://github.com/scivision/fortran-filesystem/blob/main/cmake/CppCheck.cmake
@@ -44,8 +45,11 @@ check_source_compiles(CXX
 cpp17_init_if_switch
 )
 
-set(f17 deduction_guides fallthrough filesystem folding
-init_if_switch maybe_unused sample
+set(f17
+deduction_guides fallthrough filesystem folding
+init_if_switch maybe_unused
+math_special_functions
+sample
 )
 
 foreach(t IN LISTS f17)
@@ -69,3 +73,6 @@ get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGET
 list(LENGTH f17 Nf)
 list(LENGTH t Ne)
 message(STATUS "C++17 features: ${Ne} / ${Nf}")
+if(Ne LESS Nf)
+  message(STATUS "enabled targets: ${t}")
+endif()
