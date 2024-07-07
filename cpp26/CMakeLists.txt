@@ -23,7 +23,8 @@ foreach(t IN LISTS f26)
   endif()
 endforeach()
 
-if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(TARGET adl_projected AND
+     APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(adl_projected PRIVATE -Wno-unused-variable)
 endif()
 
