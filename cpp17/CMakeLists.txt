@@ -17,21 +17,24 @@ check_cxx_symbol_exists(__cpp_lib_filesystem "filesystem" cpp17_filesystem)
 
 if(has_cpp_attribute)
 
+block()
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(maybe_unused)
 #error \"no maybe_unused attribute\"
-#endif
-int main(){ return 0; }"
+#endif"
 cpp17_maybe_unused
 )
 
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(fallthrough)
 #error \"no fallthrough attribute\"
-#endif
-int main(){ return 0; }"
+#endif"
 cpp17_fallthrough
 )
+
+endblock()
 
 endif()
 

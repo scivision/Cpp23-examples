@@ -12,13 +12,16 @@ endif()
 
 if(has_cpp_attribute)
 
+block()
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(assume)
 #error \"no assume attribute\"
-#endif
-int main(){ return 0; }"
+#endif"
 have_assume
 )
+endblock()
 
 endif()
 

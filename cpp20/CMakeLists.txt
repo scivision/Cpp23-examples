@@ -34,13 +34,17 @@ set(have_stop_source ${have_jthread})
 
 if(has_cpp_attribute)
 
+block()
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+
 check_source_compiles(CXX
 "#if !__has_cpp_attribute(likely)
 #error \"no likely attribute\"
-#endif
-int main(){ return 0; }"
+#endif"
 have_likely
 )
+
+endblock()
 
 endif()
 
