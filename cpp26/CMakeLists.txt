@@ -2,8 +2,9 @@ set_property(DIRECTORY PROPERTY LABELS 26)
 
 set(CMAKE_CXX_STANDARD 26)
 
-# https://en.cppreference.com/w/cpp/numeric/linalg
-check_cxx_symbol_exists(__cpp_lib_linalg "version" have_linalg)
+foreach(f IN ITEMS linalg saturation_arithmetic)
+  check_cxx_symbol_exists(__cpp_lib_${f} "version" have_${f})
+endforeach()
 
 # using try_run was not adequate
 file(READ format_pointer.cpp _src)
@@ -13,14 +14,17 @@ check_source_compiles(CXX "${_src}" have_format_pointer)
 file(READ adl_projected.cpp src)
 check_source_compiles(CXX "${src}" have_adl_projected)
 
-set(f26 adl_projected format_pointer linalg)
+
+set(f26 adl_projected format_pointer linalg saturation_arithmetic)
 
 foreach(t IN LISTS f26)
-  if(have_${t})
-    add_executable(${t} ${t}.cpp)
-
-    add_test(NAME ${t} COMMAND ${t})
+  if(NOT have_${t})
+    continue()
   endif()
+
+  add_executable(${t} ${t}.cpp)
+
+  add_test(NAME ${t} COMMAND ${t})
 endforeach()
 
 if(TARGET adl_projected AND
