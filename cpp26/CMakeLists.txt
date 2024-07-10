@@ -2,7 +2,7 @@ set_property(DIRECTORY PROPERTY LABELS 26)
 
 set(CMAKE_CXX_STANDARD 26)
 
-foreach(f IN ITEMS linalg saturation_arithmetic)
+foreach(f IN ITEMS debugging linalg saturation_arithmetic)
   check_cxx_symbol_exists(__cpp_lib_${f} "version" have_${f})
 endforeach()
 
