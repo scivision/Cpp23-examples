@@ -1,59 +1,53 @@
-// modified  from https://mariusbancila.ro/blog/2022/08/17/using-the-cpp23-expected-type/
-
-#include <iostream>
+// https://en.cppreference.com/w/cpp/utility/expected
+#include <cmath>
 #include <expected>
-#include <vector>
-#include <algorithm>
+#include <iomanip>
+#include <iostream>
+#include <string_view>
 #include <cstdlib>
 
-enum class Status
+enum class parse_error
 {
-   Ok,
-   AccessDenied,
-   DataSourceError,
-   DataError,
+    invalid_input,
+    overflow
 };
-bool HasAcccess() { return true; }
-int OpenConnection() { return 0; }
-int Fetch() { return 0; }
-Status ReadData(std::vector<int>& data)
-{
-   if (!HasAcccess())
-      return Status::AccessDenied;
-   if (OpenConnection() != 0)
-      return Status::DataSourceError;
-   if (Fetch() != 0)
-      return Status::DataError;
-   data.push_back(42);
-   return Status::Ok;
-}
 
-void print_value(int const v)
+auto parse_number(std::string_view& str) -> std::expected<double, parse_error>
 {
-   std::cout << v << '\n';
-}
+    const char* begin = str.data();
+    char* end;
+    double retval = std::strtod(begin, &end);
 
+    if (begin == end)
+        return std::unexpected(parse_error::invalid_input);
+    else if (std::isinf(retval))
+        return std::unexpected(parse_error::overflow);
 
-std::expected<std::vector<int>, Status> ReadData()
-{
-   if (!HasAcccess())
-      return std::unexpected<Status> { Status::AccessDenied };
-   if (OpenConnection() != 0)
-      return std::unexpected<Status> {Status::DataSourceError};
-   if (Fetch() != 0)
-      return std::unexpected<Status> {Status::DataError};
-   std::vector<int> data;
-   data.push_back(42);
-   return data;
+    str.remove_prefix(end - begin);
+    return retval;
 }
 
 int main()
 {
-   auto result = ReadData();
-   if (result)
-     std::ranges::for_each(result.value(), print_value);
-   else
-     std::cout << "Error code: " << (int)result.error() << std::endl;
+    auto process = [](std::string_view str)
+    {
+        std::cout << "str: " << std::quoted(str) << ", ";
+        if (const auto num = parse_number(str); num.has_value())
+            std::cout << "value: " << *num << '\n';
+            // If num did not have a value, dereferencing num
+            // would cause an undefined behavior, and
+            // num.value() would throw std::bad_expected_access.
+            // num.value_or(123) uses specified default value 123.
+        else if (num.error() == parse_error::invalid_input)
+            std::cout << "error: invalid input\n";
+        else if (num.error() == parse_error::overflow)
+            std::cerr << "error: overflow\n";
+        else
+            std::cerr << "unexpected!\n"; // or invoke std::unreachable();
+    };
+
+    for (auto src : {"42", "42abc", "meow", "inf"})
+        process(src);
 
    return EXIT_SUCCESS;
 }
