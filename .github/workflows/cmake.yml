@@ -94,3 +94,24 @@ jobs:
     - uses: actions/checkout@v4
 
     - run: cmake --workflow --preset msvc
+
+
+  windows-gcc:
+    runs-on: windows-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          mingw-w64-x86_64-ninja
+
+    - name: Put MSYS2_MinGW64 on PATH
+      run: echo "${{ runner.temp }}/msys64/mingw64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - uses: actions/checkout@v4
+
+    - run: cmake --workflow --preset debug
+
+    - run: cmake --workflow --preset release
