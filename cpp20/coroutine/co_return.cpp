@@ -11,7 +11,7 @@ struct ReturnObject5 {
     unsigned value_;
 
     ~promise_type() {
-      std::cout << "promise_type destroyed" << std::endl;
+      std::cout << "promise_type destroyed\n";
     }
     ReturnObject5 get_return_object() {
       return {
@@ -46,7 +46,7 @@ main5()
   auto h = counter().h_;
   auto &promise = h.promise();
   while (!h.done()) { // Do NOT use while(h) (which checks h non-NULL)
-    std::cout << "counter: " << promise.value_ << std::endl;
+    std::cout << "counter: " << promise.value_ << "\n";
     h();
   }
   h.destroy();

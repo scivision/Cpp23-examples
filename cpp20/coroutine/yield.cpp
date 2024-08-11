@@ -39,7 +39,7 @@ main4()
   auto h = counter().h_;
   auto &promise = h.promise();
   for (int i = 0; i < 3; ++i) {
-    std::cout << "counter: " << promise.value_ << std::endl;
+    std::cout << "counter: " << promise.value_ << "\n";
     h();
   }
   h.destroy();

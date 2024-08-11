@@ -29,7 +29,7 @@ counter()
 {
   for (unsigned i = 0;; ++i) {
     co_await std::suspend_always{};
-    std::cout << "counter: " << i << std::endl;
+    std::cout << "counter: " << i << "\n";
   }
 }
 

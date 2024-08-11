@@ -3,6 +3,6 @@
 #include <cstdlib>
 
 int main(){
-  std::cout << "pi = " << std::numbers::pi << std::endl;
+  std::cout << "pi = " << std::numbers::pi << "\n";
   return EXIT_SUCCESS;
 }

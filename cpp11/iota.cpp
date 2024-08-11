@@ -11,7 +11,7 @@ int main()
 
     for (auto i : a)
         std::cout << i << " ";
-    std::cout << std::endl;
+    std::cout << "\n";
 
     return EXIT_SUCCESS;
 }

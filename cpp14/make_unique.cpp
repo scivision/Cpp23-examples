@@ -19,7 +19,7 @@ std::string append_hello(std::string s){
 
 int main(){
 
-    std::cout << append_hello("Good morning ") << std::endl;
+    std::cout << append_hello("Good morning ") << "\n";
 
     return EXIT_SUCCESS;
 }

@@ -10,7 +10,7 @@
 
     std::string message = std::system_category().message(err);
 
-    std::cerr << "ERROR:" << name << ": " << err << ": " << message << std::endl;
+    std::cerr << "ERROR:" << name << ": " << err << ": " << message << "\n";
 
     ExitProcess(err);
 }

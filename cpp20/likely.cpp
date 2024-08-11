@@ -77,7 +77,7 @@ int main() {
         const std::chrono::duration<double> diff =
             std::chrono::steady_clock::now() - start;
         std::cout << "Time: " << std::fixed << std::setprecision(6) << diff.count()
-                  << " sec " << rem << std::endl;
+                  << " sec " << rem << "\n";
     };
 
     benchmark(with_attributes::cos, "(with attributes)");

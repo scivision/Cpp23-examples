@@ -9,7 +9,7 @@ template<typename ...Args> auto sum(Args ...args)
 int main()
 {
   if (sum(1, 2, 3, 4) == 10){
-    std::cout << "OK: folding" << std::endl;
+    std::cout << "OK: folding\n";
     return EXIT_SUCCESS;
   }
 

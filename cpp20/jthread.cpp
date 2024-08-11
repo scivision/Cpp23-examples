@@ -14,7 +14,7 @@ void f(std::stop_token stop_token, int value)
         std::cout << value++ << ' ' << std::flush;
         std::this_thread::sleep_for(50ms);
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 }
 
 int main()

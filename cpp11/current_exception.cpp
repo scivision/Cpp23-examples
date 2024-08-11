@@ -13,7 +13,7 @@ void handle_error_ptr(std::exception_ptr err_ptr)
       std::rethrow_exception(err_ptr);
     }
   } catch(const std::exception& e) {
-    std::cerr << "Exception: " << e.what() << std::endl;
+    std::cerr << "Exception: " << e.what() << "\n";
   }
 }
 
@@ -26,14 +26,14 @@ int main(){
   std::exception_ptr err_ptr;
 
   try{
-    std::cout << x.at(1) << std::endl;
+    std::cout << x.at(1) << "\n";
   }
   catch (...){
     err_ptr = std::current_exception();
   }
   handle_error_ptr(err_ptr);
 
-  std::cout << "OK: exception handled" << std::endl;
+  std::cout << "OK: exception handled" << "\n";
 
   return EXIT_SUCCESS;
 }

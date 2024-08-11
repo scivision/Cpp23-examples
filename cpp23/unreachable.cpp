@@ -38,7 +38,7 @@ int main()
     std::vector<Color> tex;
     generate_texture(tex, 128); // OK
     assert(tex.size() == 128 * 128);
-    std::cout << "OK: 128" << std::endl;
+    std::cout << "OK: 128\n";
 
     generate_texture(tex, 32);  // Results in undefined behavior
     return EXIT_FAILURE;

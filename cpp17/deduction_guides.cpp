@@ -38,6 +38,6 @@ auto generate_random_alphanumeric_string(std::size_t len) -> std::string {
 
 int main() {
     auto s = generate_random_alphanumeric_string(10);
-    std::cout << s << std::endl;
+    std::cout << s << "\n";
     return EXIT_SUCCESS;
 }

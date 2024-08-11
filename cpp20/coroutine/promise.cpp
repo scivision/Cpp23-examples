@@ -51,7 +51,7 @@ main3()
   std::coroutine_handle<ReturnObject3::promise_type> h = counter();
   ReturnObject3::promise_type &promise = h.promise();
   for (int i = 0; i < 3; ++i) {
-    std::cout << "counter: " << promise.value_ << std::endl;
+    std::cout << "counter: " << promise.value_ << "\n";
     h();
   }
   h.destroy();

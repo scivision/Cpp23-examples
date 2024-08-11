@@ -27,7 +27,7 @@ std::string gen_string(std::size_t length, URBG&& g) {
 
 int main() {
     std::mt19937 g;
-    std::cout << gen_string(10, g) << std::endl;
+    std::cout << gen_string(10, g) << "\n";
 
     return EXIT_SUCCESS;
 }
