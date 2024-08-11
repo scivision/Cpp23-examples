@@ -88,19 +88,14 @@ if(TARGET stdfloat)
   target_compile_options(stdfloat PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wno-unused-variable>)
 endif()
 
+if(WIN32)
 # https://gcc.gnu.org/gcc-14/changes.html
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
-    if(TARGET print AND WIN32)
+if((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14) OR
+   (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+    if(TARGET print)
       target_link_libraries(print PRIVATE stdc++exp)
     endif()
-  endif()
 endif()
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  if(TARGET print AND WIN32)
-    target_link_libraries(print PRIVATE stdc++exp)
-  endif()
 endif()
 
 # stacktrace
