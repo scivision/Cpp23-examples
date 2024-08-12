@@ -1,7 +1,8 @@
 #include <print>
+#include <cstdlib>
 
 int main()
 {
   std::println("Hello World!");
-  return 0;
+  return EXIT_SUCCESS;
 }
