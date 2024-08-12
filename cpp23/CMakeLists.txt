@@ -2,6 +2,10 @@ set_property(DIRECTORY PROPERTY LABELS 23)
 
 set(CMAKE_CXX_STANDARD 23)
 
+if(CMAKE_VERSION VERSION_LESS 3.30 AND CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
+  message(WARNING "IntelLLVM requires CMake 3.30 or later for C++23")
+endif()
+
 if(has_cpp_attribute)
 
 block()
