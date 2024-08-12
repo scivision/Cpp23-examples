@@ -2,14 +2,6 @@ set_property(DIRECTORY PROPERTY LABELS 23)
 
 set(CMAKE_CXX_STANDARD 23)
 
-if(CMAKE_VERSION VERSION_LESS 3.30 AND CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
-  if(WIN32)
-    set(CMAKE_REQUIRED_FLAGS "/Qstd:c++23")
-  else()
-    set(CMAKE_REQUIRED_FLAGS "-std=c++23")
-  endif()
-endif()
-
 if(has_cpp_attribute)
 
 block()
