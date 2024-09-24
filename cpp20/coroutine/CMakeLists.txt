@@ -1,5 +1,7 @@
 set_property(DIRECTORY PROPERTY LABELS "coroutine")
 
+set(cpp20coroutine coroutine_handle handle co_return generator promise return yield)
+
 foreach(t IN LISTS cpp20coroutine)
   add_executable(coroutine_${t} ${t}.cpp)
 

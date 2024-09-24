@@ -68,8 +68,6 @@ stop_callback stop_source
 structured_bindings
 )
 
-set(cpp20coroutine coroutine_handle handle co_return generator promise return yield)
-
 set(cpp23features
 assume expected flat_map flat_set mdspan print
 stacktrace stdfloat unreachable
@@ -92,27 +90,38 @@ endforeach()
 file(GENERATE OUTPUT .gitignore CONTENT "*")
 
 # --- count features enabled by language standard
+set(j "{}")
+
 foreach(s IN LISTS stds)
 
-get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cpp${s} PROPERTY BUILDSYSTEM_TARGETS)
+get_property(has_features DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cpp${s} PROPERTY BUILDSYSTEM_TARGETS)
 
 list(LENGTH cpp${s}features Nf)
 
-list(LENGTH t Ne)
+math(EXPR N "${Nf} - 1")
+string(JSON j SET ${j} cpp${s} "{}")
 
-message(STATUS "C++${s} features: ${Ne} / ${Nf}")
-if(Ne LESS Nf)
-  message(STATUS "C++${s} enabled targets: ${t}")
-endif()
+foreach(i RANGE ${N})
+  list(GET cpp${s}features ${i} feature)
+  if(feature IN_LIST has_features)
+    set(hasf true)
+  else()
+    set(hasf false)
+  endif()
+
+  string(JSON j SET ${j} cpp${s} ${feature} ${hasf})
+endforeach()
 
 endforeach()
 
 if(have_coroutine)
-  get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cpp20/coroutine PROPERTY BUILDSYSTEM_TARGETS)
-  list(LENGTH cpp20coroutine Nf)
-  list(LENGTH t Ne)
-  message(STATUS "C++ coroutine features: ${Ne} / ${Nf}")
-  if(Ne LESS Nf)
-    message(STATUS "enabled targets: ${t}")
-  endif()
+  string(JSON j SET ${j} cpp20 coroutine true)
+else()
+  string(JSON j SET ${j} cpp20 coroutine false)
 endif()
+
+set(feature_file ${CMAKE_CURRENT_BINARY_DIR}/features.json)
+
+file(WRITE ${feature_file} ${j})
+
+message(STATUS "See ${feature_file} for features enabled by standard")
