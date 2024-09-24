@@ -1,6 +1,6 @@
 set_property(DIRECTORY PROPERTY LABELS "coroutine")
 
-foreach(t IN LISTS fcoroutine)
+foreach(t IN LISTS cpp20coroutine)
   add_executable(coroutine_${t} ${t}.cpp)
 
   add_test(NAME coroutine_${t} COMMAND coroutine_${t})

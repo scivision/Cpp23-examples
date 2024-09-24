@@ -42,14 +42,77 @@ endif()
 
 include(cmake/compilers.cmake)
 
-add_subdirectory(cpp11)
-add_subdirectory(cpp14)
-add_subdirectory(cpp17)
-add_subdirectory(cpp20)
-add_subdirectory(cpp23)
-
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.30)
-  add_subdirectory(cpp26)
+# --- features possible
+set(cpp11features current_exception iota getenv nullptr)
+if(WIN32)
+  list(APPEND cpp11features GetLastError)
 endif()
 
+set(cpp14features make_unique thread)
+
+set(cpp17features
+deduction_guides fallthrough filesystem folding
+init_if_switch maybe_unused
+math_special_functions
+sample
+)
+
+set(cpp20features
+semaphore barrier
+bit_width execution_policy
+hardware_interference_size
+format jthread latch lerp midpoint
+likely math_constants ranges_find
+source_location smart_ptr_for_overwrite
+stop_callback stop_source
+structured_bindings
+)
+
+set(cpp20coroutine coroutine_handle handle co_return generator promise return yield)
+
+set(cpp23features
+assume expected flat_map flat_set mdspan print
+stacktrace stdfloat unreachable
+)
+
+set(cpp26features adl_projected format_pointer linalg saturation_arithmetic)
+
+# --- check for possible features
+
+set(stds 11 14 17 20 23)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.30)
+  list(APPEND stds 26)
+endif()
+
+foreach(s IN LISTS stds)
+  add_subdirectory(cpp${s})
+endforeach()
+
+
 file(GENERATE OUTPUT .gitignore CONTENT "*")
+
+# --- count features enabled by language standard
+foreach(s IN LISTS stds)
+
+get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cpp${s} PROPERTY BUILDSYSTEM_TARGETS)
+
+list(LENGTH cpp${s}features Nf)
+
+list(LENGTH t Ne)
+
+message(STATUS "C++${s} features: ${Ne} / ${Nf}")
+if(Ne LESS Nf)
+  message(STATUS "C++${s} enabled targets: ${t}")
+endif()
+
+endforeach()
+
+if(have_coroutine)
+  get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cpp20/coroutine PROPERTY BUILDSYSTEM_TARGETS)
+  list(LENGTH cpp20coroutine Nf)
+  list(LENGTH t Ne)
+  message(STATUS "C++ coroutine features: ${Ne} / ${Nf}")
+  if(Ne LESS Nf)
+    message(STATUS "enabled targets: ${t}")
+  endif()
+endif()

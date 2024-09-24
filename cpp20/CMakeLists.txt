@@ -70,18 +70,7 @@ if(have_execution_policy)
   endif()
 endif()
 
-set(f20
-semaphore barrier
-bit_width execution_policy
-hardware_interference_size
-format jthread latch lerp midpoint
-likely math_constants ranges_find
-source_location smart_ptr_for_overwrite
-stop_callback stop_source
-structured_bindings
-)
-
-foreach(t IN LISTS f20)
+foreach(t IN LISTS cpp20features)
   if(have_${t})
     add_executable(${t} ${t}.cpp)
 
@@ -89,27 +78,6 @@ foreach(t IN LISTS f20)
   endif()
 endforeach()
 
-set(fcoroutine coroutine_handle handle co_return generator promise return yield)
 if(have_coroutine)
   add_subdirectory(coroutine)
-endif()
-
-# --- count features enabled
-get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
-list(LENGTH f20 Nf)
-list(LENGTH t Ne)
-message(STATUS "C++20 features: ${Ne} / ${Nf}")
-if(Ne LESS Nf)
-  message(STATUS "enabled targets: ${t}")
-endif()
-
-# --- count features enabled
-if(have_coroutine)
-get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/coroutine PROPERTY BUILDSYSTEM_TARGETS)
-list(LENGTH fcoroutine Nf)
-list(LENGTH t Ne)
-message(STATUS "C++ coroutine features: ${Ne} / ${Nf}")
-if(Ne LESS Nf)
-  message(STATUS "enabled targets: ${t}")
-endif()
 endif()

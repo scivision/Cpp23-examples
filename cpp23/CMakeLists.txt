@@ -56,11 +56,7 @@ if(have_stacktrace)
 endif()
 
 
-
-set(f23 assume expected flat_map flat_set mdspan print
-stacktrace stdfloat unreachable)
-
-foreach(t IN LISTS f23)
+foreach(t IN LISTS cpp23features)
   if(have_${t})
     add_executable(${t} ${t}.cpp)
 
@@ -125,13 +121,4 @@ endif()
 
 if(TEST mdspan)
   set_property(TEST mdspan PROPERTY PASS_REGULAR_EXPRESSION "1004 1005")
-endif()
-
-# --- count features enabled
-get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
-list(LENGTH f23 Nf)
-list(LENGTH t Ne)
-message(STATUS "C++23 features: ${Ne} / ${Nf}")
-if(Ne LESS Nf)
-  message(STATUS "enabled targets: ${t}")
 endif()

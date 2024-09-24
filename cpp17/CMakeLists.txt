@@ -48,14 +48,7 @@ check_source_compiles(CXX
 cpp17_init_if_switch
 )
 
-set(f17
-deduction_guides fallthrough filesystem folding
-init_if_switch maybe_unused
-math_special_functions
-sample
-)
-
-foreach(t IN LISTS f17)
+foreach(t IN LISTS cpp17features)
   if(cpp17_${t})
     add_executable(${t} ${t}.cpp)
 
@@ -69,13 +62,4 @@ if(TARGET filesystem)
     (CMAKE_CXX_COMPILER_ID STREQUAL "NVHPC" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "23.11") )
     target_link_libraries(filesystem PRIVATE stdc++fs stdc++)
   endif()
-endif()
-
-# --- count features enabled
-get_property(t DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY BUILDSYSTEM_TARGETS)
-list(LENGTH f17 Nf)
-list(LENGTH t Ne)
-message(STATUS "C++17 features: ${Ne} / ${Nf}")
-if(Ne LESS Nf)
-  message(STATUS "enabled targets: ${t}")
 endif()
