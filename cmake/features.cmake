@@ -31,6 +31,11 @@ endif()
 string(JSON j SET ${j} compiler "{}")
 string(JSON j SET ${j} compiler vendor \"${CMAKE_CXX_COMPILER_ID}\")
 string(JSON j SET ${j} compiler version \"${CMAKE_CXX_COMPILER_VERSION}\")
+string(JSON j SET ${j} compiler system \"${CMAKE_SYSTEM_NAME}\")
+string(JSON j SET ${j} compiler system_version \"${CMAKE_SYSTEM_VERSION}\")
+string(JSON j SET ${j} compiler target \"${CMAKE_SYSTEM_PROCESSOR}\")
+string(JSON j SET ${j} compiler flags \"${CMAKE_CXX_FLAGS}\")
+string(JSON j SET ${j} compiler sysroot \"${CMAKE_OSX_SYSROOT}\")
 
 set(feature_file ${CMAKE_CURRENT_BINARY_DIR}/features.json)
 
