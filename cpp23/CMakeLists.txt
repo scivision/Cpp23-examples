@@ -28,6 +28,7 @@ endforeach()
 
 check_include_file_cxx(stdfloat have_stdfloat)
 
+block()
 if(have_stacktrace)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
@@ -54,6 +55,7 @@ if(have_stacktrace)
     set_property(CACHE have_stacktrace PROPERTY VALUE false)
   endif()
 endif()
+endblock()
 
 
 foreach(t IN LISTS cpp23features)
