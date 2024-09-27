@@ -69,7 +69,8 @@ structured_bindings
 )
 
 set(cpp23features
-assume expected flat_map flat_set mdspan print
+assume ranges_cartesian_product expected flat_map flat_set
+mdspan print
 stacktrace stdfloat unreachable
 )
 
