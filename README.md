@@ -16,14 +16,15 @@ to detect a feature, but some features require a small compile and link test.
 The
 [execution_policy.cpp](./cpp20/execution_policy.cpp)
 example shows how to use the C++20 execution policy feature.
-Many platforms don't yet implemenet this feature.
+Many platforms don't yet implement this feature.
 Performance seen with NVHPC 24.11:
 
 ```
-Serial    Time: 0.0605221 ms
-Parallel  Time: 0.023676 ms
-Par_Unseq Time: 0.00729935 ms
-Unseq     Time: 0.0599898 ms
+Method        Speed Ratio (vs. sequential)
+Sequential     1.00
+Parallel       3.69
+Par_Unseq      8.43
+Unseq          0.98
 ```
 
 Windows oneAPI 2025.0:

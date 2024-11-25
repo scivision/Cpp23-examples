@@ -73,6 +73,7 @@ endif()
 foreach(t IN LISTS cpp20features)
   if(have_${t})
     add_executable(${t} ${t}.cpp)
+    target_compile_features(${t} PRIVATE cxx_std_20)
 
     add_test(NAME ${t} COMMAND ${t})
   endif()
