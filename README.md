@@ -17,7 +17,9 @@ The
 [execution_policy.cpp](./cpp20/execution_policy.cpp)
 example shows how to use the C++20 execution policy feature.
 Many platforms don't yet implement this feature.
-Performance seen with NVHPC 24.11:
+Performance seen with:
+
+NVHPC 24.11:
 
 ```
 Method        Speed Ratio (vs. sequential)
@@ -27,7 +29,17 @@ Par_Unseq      8.43
 Unseq          0.98
 ```
 
-Windows oneAPI 2025.0:
+Linux oneAPI 2025.0 (TBB):
+
+```
+Method        Speed Ratio (vs. sequential)
+Sequential     1.00
+Parallel       8.43
+Par_Unseq      29.50
+Unseq          0.98
+```
+
+Windows oneAPI 2025.0 (TBB):
 
 ```
 Method        Speed Ratio (vs. sequential)
