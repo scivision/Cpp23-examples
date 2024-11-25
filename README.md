@@ -11,43 +11,7 @@ We typically use
 [feature testing macros](https://en.cppreference.com/w/cpp/feature_test)
 to detect a feature, but some features require a small compile and link test.
 
-## C++ execution policy
-
-The
-[execution_policy.cpp](./cpp20/execution_policy.cpp)
-example shows how to use the C++20 execution policy feature.
-Many platforms don't yet implement this feature.
-Performance seen with:
-
-NVHPC 24.11:
-
-```
-Method        Speed Ratio (vs. sequential)
-Sequential     1.00
-Parallel       3.69
-Par_Unseq      8.43
-Unseq          0.98
-```
-
-Linux oneAPI 2025.0 (TBB):
-
-```
-Method        Speed Ratio (vs. sequential)
-Sequential     1.00
-Parallel       8.43
-Par_Unseq      29.50
-Unseq          0.98
-```
-
-Windows oneAPI 2025.0 (TBB):
-
-```
-Method        Speed Ratio (vs. sequential)
-Sequential     1.00
-Parallel       3.19
-Par_Unseq      3.00
-Unseq          1.05
-```
+[C++ execution policy benchmark](./Readme_execution_policy.md)
 
 ## Related projects
 

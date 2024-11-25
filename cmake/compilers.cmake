@@ -14,7 +14,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "NVHPC" AND
   # set(stdpar_opt -stdpar=multicore)
   # makes error  undefined reference to `__acc_compiled' on link. Works if used in one-step plain command line.
   # Maybe a CMake + NVHPC bug.
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|IntelLLVM")
   find_package(TBB CONFIG)
   if(TBB_FOUND)
     message(STATUS "TBB found ${TBB_DIR}")
