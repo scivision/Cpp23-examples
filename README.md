@@ -26,6 +26,16 @@ Par_Unseq Time: 0.00729935 ms
 Unseq     Time: 0.0599898 ms
 ```
 
+Windows oneAPI 2025.0:
+
+```
+Method        Speed Ratio (vs. sequential)
+Sequential     1.00
+Parallel       3.19
+Par_Unseq      3.00
+Unseq          1.05
+```
+
 ## Related projects
 
 * [C23 examples](https://github.com/scivision/C23-examples)

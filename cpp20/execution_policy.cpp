@@ -8,6 +8,7 @@
 #include <ratio>
 #include <vector>
 #include <cstdlib>
+#include <iomanip>
 
 #include <execution> // std::execution
 
@@ -17,15 +18,12 @@ constexpr int iterationCount = 1;
 
 void print_results(
 const char *const tag,
-const std::vector<std::uint32_t>& sorted,
-std::chrono::steady_clock::time_point tic,
-std::chrono::steady_clock::time_point toc
+double ratio
 )
 {
-  const auto tdur = std::chrono::duration_cast<std::chrono::duration<double>>(toc - tic).count();
+  std::cout << std::fixed << std::setprecision(2);
 
-  std::cout << tag << " " << sorted.front() <<
-    ".." << sorted.back() << " Time: " << tdur << " ms\n";
+  std::cout << std::left << std::setw(13) << tag << "  " << ratio << "\n";
 }
 
 int main() {
@@ -36,15 +34,21 @@ int main() {
   std::mt19937 gen {std::random_device{}()};
   std::ranges::generate(arr, gen);
 
+std::cout << "Sorting " << N << " elements\n";
+std::cout << "Iteration count " << iterationCount << "\n";
+std::cout << "Method        Speed Ratio (vs. sequential)\n";
+
 // sort benchmarks
+double tref, tpar, tpar_unseq, tunseq;
 
 for (int i = 0; i < iterationCount; ++i)
 {
 std::vector<std::uint32_t> sorted(arr);
 const auto tic = std::chrono::steady_clock::now();
-std::sort(sorted.begin(), sorted.end());
+std::sort(std::execution::seq, sorted.begin(), sorted.end());
 const auto toc = std::chrono::steady_clock::now();
-print_results("Serial   ", sorted, tic, toc);
+tref = std::chrono::duration_cast<std::chrono::milliseconds>(toc - tic).count();
+print_results("Sequential", 1.0);
 }
 
 // AppleClang 15, Clang 17 doesn't yet have the following
@@ -55,7 +59,8 @@ std::vector<std::uint32_t> sorted(arr);
 const auto tic = std::chrono::steady_clock::now();
 std::sort(std::execution::par, sorted.begin(), sorted.end());
 const auto toc = std::chrono::steady_clock::now();
-print_results("Parallel ", sorted, tic, toc);
+tpar = std::chrono::duration_cast<std::chrono::milliseconds>(toc - tic).count();
+print_results("Parallel", tref / tpar);
 }
 
 for (int i = 0; i < iterationCount; ++i)
@@ -64,7 +69,8 @@ std::vector<std::uint32_t> sorted(arr);
 const auto tic = std::chrono::steady_clock::now();
 std::sort(std::execution::par_unseq, sorted.begin(), sorted.end());
 const auto toc = std::chrono::steady_clock::now();
-print_results("Par_Unseq", sorted, tic, toc);
+tpar_unseq = std::chrono::duration_cast<std::chrono::milliseconds>(toc - tic).count();
+print_results("Par_Unseq", tref / tpar_unseq);
 }
 
 for (int i = 0; i < iterationCount; ++i)
@@ -73,7 +79,8 @@ std::vector<std::uint32_t> sorted(arr);
 const auto tic = std::chrono::steady_clock::now();
 std::sort(std::execution::unseq, sorted.begin(), sorted.end());
 const auto toc = std::chrono::steady_clock::now();
-print_results("Unseq    ", sorted, tic, toc);
+tunseq = std::chrono::duration_cast<std::chrono::milliseconds>(toc - tic).count();
+print_results("Unseq", tref / tunseq);
 }
 
   return EXIT_SUCCESS;
