@@ -9,20 +9,28 @@ example shows how to use the C++20 execution policy feature.
 
 Performance seen with:
 
-GCC 14.2 (Windows, TBB)
+GCC 11.5 (Linux, TBB)
 
 ```
 Method        Speed Ratio (vs. sequential)
+Sequential     1.00
+Parallel       23.50
+Par_Unseq      31.33
+Unseq          1.00
+```
+
+GCC 14.2 (Windows, TBB)
+
+```
 Sequential     1.00
 Parallel       2.90
 Par_Unseq      3.05
 Unseq          0.97
 ```
 
-NVHPC 24.11 (-stdpar=multicore):
+Linux NVHPC 24.11 (-stdpar=multicore):
 
 ```
-Method        Speed Ratio (vs. sequential)
 Sequential     1.00
 Parallel       3.69
 Par_Unseq      8.43
@@ -32,7 +40,6 @@ Unseq          0.98
 Linux oneAPI 2025.0 (TBB):
 
 ```
-Method        Speed Ratio (vs. sequential)
 Sequential     1.00
 Parallel       8.43
 Par_Unseq      29.50
@@ -42,7 +49,6 @@ Unseq          0.98
 Windows oneAPI 2025.0 (TBB):
 
 ```
-Method        Speed Ratio (vs. sequential)
 Sequential     1.00
 Parallel       3.19
 Par_Unseq      3.00
