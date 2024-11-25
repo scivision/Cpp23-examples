@@ -7,6 +7,10 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
   cmake -Bbuild")
 endif()
 
+if(NOT DEFINED CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "build type")
+endif()
+
 project(Cpp23examples LANGUAGES CXX)
 
 enable_testing()

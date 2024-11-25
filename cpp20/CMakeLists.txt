@@ -78,6 +78,10 @@ foreach(t IN LISTS cpp20features)
   endif()
 endforeach()
 
+if(have_execution_policy)
+  target_compile_options(execution_policy PRIVATE ${stdpar_opt})
+endif()
+
 if(have_coroutine)
   add_subdirectory(coroutine)
 endif()
