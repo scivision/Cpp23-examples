@@ -11,7 +11,9 @@ set(stdpar_opt)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "NVHPC" AND
    CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 24.11)
-  set(stdpar_opt -stdpar=multicore)
+  # set(stdpar_opt -stdpar=multicore)
+  # makes error  undefined reference to `__acc_compiled' on link. Works if used in one-step plain command line.
+  # Maybe a CMake + NVHPC bug.
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|^Intel")
