@@ -39,6 +39,12 @@ jobs:
 
     - run: cmake --workflow --preset release
 
+    - uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: ${{ matrix.cxx }}_features.json
+        path: build/features.json
+
 
   gcc-old:
     runs-on: ubuntu-22.04
@@ -61,6 +67,12 @@ jobs:
 
     - run: cmake --workflow --preset release
 
+    - uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: ${{ matrix.cxx }}_features.json
+        path: build/features.json
+
 
   mac:
     runs-on: macos-latest
@@ -72,8 +84,7 @@ jobs:
 
     strategy:
       matrix:
-        cxx: [clang++]
-    # g++-13 GHA runner generally broken for now
+        cxx: [clang++, g++-14]
 
     steps:
     - name: Install Ninja
@@ -85,6 +96,12 @@ jobs:
 
     - run: cmake --workflow --preset release
 
+    - uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: ${{ runner.os }}-${{ matrix.cxx }}_features.json
+        path: build/features.json
+
 
 
   windows-msvc:
@@ -94,6 +111,12 @@ jobs:
     - uses: actions/checkout@v4
 
     - run: cmake --workflow --preset msvc
+
+    - uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: ${{ runner.os }}-MSVC_features.json
+        path: build/features.json
 
 
   windows-gcc:
@@ -117,3 +140,9 @@ jobs:
     - run: cmake --workflow --preset debug
 
     - run: cmake --workflow --preset release
+
+    - uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: ${{ runner.os }}-GCC_features.json
+        path: build/features.json
