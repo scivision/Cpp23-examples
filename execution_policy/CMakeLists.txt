@@ -1,5 +1,8 @@
 set_property(DIRECTORY PROPERTY LABELS "execution_policy")
 
+include(CheckIncludeFileCXX)
+include(CheckSourceCompiles)
+
 set(CMAKE_CXX_STANDARD 20)
 # C++17 execution policy with C++20 enhancements
 
@@ -21,26 +24,29 @@ endif()
 
 # check_include_file needs CMAKE_REQUIRED_LIBRARIES
 if(TBB_FOUND)
-  message(VERBOSE "checking for execution policy with TBB ${TBB_DIR}")
+  message(VERBOSE "checking for <execution> with TBB ${TBB_DIR}")
   set(CMAKE_REQUIRED_LIBRARIES TBB::tbb)
 endif()
-check_include_file_cxx(execution have_execution_policy)
 
-if(have_execution_policy)
-  file(READ execution_policy.cpp _src)
-  check_source_compiles(CXX "${_src}" execution_policy_parallel)
-  if(NOT execution_policy_parallel)
-    set_property(CACHE have_execution_policy PROPERTY VALUE false)
-  endif()
-endif()
-
+check_source_compiles(CXX "#include <execution>
+int main(){
+auto p = std::execution::par;
+return 0; }"
+have_execution_policy)
 
 if(NOT have_execution_policy)
   return()
 endif()
 
-add_executable(execution_policy execution_policy.cpp)
-add_test(NAME execution_policy COMMAND execution_policy)
+add_library(randgen OBJECT randgen.cpp)
 
-target_compile_options(execution_policy PRIVATE ${stdpar_opt})
-target_link_libraries(execution_policy PRIVATE $<$<BOOL:${TBB_FOUND}>:TBB::tbb>)
+foreach(t IN ITEMS adjacent_find sort)
+
+  add_executable(execution_${t} ${t}.cpp $<TARGET_OBJECTS:randgen>)
+  target_include_directories(execution_${t} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+  target_compile_options(execution_${t} PRIVATE ${stdpar_opt})
+  target_link_libraries(execution_${t} PRIVATE $<$<BOOL:${TBB_FOUND}>:TBB::tbb>)
+
+  add_test(NAME execution_${t} COMMAND execution_${t})
+
+endforeach()
