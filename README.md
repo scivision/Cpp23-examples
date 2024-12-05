@@ -11,7 +11,7 @@ We typically use
 [feature testing macros](https://en.cppreference.com/w/cpp/feature_test)
 to detect a feature, but some features require a small compile and link test.
 
-[C++ execution policy benchmark](./Readme_execution_policy.md)
+[C++ execution policy benchmark](./execution_policy/Readme.md)
 
 ## Related projects
 

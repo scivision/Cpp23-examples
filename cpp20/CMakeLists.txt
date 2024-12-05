@@ -2,13 +2,6 @@ set_property(DIRECTORY PROPERTY LABELS 20)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# https://en.cppreference.com/w/cpp/header/version
-
-check_cxx_symbol_exists(__cpp_impl_coroutine "version" cpp_impl_coroutine)
-if(cpp_impl_coroutine)
-  check_cxx_symbol_exists(__cpp_lib_coroutine "version" have_coroutine)
-endif()
-
 check_cxx_symbol_exists(__cpp_structured_bindings "" have_structured_bindings)
 
 foreach(t IN ITEMS format int_pow2
@@ -60,21 +53,6 @@ int main(){
 have_ranges_find
 )
 
-# C++17 execution policy with C++20 enhancements
-check_include_file_cxx(execution have_execution_policy)
-block()
-if(have_execution_policy)
-  if(TBB_FOUND)
-    set(CMAKE_REQUIRED_LIBRARIES TBB::tbb)
-  endif()
-  file(READ execution_policy.cpp _src)
-  check_source_compiles(CXX "${_src}" execution_policy_parallel)
-  if(NOT execution_policy_parallel)
-    set_property(CACHE have_execution_policy PROPERTY VALUE false)
-  endif()
-endif()
-endblock()
-
 foreach(t IN LISTS cpp20features)
   if(have_${t})
     add_executable(${t} ${t}.cpp)
@@ -82,12 +60,3 @@ foreach(t IN LISTS cpp20features)
     add_test(NAME ${t} COMMAND ${t})
   endif()
 endforeach()
-
-if(have_execution_policy)
-  target_compile_options(execution_policy PRIVATE ${stdpar_opt})
-  target_link_libraries(execution_policy PRIVATE $<$<BOOL:${TBB_FOUND}>:TBB::tbb>)
-endif()
-
-if(have_coroutine)
-  add_subdirectory(coroutine)
-endif()

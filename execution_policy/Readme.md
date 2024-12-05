@@ -1,8 +1,6 @@
 # Parallel STL std::execution policy
 
-The
-[execution_policy.cpp](./cpp20/execution_policy.cpp)
-example shows how to use the C++20 execution policy feature.
+The execution_policy example shows a simple benchmark.
 
 * GCC requires TBB library (`dnf install tbb-devel` or `apt install libtbb-dev`)
 * oneAPI uses oneTBB library

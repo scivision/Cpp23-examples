@@ -1,8 +1,20 @@
 set_property(DIRECTORY PROPERTY LABELS "coroutine")
 
-set(cpp20coroutine coroutine_handle handle co_return generator promise return yield)
+set(CMAKE_CXX_STANDARD 20)
 
-foreach(t IN LISTS cpp20coroutine)
+# https://en.cppreference.com/w/cpp/header/version
+
+check_cxx_symbol_exists(__cpp_impl_coroutine "version" cpp_impl_coroutine)
+if(cpp_impl_coroutine)
+  check_cxx_symbol_exists(__cpp_lib_coroutine "version" have_coroutine)
+endif()
+
+if(NOT have_coroutine)
+  return()
+endif()
+
+
+foreach(t IN ITEMS coroutine_handle handle co_return generator promise return yield)
   add_executable(coroutine_${t} ${t}.cpp)
 
   add_test(NAME coroutine_${t} COMMAND coroutine_${t})

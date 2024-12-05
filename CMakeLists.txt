@@ -63,7 +63,7 @@ sample
 
 set(cpp20features
 semaphore barrier
-bit_width execution_policy
+bit_width
 hardware_interference_size
 format jthread latch lerp midpoint
 likely math_constants ranges_find
@@ -89,6 +89,10 @@ endif()
 
 foreach(s IN LISTS stds)
   add_subdirectory(cpp${s})
+endforeach()
+
+foreach(f IN ITEMS coroutine execution_policy)
+  add_subdirectory(${f})
 endforeach()
 
 
