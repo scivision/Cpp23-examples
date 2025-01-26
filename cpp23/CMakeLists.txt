@@ -75,13 +75,6 @@ if(TARGET assume AND cppcheck)
   set_property(TARGET assume PROPERTY CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK};--suppress=redundantInitialization")
 endif()
 
-if(TARGET stdfloat)
-  if(cppcheck)
-  set_property(TARGET stdfloat PROPERTY CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK};--suppress=unreadVariable")
-  endif()
-  target_compile_options(stdfloat PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,GNU>:-Wno-unused-variable>)
-endif()
-
 if(WIN32)
 # https://gcc.gnu.org/gcc-14/changes.html
 if((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14) OR

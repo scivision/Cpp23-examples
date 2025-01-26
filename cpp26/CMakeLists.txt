@@ -24,8 +24,3 @@ foreach(t IN LISTS cpp26features)
 
   add_test(NAME ${t} COMMAND ${t})
 endforeach()
-
-if(TARGET adl_projected AND
-     APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_compile_options(adl_projected PRIVATE -Wno-unused-variable)
-endif()
