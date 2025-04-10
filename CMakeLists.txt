@@ -78,7 +78,7 @@ mdspan print
 stacktrace stdfloat unreachable
 )
 
-set(cpp26features adl_projected format_pointer linalg saturation_arithmetic)
+set(cpp26features adl_projected debugging format_pointer linalg saturation_arithmetic)
 
 # --- check for possible features
 
