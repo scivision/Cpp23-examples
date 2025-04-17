@@ -32,9 +32,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: cmake --workflow --preset debug
+    - run: cmake --workflow debug
 
-    - run: cmake --workflow --preset release
+    - run: cmake --workflow release
 
     - uses: actions/upload-artifact@v4
       if: success()
@@ -57,9 +57,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: cmake --workflow --preset debug
+    - run: cmake --workflow debug
 
-    - run: cmake --workflow --preset release
+    - run: cmake --workflow release
 
     - uses: actions/upload-artifact@v4
       if: success()
@@ -83,9 +83,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: cmake --workflow --preset debug
+    - run: cmake --workflow debug
 
-    - run: cmake --workflow --preset release
+    - run: cmake --workflow release
 
     - uses: actions/upload-artifact@v4
       if: success()
@@ -101,7 +101,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: cmake --workflow --preset msvc
+    - run: cmake --workflow msvc
 
     - uses: actions/upload-artifact@v4
       if: success()
@@ -127,9 +127,9 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - run: cmake --workflow --preset debug
+    - run: cmake --workflow debug
 
-    - run: cmake --workflow --preset release
+    - run: cmake --workflow release
 
     - uses: actions/upload-artifact@v4
       if: success()
