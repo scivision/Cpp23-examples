@@ -32,9 +32,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Ninja
-      run: sudo apt-get install ninja-build
-
     - run: cmake --workflow --preset debug
 
     - run: cmake --workflow --preset release
@@ -60,9 +57,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Ninja
-      run: sudo apt-get install ninja-build
-
     - run: cmake --workflow --preset debug
 
     - run: cmake --workflow --preset release
@@ -87,9 +81,6 @@ jobs:
         cxx: [clang++, g++-14]
 
     steps:
-    - name: Install Ninja
-      run: brew install ninja
-
     - uses: actions/checkout@v4
 
     - run: cmake --workflow --preset debug
@@ -128,7 +119,6 @@ jobs:
       with:
         update: true
         install: >-
-          mingw-w64-x86_64-ninja
           mingw-w64-x86_64-gcc
 # need GCC install to get latest G++
 
