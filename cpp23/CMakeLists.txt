@@ -22,7 +22,10 @@ endblock()
 endif()
 
 # https://en.cppreference.com/w/cpp/header/version
-foreach(t IN ITEMS expected flat_map flat_set mdspan print ranges_cartesian_product stacktrace unreachable)
+foreach(t IN ITEMS
+    expected flat_map flat_set mdspan print
+    ranges_cartesian_product ranges_enumerate
+    stacktrace unreachable)
   check_cxx_symbol_exists(__cpp_lib_${t} "version" have_${t})
 endforeach()
 
