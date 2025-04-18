@@ -13,6 +13,14 @@ to detect a feature, but some features require a small compile and link test.
 
 [C++ execution policy benchmark](./execution_policy/Readme.md)
 
+## Troubleshooting
+
+If the cstdlib check fails on macOS, this can be a symptom of
+[Xcode being incompatible](https://www.scivision.dev/cmake-macos-environment-xcode/)
+with the compiler.
+Try setting environment variable `SDKROOT` to the previous Xcode SDK path that worked previous to the Xcode upgrade that broke.
+
+
 ## Related projects
 
 * [C23 examples](https://github.com/scivision/C23-examples)
