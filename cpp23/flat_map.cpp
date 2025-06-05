@@ -3,26 +3,28 @@
 // contains(), find() and count() functions
 
 #include <flat_map>
+#include <utility> // for std::make_pair
 
 #include <iostream>
+#include <string>
 
 int main()
 {
-    std::flat_map<int, string> myMap;
+    std::flat_map<int, std::string> myMap;
 
-    myMap.insert(make_pair(1, "Geeks"));
-    myMap.insert(make_pair(2, "for"));
-    myMap.insert(make_pair(3, "Geeks"));
+    myMap.insert(std::make_pair(1, "Geeks"));
+    myMap.insert(std::make_pair(2, "for"));
+    myMap.insert(std::make_pair(3, "Geeks"));
 
     // Check if a key exists using contains()
     if (myMap.contains(2)) {
-        cout << "Key 2 exists in the map." << "\n";
+        std::cout << "Key 2 exists in the map." << "\n";
     }
 
     // Find an element by key using find()
     auto it = myMap.find(3);
     if (it != myMap.end()) {
-        cout << "Value at key 3: " << it->second << "\n";
+        std::cout << "Value at key 3: " << it->second << "\n";
     }
 
     // Count the number of elements with a specific key
