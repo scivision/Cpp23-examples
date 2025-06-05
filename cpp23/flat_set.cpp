@@ -9,9 +9,9 @@
 
 
 // utility function to print the flat_set
-void printfset(flat_set<int>& fset)
+void printfset(std::flat_set<int>& fset)
 {
-    std::ostream_iterator<int> it_out(cout, " ");
+    std::ostream_iterator<int> it_out(std::cout, " ");
     std::copy(fset.begin(), fset.end(), it_out);
     std::cout << "\n";
 }
@@ -26,10 +26,6 @@ int main()
     // defining a flat_set container with the vector
     // iterators
     std::flat_set<int> fset(begin(vec), end(vec));
-
-    // printing the fset elements
-    std::cout << "Elements in the flat_set: ";
-    printfset(fset);
 
     // size of fset container
     std::cout << "Number of elements in the flat_set: "
