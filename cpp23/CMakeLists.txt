@@ -1,4 +1,5 @@
 set_property(DIRECTORY PROPERTY LABELS 23)
+find_package(Threads REQUIRED)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -64,6 +65,7 @@ endblock()
 foreach(t IN LISTS cpp23features)
   if(have_${t})
     add_executable(${t} ${t}.cpp)
+    target_link_libraries(${t} PRIVATE Threads::Threads)
 
     if(${t} STREQUAL "unreachable")
       add_test(NAME unreachable

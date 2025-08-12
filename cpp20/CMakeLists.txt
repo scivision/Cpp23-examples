@@ -1,4 +1,5 @@
 set_property(DIRECTORY PROPERTY LABELS 20)
+find_package(Threads REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -56,7 +57,7 @@ have_ranges_find
 foreach(t IN LISTS cpp20features)
   if(have_${t})
     add_executable(${t} ${t}.cpp)
-
+    target_link_libraries(${t} PRIVATE Threads::Threads)
     add_test(NAME ${t} COMMAND ${t})
   endif()
 endforeach()
