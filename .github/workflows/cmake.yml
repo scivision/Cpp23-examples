@@ -48,7 +48,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: success()
       with:
-        name: ${{ runner.os }}-${{ matrix.cxx }}_features.json
+        name: ${{ runner.os }}-${{ env.CXX }}_features.json
         path: build/features.json
 
 
@@ -58,13 +58,19 @@ jobs:
 
     strategy:
       matrix:
-        cxx: [g++-9, g++-10, g++-11]
+        gcc-version: [9, 10, 11]
 
     env:
-      CXX: ${{ matrix.cxx }}
+      CXX: g++-${{ matrix.gcc-version }}
 
     steps:
     - *checkout
+
+    - name: GCC APT
+      if: matrix.gcc-version < 11
+      run: |
+        sudo apt update -y
+        sudo apt install -y --no-install-recommends gcc-${{ matrix.gcc-version }} g++-${{ matrix.gcc-version }}
 
     - *debug
 
@@ -85,9 +91,9 @@ jobs:
         cxx: [clang++, g++-15]
 
     steps:
-    - name: Latest Xcode needed for GCC
-      if: startsWith(matrix.cxx, 'g++')
-      run: sudo xcode-select --switch /Library/Developer/CommandLineTools
+    # - name: Latest Xcode needed for GCC
+    #   if: startsWith(matrix.cxx, 'g++')
+    #   run: sudo xcode-select --switch /Library/Developer/CommandLineTools
 # This comes into play when GA is pinned to an old Xcode b/c Homebrew builds against latest
 # Every say year or two this becomes an issue.
 # https://github.com/Homebrew/homebrew-core/issues/228131
