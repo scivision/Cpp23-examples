@@ -17,7 +17,10 @@ void f(int& x, int y)
     x = 3;
     int z = x;
 
-    [[assume((h(), x == z))]]; // Compiler may assume x would have the same value after
+    // commented due to AppleClang
+    // error: assumption is ignored because it contains (potential) side-effects [-Werror,-Wassume]
+    // [[assume((h(), x == z))]];
+    // Compiler may assume x would have the same value after
                                // calling h
                                // The assumption does not cause a call to h
 
@@ -30,7 +33,9 @@ void f(int& x, int y)
 
     z = std::abs(y);
 
-    [[assume((g(z), true))]]; // Compiler may assume g(z) will return
+    // commented due to AppleClang
+    // error: assumption is ignored because it contains (potential) side-effects [-Werror,-Wassume]
+    // [[assume((g(z), true))]]; // Compiler may assume g(z) will return
 
     g(z); // Due to above and below assumptions, compiler may replace this with g(10);
 
