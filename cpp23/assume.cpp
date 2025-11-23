@@ -1,4 +1,14 @@
 // https://en.cppreference.com/w/cpp/language/attributes/assume
+//
+// A false assumption is undefined behavior; AppleClang’s implementation materializes this as a trap instruction, raising SIGTRAP.
+// Other compilers may simply optimize away paths without visibly trapping, so the issue only appeared with AppleClang.
+
+// Why AppleClang traps: For a language-level assumption it can treat the negated condition as unreachable.
+// Emitting an explicit trap (e.g., ud2) is a valid way to represent unreachable code, making UB manifest early.
+
+// Side-effect warnings: Attributes like [[assume((h(), x == z))]] are rejected (ignored) because the expression can have observable side effects;
+// AppleClang warns (and with -Werror becomes an error).
+// Only pure boolean conditions should be used.
 
 #include <cmath>
 #include <cstdlib>
@@ -8,43 +18,32 @@ void h(void){};
 
 void f(int& x, int y)
 {
-
-
     [[assume(x > 0)]]; // Compiler may assume x is positive
 
     g(x / 2); // More efficient code possibly generated
 
-    x = 3;
+    // Set x so later assumption about (x - 1) * 3 == 12 holds (x becomes 5).
+    x = 5;
     int z = x;
 
-    // commented due to AppleClang
-    // error: assumption is ignored because it contains (potential) side-effects [-Werror,-Wassume]
-    // [[assume((h(), x == z))]];
-    // Compiler may assume x would have the same value after
-                               // calling h
-                               // The assumption does not cause a call to h
+    // Side-effect examples commented: AppleClang warns and may treat as ignored.
+    // [[assume((h(), x == z))]]; // would be ignored: potential side-effects.
 
     h();
-    g(x); // Compiler may replace this with g(3);
+    g(x); // Compiler may replace this with g(5) (after x assignment).
 
     h();
-    g(x); // Compiler may NOT replace this with g(3);
-          // An assumption applies only at the point where it appears
+    g(x); // An assumption applies only at the point where it appears.
 
     z = std::abs(y);
+    // [[assume((g(z), true))]]; // would be ignored: potential side-effects.
 
-    // commented due to AppleClang
-    // error: assumption is ignored because it contains (potential) side-effects [-Werror,-Wassume]
-    // [[assume((g(z), true))]]; // Compiler may assume g(z) will return
+    g(z); // With y == -10 below, z == 10.
 
-    g(z); // Due to above and below assumptions, compiler may replace this with g(10);
+    [[assume(y == -10)]]; // Undefined behavior if y != -10; here it's true.
+    [[assume((x - 1) * 3 == 12)]]; // Holds since x == 5; avoids UB trap.
 
-    [[assume(y == -10)]]; // Undefined behavior if y != -10 at this point
-
-    [[assume((x - 1) * 3 == 12)]];
-
-    g(x); // Compiler may replace this with g(5);
-
+    g(x); // Compiler may replace this with g(5).
 }
 
 int main(){
