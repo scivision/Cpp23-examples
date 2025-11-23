@@ -8,7 +8,7 @@ check_cxx_symbol_exists(__cpp_structured_bindings "" have_structured_bindings)
 foreach(t IN ITEMS format int_pow2
   hardware_interference_size jthread ssize
   latch lerp math_constants midpoint
-  semaphore source_location smart_ptr_for_overwrite)
+  semaphore source_location smart_ptr_for_overwrite syncbuf)
   check_cxx_symbol_exists(__cpp_lib_${t} "version" have_${t})
 endforeach()
 
@@ -17,9 +17,8 @@ if(have_int_pow2)
   check_source_compiles(CXX "${_src}" have_bit_width)
 endif()
 
-check_include_file_cxx(syncstream have_syncstream)
-# example requires jthread, syncstream, ssize
-if(have_jthread AND have_syncstream AND have_ssize)
+# example requires jthread, syncbuf, ssize
+if(have_jthread AND have_syncbuf AND have_ssize)
   check_cxx_symbol_exists(__cpp_lib_barrier "version" have_barrier)
 endif()
 
