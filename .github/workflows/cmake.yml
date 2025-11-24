@@ -45,7 +45,7 @@ jobs:
       run: cmake --workflow release
 
     - &features
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: success()
       with:
         name: ${{ runner.os }}-${{ env.CXX }}_features.json
@@ -111,14 +111,12 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 10
 
-    strategy:
-      matrix:
-        cxx: [msvc]
-
     steps:
     - *checkout
 
-    - run: cmake --workflow msvc
+    - run: cmake --workflow debug
+      env:
+        CMAKE_GENERATOR: Visual Studio 17 2022
 
     - *features
 
@@ -129,7 +127,10 @@ jobs:
 
     strategy:
       matrix:
-        cxx: [g++]
+        cc: [{pkg: clang, cxx: clang++}, {pkg: gcc, cxx: g++}]
+
+    env:
+      CXX: ${{ matrix.cc.cxx }}
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -137,8 +138,7 @@ jobs:
       with:
         update: true
         install: >-
-          mingw-w64-ucrt-x86_64-gcc
-# need GCC install to get latest G++
+          mingw-w64-ucrt-x86_64-${{ matrix.cc.pkg }}
 
     - name: Put MSYS2_MinGW64 on PATH
       run: echo "${{ steps.msys2.outputs.msys2-location }}/ucrt64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
@@ -153,7 +153,7 @@ jobs:
 
     - name: upload CMakeConfigureLog.yaml
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: ${{ runner.os }}-CMakeConfigureLog.yaml
         path: build/CMakeFiles/CMakeConfigureLog.yaml

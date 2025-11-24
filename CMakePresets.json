@@ -13,14 +13,6 @@
   "name": "multi", "inherits": "default",
   "displayName": "Ninja Multi-Config",
   "generator": "Ninja Multi-Config"
-},
-{
-  "name": "msvc", "inherits": "default",
-  "generator": "Visual Studio 17 2022",
-  "binaryDir": "${sourceDir}/build-msvc",
-  "cacheVariables": {
-    "CMAKE_COMPILE_WARNING_AS_ERROR": false
-  }
 }
 ],
 "buildPresets": [
@@ -36,11 +28,6 @@
   {
     "name": "debug",
     "configurePreset": "multi",
-    "configuration": "Debug"
-  },
-  {
-    "name": "msvc-debug",
-    "configurePreset": "msvc",
     "configuration": "Debug"
   }
 ],
@@ -68,11 +55,6 @@
   "name": "debug", "inherits": "default",
   "configurePreset": "multi",
   "configuration": "Debug"
-},
-{
-  "name": "msvc-debug", "inherits": "default",
-  "configurePreset": "msvc",
-  "configuration": "Debug"
 }
 ],
 "workflowPresets": [
@@ -98,14 +80,6 @@
       { "type": "configure", "name": "multi" },
       { "type": "build", "name": "release" },
       { "type": "test", "name": "release" }
-    ]
-  },
-  {
-    "name": "msvc",
-    "steps": [
-      { "type": "configure", "name": "msvc" },
-      { "type": "build", "name": "msvc-debug" },
-      { "type": "test", "name": "msvc-debug" }
     ]
   }
 ]
