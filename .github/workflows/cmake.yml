@@ -36,7 +36,7 @@ jobs:
 
     steps:
     - &checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - &debug
       run: cmake --workflow debug
@@ -45,7 +45,7 @@ jobs:
       run: cmake --workflow release
 
     - &features
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       if: success()
       with:
         name: ${{ runner.os }}-${{ env.CXX }}_features.json
@@ -153,7 +153,7 @@ jobs:
 
     - name: upload CMakeConfigureLog.yaml
       if: failure()
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: ${{ runner.os }}-CMakeConfigureLog.yaml
         path: build/CMakeFiles/CMakeConfigureLog.yaml
