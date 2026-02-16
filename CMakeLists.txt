@@ -74,12 +74,17 @@ structured_bindings
 
 set(cpp23features
 assume expected flat_map flat_set
+format_ranges
 mdspan print
 ranges_cartesian_product ranges_enumerate
 stacktrace stdfloat unreachable
 )
 
-set(cpp26features adl_projected debugging format_pointer linalg saturation_arithmetic)
+set(cpp26features
+adl_projected
+debugging
+format_pointer
+linalg saturation_arithmetic)
 
 # --- check for possible features
 
