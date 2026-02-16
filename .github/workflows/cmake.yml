@@ -114,9 +114,9 @@ jobs:
     steps:
     - *checkout
 
-    - run: cmake --workflow debug
-      env:
-        CMAKE_GENERATOR: Visual Studio 18 2026
+    - run: cmake -B build -G "Visual Studio 18 2026"
+    - run: cmake --build build --config Debug
+    - run: ctest --test-dir build -V -C Debug
 
     - *features
 
