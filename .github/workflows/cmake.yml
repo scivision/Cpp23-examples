@@ -8,6 +8,7 @@ on:
       - "**.cmake"
       - "**/CMakeLists.txt"
       - ".github/workflows/cmake.yml"
+      - "CMakePresets.json"
   workflow_dispatch:
 
 # avoid wasted runs
@@ -16,8 +17,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CTEST_NO_TESTS_ACTION: error
-  CTEST_PARALLEL_LEVEL: 0
   HOMEBREW_NO_AUTO_UPDATE: 1
 
 
@@ -42,7 +41,7 @@ jobs:
       run: cmake --workflow default
 
     - &features
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: success()
       with:
         name: ${{ runner.os }}-${{ env.CXX }}_features.json
@@ -64,7 +63,7 @@ jobs:
     - *checkout
 
     - name: GCC APT
-      if: matrix.gcc-version < 11
+      if: matrix.gcc-version < 10
       run: |
         sudo apt update -y
         sudo apt install -y --no-install-recommends gcc-${{ matrix.gcc-version }} g++-${{ matrix.gcc-version }}
@@ -107,9 +106,7 @@ jobs:
     steps:
     - *checkout
 
-    - run: cmake --workflow debug
-      env:
-        CMAKE_GENERATOR: Visual Studio 18 2026
+    - run: cmake --workflow msvc
 
     - *features
 
@@ -124,7 +121,6 @@ jobs:
 
     env:
       CXX: ${{ matrix.cc.cxx }}
-      CMAKE_GENERATOR: Ninja
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -145,7 +141,7 @@ jobs:
 
     - name: upload CMakeConfigureLog.yaml
       if: failure()
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
-        name: ${{ runner.os }}-CMakeConfigureLog.yaml
+        name: ${{ runner.os }}-${{ env.CXX }}-CMakeConfigureLog.yaml
         path: build/CMakeFiles/CMakeConfigureLog.yaml

@@ -4,28 +4,39 @@
 "configurePresets": [
 {
   "name": "default",
-  "binaryDir": "${sourceDir}/build",
+  "binaryDir": "build",
+  "generator": "Ninja",
   "cacheVariables": {
+    "CMAKE_BUILD_TYPE": "Release",
     "CMAKE_COMPILE_WARNING_AS_ERROR": true,
     "CMAKE_LINK_WARNING_AS_ERROR": true
   }
+},
+{
+  "name": "debug", "inherits": "default",
+  "cacheVariables": {
+    "CMAKE_BUILD_TYPE": "Debug"
+  }
+},
+{
+  "name": "msvc", "inherits": "default",
+  "generator": "Visual Studio 18 2026"
 }
 ],
 "buildPresets": [
   {
     "name": "default",
-    "configurePreset": "default"
-  },
-  {
-    "name": "debug",
     "configurePreset": "default",
-    "configuration": "Debug"
-  }
+    "configuration": "Release"
+  },
+  { "name": "msvc", "inherits": "default", "configurePreset": "msvc" },
+  { "name": "debug", "configurePreset": "debug", "configuration": "Debug" }
 ],
 "testPresets": [
 {
   "name": "default",
   "configurePreset": "default",
+  "configuration": "Release",
   "output": {
     "outputOnFailure": true,
     "verbosity": "verbose"
@@ -37,9 +48,10 @@
     "timeout": 60
   }
 },
+{ "name": "msvc", "inherits": "default", "configurePreset": "msvc" },
 {
   "name": "debug", "inherits": "default",
-  "configurePreset": "default",
+  "configurePreset": "debug",
   "configuration": "Debug"
 }
 ],
@@ -55,9 +67,17 @@
   {
     "name": "debug",
     "steps": [
-      { "type": "configure", "name": "default" },
+      { "type": "configure", "name": "debug" },
       { "type": "build", "name": "debug" },
       { "type": "test", "name": "debug" }
+    ]
+  },
+  {
+    "name": "msvc",
+    "steps": [
+      { "type": "configure", "name": "msvc" },
+      { "type": "build", "name": "msvc" },
+      { "type": "test", "name": "msvc" }
     ]
   }
 ]
