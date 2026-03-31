@@ -3,7 +3,11 @@ set_property(DIRECTORY PROPERTY LABELS 26)
 set(CMAKE_CXX_STANDARD 26)
 
 foreach(f IN LISTS cpp26features)
-  check_cxx_symbol_exists(__cpp_lib_${f} "version" have_${f})
+  if(f STREQUAL "embed")
+    check_cxx_symbol_exists(__cpp_pp_embed "" have_embed)
+  else()
+    check_cxx_symbol_exists(__cpp_lib_${f} "version" have_${f})
+  endif()
 endforeach()
 
 # using try_run was not adequate
@@ -21,6 +25,7 @@ foreach(t IN LISTS cpp26features)
   endif()
 
   add_executable(${t} ${t}.cpp)
+  target_include_directories(${t} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
   add_test(NAME ${t} COMMAND ${t})
 endforeach()

@@ -82,7 +82,7 @@ stacktrace stdfloat unreachable
 
 set(cpp26features
 adl_projected
-debugging
+debugging embed
 format_pointer
 linalg saturation_arithmetic)
 
