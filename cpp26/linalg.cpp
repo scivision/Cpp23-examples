@@ -15,7 +15,11 @@ int main()
 {
     constexpr std::size_t N = 40;
     std::vector<double> x_vec(N);
+#ifdef __cpp_lib_ranges_iota
     std::ranges::iota(x_vec, 0);
+#else
+    std::iota(x_vec.begin(), x_vec.end(), 0);
+#endif
 
     std::mdspan x(x_vec.data(), N);
 

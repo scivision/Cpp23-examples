@@ -88,7 +88,10 @@ linalg saturation_arithmetic)
 
 # --- check for possible features
 
-set(stds 11 14 17 20 23)
+set(stds 11 14 17 20)
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM" OR CMAKE_VERSION VERSION_GREATER_EQUAL 3.30)
+  list(APPEND stds 23)
+endif()
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.30)
   list(APPEND stds 26)
 endif()

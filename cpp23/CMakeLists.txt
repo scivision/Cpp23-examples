@@ -3,10 +3,6 @@ find_package(Threads REQUIRED)
 
 set(CMAKE_CXX_STANDARD 23)
 
-if(CMAKE_VERSION VERSION_LESS 3.30 AND CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
-  message(WARNING "IntelLLVM requires CMake 3.30 or later for C++23")
-endif()
-
 if(has_cpp_attribute)
 
 block()
@@ -27,7 +23,7 @@ foreach(t IN ITEMS
     expected flat_map flat_set
     format_ranges
     mdspan print
-    ranges_cartesian_product ranges_enumerate
+    ranges_cartesian_product ranges_enumerate ranges_iota
     stacktrace unreachable)
   check_cxx_symbol_exists(__cpp_lib_${t} "version" have_${t})
 endforeach()
