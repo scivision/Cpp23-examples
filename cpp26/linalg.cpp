@@ -1,6 +1,5 @@
 // https://en.cppreference.com/w/cpp/numeric/linalg
 #include <cassert>
-#include <cstddef>
 #include <linalg>
 #include <mdspan>
 #include <numeric>
@@ -18,7 +17,7 @@
 
 int main()
 {
-    constexpr std::size_t N = 40;
+    constexpr std::vector<double>::size_type N = 40;
     std::vector<double> x_vec(N);
 #if defined(__cpp_lib_ranges_iota)
     std::ranges::iota(x_vec, 0);
@@ -36,7 +35,7 @@ int main()
     std::linalg::scale(std::execution::par_unseq, 3.0, x);
 #endif
 
-    for (std::size_t i{}; i != N; ++i)
+    for (std::mdspan::size_type i{}; i != N; ++i)
         assert(x[i] == 6.0 * static_cast<double>(i));
 
     std::cout << "OK: c++26 std::linalg::scale works as expected\n";

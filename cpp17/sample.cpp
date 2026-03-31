@@ -13,7 +13,7 @@ static const char charset[] =
     "abcdefghijklmnopqrstuvwxyz";
 
 template<typename URBG>
-std::string gen_string(std::size_t length, URBG&& g) {
+std::string gen_string(std::string::size_type length, URBG&& g) {
     std::string result;
     result.resize(length);
     std::sample(std::cbegin(charset),

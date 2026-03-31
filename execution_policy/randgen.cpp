@@ -7,7 +7,7 @@
 
 #include "randgen.h"
 
-std::vector<std::uint32_t> gen_array(const std::size_t N){
+std::vector<std::uint32_t> gen_array(const std::vector<std::uint32_t>::size_type N){
 // efficiently generate random numbers
 // https://en.cppreference.com/w/cpp/algorithm/execution_policy_tag
 

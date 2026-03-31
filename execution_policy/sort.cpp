@@ -1,6 +1,5 @@
 // https://devblogs.microsoft.com/cppblog/using-c17-parallel-algorithms-for-better-performance/
 
-#include <cstddef>
 #include <iostream>
 #include <algorithm> // std::sort
 #include <chrono>
@@ -15,7 +14,7 @@
 
 int main(int argc, char *argv[])
 {
-  std::size_t N = 1'000'000;
+  std::vector<std::uint32_t>::size_type N = 1'000'000;
   std::size_t iterationCount = 1;
 
   if(argc > 1)

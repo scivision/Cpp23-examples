@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <cassert>
-#include <cstddef>
 #include <cstdlib>
 #include <cstdint>
 #include <utility>
@@ -15,7 +14,7 @@
 struct Color { std::uint8_t r, g, b, a; };
 
 // Assume that only restricted set of texture caps is supported.
-void generate_texture(std::vector<Color>& tex, std::size_t xy)
+void generate_texture(std::vector<Color>& tex, std::vector<Color>::size_type xy)
 {
     switch (xy) {
     case 128: [[fallthrough]];

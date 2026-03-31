@@ -21,7 +21,10 @@ void print_match(const std::vector<uint32_t>& arr, std::vector<uint32_t>::const_
 
 template <typename ExecutionPolicy>
 
-double measure_execution_time(const std::size_t N, ExecutionPolicy policy, std::string_view policy_name, double tref = 0)
+double measure_execution_time(const std::vector<std::uint32_t>::size_type N,
+  ExecutionPolicy policy,
+  std::string_view policy_name,
+  double tref = 0)
 {
   std::vector<uint32_t> arr = gen_array(N);
 
@@ -44,7 +47,7 @@ double measure_execution_time(const std::size_t N, ExecutionPolicy policy, std::
 
 int main(int argc, char** argv){
 
-  std::size_t N = 10'000'000;
+  std::vector<std::uint32_t>::size_type N = 10'000'000;
 
   if(argc > 1)
     N = std::atoll(argv[1]);

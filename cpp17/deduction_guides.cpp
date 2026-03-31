@@ -24,7 +24,7 @@ auto random_generator() -> T {
     return T{seed_seq};
 }
 
-auto generate_random_alphanumeric_string(std::size_t len) -> std::string {
+auto generate_random_alphanumeric_string(std::string::size_type len) -> std::string {
     static constexpr auto chars =
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
