@@ -6,6 +6,11 @@
 #include <numeric>
 #include <vector>
 #include <cstdlib>
+#include <iostream>
+
+#ifndef __cpp_lib_linalg
+#error "std::linalg is not supported"
+#endif
 
 #if __has_include(<execution>)
 #include <execution>
@@ -15,7 +20,7 @@ int main()
 {
     constexpr std::size_t N = 40;
     std::vector<double> x_vec(N);
-#ifdef __cpp_lib_ranges_iota
+#if defined(__cpp_lib_ranges_iota)
     std::ranges::iota(x_vec, 0);
 #else
     std::iota(x_vec.begin(), x_vec.end(), 0);
@@ -33,6 +38,8 @@ int main()
 
     for (std::size_t i{}; i != N; ++i)
         assert(x[i] == 6.0 * static_cast<double>(i));
+
+    std::cout << "OK: c++26 std::linalg::scale works as expected\n";
 
     return EXIT_SUCCESS;
 }
