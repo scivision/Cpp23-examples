@@ -46,7 +46,8 @@
   "execution": {
     "noTestsAction": "error",
     "scheduleRandom": true,
-    "stopOnFailure": false
+    "stopOnFailure": false,
+    "jobs": 4
   }
 },
 { "name": "msvc", "inherits": "default", "configurePreset": "msvc" },

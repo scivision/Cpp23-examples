@@ -31,18 +31,34 @@ endforeach()
 check_include_file_cxx(stdfloat have_stdfloat)
 
 block()
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
+  check_source_compiles(CXX "int main() { return 0; }"
+  can_link_stdcxxexp
+  )
+
+  set(CMAKE_REQUIRED_LIBRARIES stdc++_libbacktrace)
+  check_source_compiles(CXX "int main() { return 0; }"
+  can_link_stdcxx_libbacktrace
+  )
+endif()
+endblock()
+
+block()
 if(have_stacktrace)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14 AND can_link_stdcxxexp)
       set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
-    else()
+    elseif(can_link_stdcxx_libbacktrace)
       set(CMAKE_REQUIRED_LIBRARIES stdc++_libbacktrace)
     endif()
   endif()
 
   if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(CMAKE_REQUIRED_FLAGS -fsized-deallocation)
-    set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
+    if(can_link_stdcxxexp)
+      set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
+    endif()
   endif()
 
   check_source_compiles(CXX
@@ -80,8 +96,7 @@ endif()
 
 if(WIN32)
 # https://gcc.gnu.org/gcc-14/changes.html
-if((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14) OR
-   (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+if(can_link_stdcxxexp)
     if(TARGET print)
       target_link_libraries(print PRIVATE stdc++exp)
     endif()
@@ -90,11 +105,11 @@ endif()
 
 # stacktrace
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14 AND can_link_stdcxxexp)
     if(TARGET stacktrace)
       target_link_libraries(stacktrace PRIVATE stdc++exp)
     endif()
-  else()
+  elseif(can_link_stdcxx_libbacktrace)
     if(TARGET stacktrace)
       target_link_libraries(stacktrace PRIVATE stdc++_libbacktrace)
     endif()
@@ -104,7 +119,9 @@ endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   if(TARGET stacktrace)
     target_compile_options(stacktrace PRIVATE -fsized-deallocation)
-    target_link_libraries(stacktrace PRIVATE stdc++exp)
+    if(can_link_stdcxxexp)
+      target_link_libraries(stacktrace PRIVATE stdc++exp)
+    endif()
   endif()
 endif()
 # end stacktrace
