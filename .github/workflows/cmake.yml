@@ -16,13 +16,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  HOMEBREW_NO_AUTO_UPDATE: 1
-
 
 jobs:
 
-  gcc-new:
+  linux-new:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -37,7 +34,7 @@ jobs:
     - &checkout
       uses: actions/checkout@v6
 
-    - &buildtest
+    - &workflow
       run: cmake --workflow default
 
     - &features
@@ -47,8 +44,7 @@ jobs:
         name: ${{ runner.os }}-${{ env.CXX }}_features.json
         path: build/features.json
 
-
-  gcc-old:
+  linux-old:
     runs-on: ubuntu-22.04
     timeout-minutes: 5
 
@@ -68,21 +64,20 @@ jobs:
         sudo apt update -y
         sudo apt install -y --no-install-recommends gcc-${{ matrix.gcc-version }} g++-${{ matrix.gcc-version }}
 
-    - *buildtest
+    - *workflow
 
     - *features
-
 
   mac:
     runs-on: macos-latest
     timeout-minutes: 5
 
-    env:
-      CXX: ${{ matrix.cxx }}
-
     strategy:
       matrix:
         cxx: [clang++, g++-15]
+
+    env:
+      CXX: ${{ matrix.cxx }}
 
     steps:
     # - name: Latest Xcode needed for GCC
@@ -94,19 +89,7 @@ jobs:
 
     - *checkout
 
-    - *buildtest
-
-    - *features
-
-
-  windows-msvc:
-    runs-on: windows-2025-vs2026
-    timeout-minutes: 10
-
-    steps:
-    - *checkout
-
-    - run: cmake --workflow msvc
+    - *workflow
 
     - *features
 
@@ -121,6 +104,8 @@ jobs:
 
     env:
       CXX: ${{ matrix.cc.cxx }}
+      CMAKE_GENERATOR: Ninja
+# CMAKE_GENERATOR needed to override MSVC default, even with CC specified
 
     steps:
     - uses: msys2/setup-msys2@v2
@@ -135,13 +120,18 @@ jobs:
 
     - *checkout
 
-    - *buildtest
+    - *workflow
 
     - *features
 
-    - name: upload CMakeConfigureLog.yaml
-      if: failure()
-      uses: actions/upload-artifact@v7
-      with:
-        name: ${{ runner.os }}-${{ env.CXX }}-CMakeConfigureLog.yaml
-        path: build/CMakeFiles/CMakeConfigureLog.yaml
+
+  windows-msvc:
+    runs-on: windows-2025-vs2026
+    timeout-minutes: 10
+
+    steps:
+    - *checkout
+
+    - run: cmake --workflow msvc
+
+    - *features
