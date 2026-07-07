@@ -41,6 +41,16 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
   )
 endif()
 
+if(have_print)
+  check_source_compiles(CXX "#include <print>
+  int main() { std::print(\"Hello\"); return 0; }"
+  print_links
+  )
+  if(NOT print_links)
+    set_property(CACHE have_print PROPERTY VALUE false)
+  endif()
+endif()
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   set(CMAKE_REQUIRED_LIBRARIES stdc++_libbacktrace)
   check_source_compiles(CXX "int main() { return 0; }"
