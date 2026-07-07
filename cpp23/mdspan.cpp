@@ -2,7 +2,7 @@
 
 #include <cstddef>
 #include <mdspan>
-#include <print>
+#include <iostream>
 #include <vector>
 #include <cstdlib>
 
@@ -34,19 +34,18 @@ int main()
     // Read back using 3D view
     for (std::size_t i = 0; i != ms3.extent(0); i++)
     {
-        std::println("slice @ i = {}", i);
+        std::cout << "slice @ i = " << i << "\n";
         for (std::size_t j = 0; j != ms3.extent(1); j++)
         {
             for (std::size_t k = 0; k != ms3.extent(2); k++)
 
-                std::print("{} ", ms3[
+                std::cout << ms3[
 #ifdef _MSC_VER
                 std::array{i, j, k}
 #else
                 i, j, k
 #endif
-                ]);
-            std::println("");
+                ] << "\n";
         }
     }
 

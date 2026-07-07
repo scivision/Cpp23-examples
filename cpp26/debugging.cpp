@@ -1,14 +1,14 @@
 #include <debugging>
 
 #include <cstdlib>
-#include <print>
+#include <iostream>
 
 int main()
 {
     if(std::is_debugger_present())
-      std::println("Debugger is present");
+      std::cout << "Debugger is present\n";
     else
-      std::println("Debugger is not present");
+      std::cout << "Debugger is not present\n";
 
     return EXIT_SUCCESS;
 }

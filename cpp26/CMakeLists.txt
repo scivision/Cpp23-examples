@@ -2,12 +2,23 @@ set_property(DIRECTORY PROPERTY LABELS 26)
 
 set(CMAKE_CXX_STANDARD 26)
 
+# certain features like is_debugger_present need a link test
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "EXECUTABLE")
+
 foreach(f IN LISTS cpp26features)
-  if(f STREQUAL "embed")
+  if(f STREQUAL "debugging")
+    check_source_compiles(CXX
+    [=[
+    #include <debugging>
+    #if !defined(__cpp_lib_debugging) || __cpp_lib_debugging < 202403L
+    #error "debugging not available"
+    #endif
+    int main() { std::is_debugger_present(); return 0; }
+    ]=]
+    have_debugging)
+  elseif(f STREQUAL "embed")
     check_cxx_symbol_exists(__cpp_pp_embed "" have_embed)
   elseif(f STREQUAL "saturation_arithmetic")
-    block()
-    set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
     check_source_compiles(CXX
     [=[
     #include <numeric>
@@ -16,7 +27,6 @@ foreach(f IN LISTS cpp26features)
     #endif
     ]=]
     have_saturation_arithmetic)
-    endblock()
   else()
     check_cxx_symbol_exists(__cpp_lib_${f} "version" have_${f})
   endif()

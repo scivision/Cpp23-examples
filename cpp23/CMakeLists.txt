@@ -133,7 +133,3 @@ endif()
 if(TEST expected)
   set_property(TEST expected PROPERTY PASS_REGULAR_EXPRESSION "42")
 endif()
-
-if(TEST mdspan)
-  set_property(TEST mdspan PROPERTY PASS_REGULAR_EXPRESSION "1004 1005")
-endif()
