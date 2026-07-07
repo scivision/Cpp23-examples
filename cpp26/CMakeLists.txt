@@ -5,6 +5,18 @@ set(CMAKE_CXX_STANDARD 26)
 foreach(f IN LISTS cpp26features)
   if(f STREQUAL "embed")
     check_cxx_symbol_exists(__cpp_pp_embed "" have_embed)
+  elseif(f STREQUAL "saturation_arithmetic")
+    block()
+    set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+    check_source_compiles(CXX
+    [=[
+    #include <numeric>
+    #if !defined(__cpp_lib_saturation_arithmetic) || __cpp_lib_saturation_arithmetic < 202603L
+    #error "saturation_arithmetic not available"
+    #endif
+    ]=]
+    have_saturation_arithmetic)
+    endblock()
   else()
     check_cxx_symbol_exists(__cpp_lib_${f} "version" have_${f})
   endif()
