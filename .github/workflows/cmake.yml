@@ -19,13 +19,13 @@ concurrency:
 
 jobs:
 
-  linux-new:
-    runs-on: ubuntu-latest
+  ubuntu26:
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
 
     strategy:
       matrix:
-        cxx: [g++-12, g++-13, g++-14, clang++-18]
+        cxx: [g++-15, clang++-22]
 
     env:
       CXX: ${{ matrix.cxx }}
@@ -44,7 +44,23 @@ jobs:
         name: ${{ runner.os }}-${{ env.CXX }}_features.json
         path: build/features.json
 
-  linux-old:
+  ubuntu24:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    strategy:
+      matrix:
+        cxx: [g++-12, g++-13, g++-14]
+
+    env:
+      CXX: ${{ matrix.cxx }}
+
+    steps:
+    - *checkout
+    - *workflow
+    - *features
+
+  ubuntu22:
     runs-on: ubuntu-22.04
     timeout-minutes: 5
 
@@ -88,9 +104,7 @@ jobs:
 # https://github.com/Homebrew/homebrew-core/issues/228131
 
     - *checkout
-
     - *workflow
-
     - *features
 
 
