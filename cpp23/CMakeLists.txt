@@ -31,35 +31,33 @@ endforeach()
 check_include_file_cxx(stdfloat have_stdfloat)
 
 block()
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "EXECUTABLE")
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
+   CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
   set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
   check_source_compiles(CXX "int main() { return 0; }"
   can_link_stdcxxexp
   )
+endif()
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   set(CMAKE_REQUIRED_LIBRARIES stdc++_libbacktrace)
   check_source_compiles(CXX "int main() { return 0; }"
   can_link_stdcxx_libbacktrace
   )
 endif()
-endblock()
 
-block()
 if(have_stacktrace)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14 AND can_link_stdcxxexp)
-      set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
-    elseif(can_link_stdcxx_libbacktrace)
+    if(can_link_stdcxx_libbacktrace)
       set(CMAKE_REQUIRED_LIBRARIES stdc++_libbacktrace)
+    elseif(can_link_stdcxxexp)
+      set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
     endif()
   endif()
 
-  if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    set(CMAKE_REQUIRED_FLAGS -fsized-deallocation)
-    if(can_link_stdcxxexp)
-      set(CMAKE_REQUIRED_LIBRARIES stdc++exp)
-    endif()
-  endif()
+# Clang: https://github.com/llvm/llvm-project/issues/105131
 
   check_source_compiles(CXX
   "#include <stacktrace>
@@ -94,18 +92,16 @@ if(TARGET assume AND cppcheck)
   set_property(TARGET assume PROPERTY CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK};--suppress=redundantInitialization")
 endif()
 
-if(WIN32)
-# https://gcc.gnu.org/gcc-14/changes.html
-if(can_link_stdcxxexp)
-    if(TARGET print)
-      target_link_libraries(print PRIVATE stdc++exp)
-    endif()
-endif()
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND can_link_stdcxxexp)
+# https://gcc.gnu.org/gcc-14/changes.html#libstdcxx
+  if(TARGET print)
+    target_link_libraries(print PRIVATE stdc++exp)
+  endif()
 endif()
 
 # stacktrace
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 14 AND can_link_stdcxxexp)
+  if(can_link_stdcxxexp)
     if(TARGET stacktrace)
       target_link_libraries(stacktrace PRIVATE stdc++exp)
     endif()
