@@ -8,7 +8,8 @@ foreach(t IN LISTS cpp11features)
   add_test(NAME ${t} COMMAND ${t})
 endforeach()
 
-if(MSVC OR CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
+if(MSVC OR CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
+# the CMAKE_CXX_SIMULATE_ID catches when frontend is GNU but MSVC runtime headers are used
   target_compile_definitions(getenv PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
