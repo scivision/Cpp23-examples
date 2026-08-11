@@ -8,7 +8,9 @@ foreach(t IN LISTS cpp11features)
   add_test(NAME ${t} COMMAND ${t})
 endforeach()
 
-target_compile_definitions(getenv PRIVATE $<$<BOOL:${MSVC}>:_CRT_SECURE_NO_WARNINGS>)
+if(MSVC OR CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
+  target_compile_definitions(getenv PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
 
 if(cppcheck)
   set_property(TARGET current_exception PROPERTY CXX_CPPCHECK "${CMAKE_CXX_CPPCHECK};--suppress=containerOutOfBounds")
