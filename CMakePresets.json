@@ -20,7 +20,17 @@
 },
 {
   "name": "msvc", "inherits": "default",
-  "generator": "Visual Studio 18 2026"
+  "generator": "Visual Studio 18 2026",
+  "condition": {
+    "type": "equals",
+    "lhs": "${hostSystemName}",
+    "rhs": "Windows"
+  }
+},
+{ "name": "clangcl", "inherits": "msvc",
+  "displayName": "Clang-cl with MSVC",
+  "description": "Build with Clang-cl using MSVC toolchain.",
+  "toolset": "ClangCL"
 }
 ],
 "buildPresets": [
@@ -31,7 +41,8 @@
     "jobs": 0
   },
   { "name": "build", "inherits": "default", "configurePreset": "build" },
-  { "name": "msvc", "inherits": "default", "configurePreset": "msvc" },
+  { "name": "msvc", "inherits": "default", "configurePreset": "msvc", "jobs": 8 },
+  { "name": "clangcl", "configurePreset": "clangcl", "inherits": "msvc" },
   { "name": "debug", "configurePreset": "debug", "configuration": "Debug" }
 ],
 "testPresets": [
@@ -47,10 +58,11 @@
     "noTestsAction": "error",
     "scheduleRandom": true,
     "stopOnFailure": false,
-    "jobs": 4
+    "jobs": 8
   }
 },
 { "name": "msvc", "inherits": "default", "configurePreset": "msvc" },
+{ "name": "clangcl", "configurePreset": "clangcl", "inherits": "msvc" },
 {
   "name": "debug", "inherits": "default",
   "configurePreset": "debug",
@@ -82,8 +94,7 @@
       { "type": "configure", "name": "debug" },
       { "type": "build", "name": "debug" },
       { "type": "test", "name": "debug" }
-    ]
-  },
+    ]},
   {
     "name": "msvc",
     "displayName": "MSVC build and test",
@@ -91,7 +102,12 @@
       { "type": "configure", "name": "msvc" },
       { "type": "build", "name": "msvc" },
       { "type": "test", "name": "msvc" }
-    ]
-  }
+    ]},
+  { "name": "clangcl",
+    "steps": [
+      { "type": "configure", "name": "clangcl" },
+      { "type": "build", "name": "clangcl" },
+      { "type": "test", "name": "clangcl" }
+    ]}
 ]
 }

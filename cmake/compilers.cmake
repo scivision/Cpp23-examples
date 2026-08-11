@@ -9,8 +9,6 @@ if(NOT HAVE_CSTDLIB)
   If using macOS and you've recently upgraded macOS or Xcode, this may be incompatiable with the compiler until Homebrew (or whatever the compiler vendor is) has updated.")
 endif()
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|^Intel")
+if(NOT MSVC AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|^Intel")
   add_compile_options(-Wall -Wextra)
 endif()
-
-add_compile_definitions($<$<BOOL:${WIN32}>:_CRT_SECURE_NO_WARNINGS>)
