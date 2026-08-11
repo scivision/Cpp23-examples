@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 std::string get_env_var(std::string const & key) {
-    char * val = getenv( key.c_str() );
+    char * val = std::getenv( key.c_str() );
     return val ? std::string(val) : std::string("");
 }
 

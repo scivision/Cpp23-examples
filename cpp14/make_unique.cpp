@@ -10,9 +10,8 @@ std::string append_hello(std::string s){
 
   auto c1 = std::make_unique<char[]>(s.size() + 6);
 
-  std::strcpy(c1.get(), s.c_str());
-
-  std::strcat(c1.get(), "hello");
+  std::memcpy(c1.get(), s.c_str(), s.size());
+  std::memcpy(c1.get() + s.size(), "hello", 6);
 
   return std::string(c1.get());
 }
